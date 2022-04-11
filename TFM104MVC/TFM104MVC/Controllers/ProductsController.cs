@@ -52,7 +52,7 @@ namespace TFM104MVC.Controllers
                     ratingValue = int.Parse(match.Groups[2].Value);
                 }
             }
-            var productsFromRepo = await _productRepository.GetProductsAsync(parameters.Keyword, operatorType, ratingValue, parameters.Region, parameters.Traveldays, parameters.Triptype,parameters.PageSize,parameters.PageNumber);
+            var productsFromRepo = await _productRepository.GetProductsAsync(parameters.Keyword, operatorType, ratingValue, parameters.Region, parameters.Traveldays, parameters.Triptype,parameters.PageSize,parameters.PageNumber,parameters.OrderBy);
 
 
             if (productsFromRepo == null || productsFromRepo.Count() <= 0)
