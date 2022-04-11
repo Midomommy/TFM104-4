@@ -72,6 +72,7 @@ namespace TFM104MVC.Controllers
             var productFromRepo = await _productRepository.GetProductAsync(productId);
             if (productFromRepo == null)
             {
+                Console.WriteLine("kello");
                 return NotFound($"找不到編號為{productId}的商品");
             }
             //var productDto = new ProductDto()
