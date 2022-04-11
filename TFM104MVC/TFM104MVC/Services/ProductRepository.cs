@@ -25,7 +25,7 @@ namespace TFM104MVC.Services
             //return _context.Products.Where(n => n.Id == ProductId).FirstOrDefault();
         }
 
-        public async Task<IEnumerable<Product>> GetProductsAsync(string keyword , string operatorType , int ratingValue,string region,string travelDays,string tripType,int pageSize, int pageNumber)
+        public async Task<IEnumerable<Product>> GetProductsAsync(string keyword , string operatorType , int ratingValue,string region,string travelDays,string tripType,int pageSize, int pageNumber,string orderBy)
 
         {
             IQueryable<Product> result = _context.Products.Include(t => t.ProductPictures);
@@ -72,15 +72,33 @@ namespace TFM104MVC.Services
                 result = result.Where(n => n.TripType == r3);
             }
 
-            //分頁功能的實現放在最後 因為首先要過濾數據 搜索排序 最後再形成分頁
-            //分頁思路
-            //跳過一定量的資料(例如 使用者要到第七頁 代表數據要跳過前六頁的所有內容=> (頁數-1)*大小)
-            var skip = (pageNumber - 1) * pageSize;
-            result = result.Skip(skip);
+            ////分頁功能的實現放在最後 因為首先要過濾數據 搜索排序 最後再形成分頁
+            ////分頁思路
+            ////跳過一定量的資料(例如 使用者要到第七頁 代表數據要跳過前六頁的所有內容=> (頁數-1)*大小)
+            //var skip = (pageNumber - 1) * pageSize;
+            //result = result.Skip(skip);
 
-            //以pageSize為標準顯示一定量的資料
-            result = result.Take(pageSize);
+            ////以pageSize為標準顯示一定量的資料
+            //result = result.Take(pageSize);
 
+            if (!string.IsNullOrWhiteSpace(orderBy))
+            {
+                switch (orderBy.ToLowerInvariant())
+                {
+                    case "originalprice":
+                        result = result.OrderBy(x => x.OriginalPrice);
+                        break;
+                    case "createdate":
+                        result = result.OrderBy(x => x.CreateDate);
+                        break;
+                    case "customerrating":
+                        result = result.OrderBy(x => x.CustomerRating);
+                        break;
+                    case "gotouristtime":
+                        result = result.OrderBy(x => x.GoTouristTime);
+                        break;
+                }
+            }
 
             return await result.ToListAsync();
         }
