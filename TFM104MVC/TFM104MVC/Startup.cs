@@ -36,35 +36,27 @@ namespace TFM104MVC
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages().AddRazorRuntimeCompilation();
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(opt =>
                 {
-                    var secretByte = Encoding.UTF8.GetBytes(Configuration["Authentication:SecretKey"]);
-                    options.TokenValidationParameters = new TokenValidationParameters()
-                    {
-                        ValidateIssuer = true,
-                        ValidIssuer = Configuration["Authentication:Issuer"],
-
-                        ValidateAudience = true,
-                        ValidAudience = Configuration["Authentication:Audience"],
-
-                        ValidateLifetime = true,
-
-                        IssuerSigningKey = new SymmetricSecurityKey(secretByte)
-                    };
+                    opt.LoginPath = "/Shared/_Layout";
+                }).AddFacebook(opt =>
+                {
+                    opt.AppId = "461446905740380";
+                    opt.AppSecret = "9521db1cab2a6400f1c62ff393069bae";
                 });
             //---FB¥Î(­×)
-            services.AddAuthentication(opt =>
-            {
-                opt.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-            }).AddCookie(opt =>
-            {
-                opt.LoginPath = "/Shared/_Layout";
-            }).AddFacebook(opt =>
-            {
-                opt.AppId = "461446905740380";
-                opt.AppSecret = "9521db1cab2a6400f1c62ff393069bae";
-            });
+            //services.AddAuthentication(opt =>
+            //{
+            //    opt.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            //}).AddCookie(opt =>
+            //{
+            //    opt.LoginPath = "/Shared/_Layout";
+            //}).AddFacebook(opt =>
+            //{
+            //    opt.AppId = "461446905740380";
+            //    opt.AppSecret = "9521db1cab2a6400f1c62ff393069bae";
+            //});
             //
 
 

@@ -29,7 +29,7 @@ namespace TFM104MVC.Controllers
             _mapper = mapper;
         }
         [HttpGet]
-        [Authorize(AuthenticationSchemes ="Bearer")]
+        [Authorize(AuthenticationSchemes ="Cookies")]
         public async Task<IActionResult> GetShoppingCart()
         {
             //1.獲得當前用戶
@@ -42,7 +42,7 @@ namespace TFM104MVC.Controllers
 
         }
         [HttpPost("items")] // api/shoppingcart/items
-        [Authorize(AuthenticationSchemes ="Bearer")]
+        [Authorize(AuthenticationSchemes ="Cookies")]
         public async Task<IActionResult> AddShoppingCartItem([FromBody] AddShoppingCartItemDto addShoppingCartItemDto)
         {
             //1.獲得當前用戶
@@ -76,7 +76,7 @@ namespace TFM104MVC.Controllers
         }
 
         [HttpDelete("items/{itemId}")]
-        [Authorize(AuthenticationSchemes ="Bearer")]
+        [Authorize(AuthenticationSchemes ="Cookies")]
         public async Task<IActionResult> DeleteShoppingCartItem([FromRoute] int itemId)
         {
             //首先獲取LineItem資料
@@ -93,7 +93,7 @@ namespace TFM104MVC.Controllers
         }
 
         [HttpPost("checkout")]
-        [Authorize(AuthenticationSchemes ="Bearer")]
+        [Authorize(AuthenticationSchemes ="Cookies")]
         public async Task<IActionResult> Checkout()
         {
             //1.獲得當前用戶

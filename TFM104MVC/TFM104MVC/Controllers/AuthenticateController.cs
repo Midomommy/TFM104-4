@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -42,7 +44,7 @@ namespace TFM104MVC.Controllers
 
         [AllowAnonymous]
         [HttpPost("login")]
-        public IActionResult login([FromBody]LoginDto loginDto)
+        public async Task<IActionResult> loginAsync([FromBody]LoginDto loginDto)
         {
             // 1.驗證帳號與密碼正確與否
             //先驗證帳號 看有沒有此帳號存在 如果沒有 返回帳號密碼錯誤
@@ -65,33 +67,46 @@ namespace TFM104MVC.Controllers
                 return NotFound("帳號密碼錯誤");
             }
 
-            // 2.若正確 則創建JWT Token
-            // header (SHA256加密Header)
-            var signinAlgorithm = SecurityAlgorithms.HmacSha256;
-            // payload
+            //給cookie與session
             var claims = new[]
             {
-                // sub
-                new Claim(JwtRegisteredClaimNames.Sub,loginUser.Id.ToString()),
-                new Claim(ClaimTypes.Role,loginUser.RoleName),
-                new Claim("userId",loginUser.Id.ToString())
+                new Claim(ClaimTypes.Email,loginPasswordCheck.Account),
+                new Claim("userId",loginPasswordCheck.Id.ToString()),
+                new Claim(ClaimTypes.Role,loginPasswordCheck.RoleName)
             };
-            // signiture
-            var secretByte = Encoding.UTF8.GetBytes(_configuration["Authentication:SecretKey"]);
-            var signinKey = new SymmetricSecurityKey(secretByte);
-            var signinCredentials = new SigningCredentials(signinKey, signinAlgorithm);
 
-            var token = new JwtSecurityToken(
-                issuer: _configuration["Authentication:Issuer"] ,
-                audience: _configuration["Authentication:Audience"],
-                claims,
-                notBefore:DateTime.UtcNow,
-                expires:DateTime.UtcNow.AddDays(1),
-                signinCredentials
-                );
-            var tokenStr = new JwtSecurityTokenHandler().WriteToken(token);
-            // 3.return 200 ok + jwt
-            return Ok(tokenStr);
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+            await HttpContext.SignInAsync(claimsPrincipal);
+
+            return Ok("登入成功");
+            //// 2.若正確 則創建JWT Token
+            //// header (SHA256加密Header)
+            //var signinAlgorithm = SecurityAlgorithms.HmacSha256;
+            //// payload
+            //var claims = new[]
+            //{
+            //    // sub
+            //    new Claim(JwtRegisteredClaimNames.Sub,loginUser.Id.ToString()),
+            //    new Claim(ClaimTypes.Role,loginUser.RoleName),
+            //    new Claim("userId",loginUser.Id.ToString())
+            //};
+            //// signiture
+            //var secretByte = Encoding.UTF8.GetBytes(_configuration["Authentication:SecretKey"]);
+            //var signinKey = new SymmetricSecurityKey(secretByte);
+            //var signinCredentials = new SigningCredentials(signinKey, signinAlgorithm);
+
+            //var token = new JwtSecurityToken(
+            //    issuer: _configuration["Authentication:Issuer"] ,
+            //    audience: _configuration["Authentication:Audience"],
+            //    claims,
+            //    notBefore:DateTime.UtcNow,
+            //    expires:DateTime.UtcNow.AddDays(1),
+            //    signinCredentials
+            //    );
+            //var tokenStr = new JwtSecurityTokenHandler().WriteToken(token);
+            //// 3.return 200 ok + jwt
+            //return Ok(tokenStr);
         }
 
 
