@@ -58,8 +58,8 @@
             <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="#">台灣</a></li>
-                    <li class="breadcrumb-item"><a href="#">台南</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">此商品名稱</li>
+                    <li class="breadcrumb-item"><a href="#">{{product.region}}</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">{{product.title}}</li>
                 </ol>
             </nav>
         </div>
@@ -232,7 +232,7 @@
                                     我是商品數量
                                 </div>
                                 <div class="text-muted">
-                                    TWD X,XXXX/每人
+                                    TWD{{product.price}}/每人
                                 </div>
                                 <!--商品數量選擇器-->
                                 <div class="text-info">
@@ -246,7 +246,7 @@
                                     總金額
                                 </div>
                                 <div class="fw-bold text-info fs-5">
-                                    TWD XXX
+                                    TWD {{product.price}}
                                 </div>
                             </div>
                             <!--點數-->
@@ -257,7 +257,7 @@
                                 <div class="d-flex gap-2">
                                     <span class="text-warning"><i class="bi bi-exclamation-circle-fill"></i></span>
                                     <div class="fw-bold text-warning">
-                                        XX
+                                        {{product.price*0.1}}
                                     </div>
                                 </div>
                             </div>

@@ -48,31 +48,31 @@
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="Middle" id="countryCheck" v-model="regionValue" :true-value="2" false-value="" v-on:change="regionClick">
+                        <input class="form-check-input" type="checkbox" value="2" id="countryCheck" v-model="regionValue" :true-value="2" false-value="" v-on:change="regionClick">
                         <label class="form-check-label" for="countryCheck">
                             中彰投
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="MiddleSouth" id="countryCheck" v-model="regionValue" :true-value="3" false-value="" v-on:change="regionClick">
+                        <input class="form-check-input" type="checkbox" value="3" id="countryCheck" v-model="regionValue" :true-value="3" false-value="" v-on:change="regionClick">
                         <label class="form-check-label" for="countryCheck">
                             雲嘉南
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="South" id="countryCheck" v-model="regionValue" :true-value="4" false-value="" v-on:change="regionClick">
+                        <input class="form-check-input" type="checkbox" value="4" id="countryCheck" v-model="regionValue" :true-value="4" false-value="" v-on:change="regionClick">
                         <label class="form-check-label" for="countryCheck">
                             高屏
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="East" id="countryCheck" v-model="regionValue" :true-value="5" false-value="" v-on:change="regionClick">
+                        <input class="form-check-input" type="checkbox" value="5" id="countryCheck" v-model="regionValue" :true-value="5" false-value="" v-on:change="regionClick">
                         <label class="form-check-label" for="countryCheck">
                             宜花東
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="OutsideIsland" id="countryCheck" v-model="regionValue" :true-value="6" false-value="" v-on:change="regionClick">
+                        <input class="form-check-input" type="checkbox" value="6" id="countryCheck" v-model="regionValue" :true-value="6" false-value="" v-on:change="regionClick">
                         <label class="form-check-label" for="countryCheck">
                             離島地區
                         </label>
@@ -104,25 +104,25 @@
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="WaterActivities" id="productType" v-model="TriptypeValue" :true-value="2" false-value="" v-on:change="regionClick">
+                        <input class="form-check-input" type="checkbox" value="2" id="productType" v-model="TriptypeValue" :true-value="2" false-value="" v-on:change="regionClick">
                         <label class="form-check-label" for="productType">
                             水上活動
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="LocalSpecialties" id="productType" v-model="TriptypeValue" :true-value="3" false-value="" v-on:change="regionClick">
+                        <input class="form-check-input" type="checkbox" value="3" id="productType" v-model="TriptypeValue" :true-value="3" false-value="" v-on:change="regionClick">
                         <label class="form-check-label" for="productType">
                             地方特色
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="SpringTour" id="productType" v-model="TriptypeValue" :true-value="4" false-value="" v-on:change="regionClick">
+                        <input class="form-check-input" type="checkbox" value="4" id="productType" v-model="TriptypeValue" :true-value="4" false-value="" v-on:change="regionClick">
                         <label class="form-check-label" for="productType">
                             溫泉之旅
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="HistoryJourney" id="productType" v-model="TriptypeValue" :true-value="5" false-value="" v-on:change="regionClick">
+                        <input class="form-check-input" type="checkbox" value="5" id="productType" v-model="TriptypeValue" :true-value="5" false-value="" v-on:change="regionClick">
                         <label class="form-check-label" for="productType">
                             人文之旅
                         </label>
@@ -170,13 +170,13 @@
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="3to5days" id="travelDays" v-model="TraveldaysValue" :true-value="2" false-value="" v-on:change="regionClick">
+                    <input class="form-check-input" type="checkbox" value="2" id="travelDays" v-model="TraveldaysValue" :true-value="2" false-value="" v-on:change="regionClick">
                     <label class="form-check-label" for="travelDays">
                         3~5天
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="morethan5days" id="travelDays" v-model="TraveldaysValue" :true-value="3" false-value="" v-on:change="regionClick">
+                    <input class="form-check-input" type="checkbox" value="3" id="travelDays" v-model="TraveldaysValue" :true-value="3" false-value="" v-on:change="regionClick">
                     <label class="form-check-label" for="travelDays">
                         5天以上
                     </label>
@@ -189,7 +189,7 @@
             <!--商品排序器-->
             <div class="filter-block mb-3">
                 <div class="filter">
-                    <span class="text-primary">xxx</span>項體驗行程
+                    <span class="text-primary">{{productTotal}}</span>項體驗行程
                 </div>
                 <hr class="text-muted">
                 <div class="d-flex flex-wrap">
@@ -226,7 +226,7 @@
                         </div>
                         <div class="col-md-8">
                             <div class="card-body">
-                                <a href="#card-body" target="_blank" rel="noopener">
+                                <a v-bind:href=" '/ProductView/product/ '+ item.id " target="_blank" rel="noopener">
                                     <div class="d-flex justify-content-between">
                                         <h5 class="card-title mb-3">{{item.title}}</h5>
                                         <div class="text-muted">
@@ -236,14 +236,14 @@
                                 </a>
 
                                 <!--商品內容敘述-->
-                                <a href="#card-text" target="_blank" rel="noopener">
+                                <a v-bind:href=" '/ProductView/product/ '+ item.id " target="_blank" rel="noopener">
                                     <p class="card-text mb-3">
                                         {{item.description |ellipsis}}
                                     </p>
                                 </a>
 
                                 <!--產品資訊：地點&日期-->
-                                <a href="#product-info" target="_blank" rel="noopener">
+                                <a v-bind:href=" '/ProductView/product/ '+ item.id " target="_blank" rel="noopener">
                                     <div class="product-info mb-5 d-flex gap-3">
                                         <!--地點-->
                                         <div class="d-flex gap-1">
@@ -338,9 +338,10 @@
         data: {
             productList: [],
             error: "",
-            regionValue: '', // 開[]為多選   ""為單選
-            TraveldaysValue: '',
-            TriptypeValue: '',
+            regionValue: [], // 開[]為多選   ""為單選
+            TraveldaysValue: [],
+            TriptypeValue: [],
+            productTotal:'',
 
 
             countOfPage: 1,// 幾個一頁
@@ -363,6 +364,7 @@
             var self = this;
             axios.get("/api/products").then(function (res) {
                 self.productList = res.data;
+                self.productTotal = res.data.length;
             })
         },
 
@@ -392,10 +394,12 @@
                     self.productList = res.data;
                     self.error = "";
                     self.currPage = "1";
+                    self.productTotal = res.data.length;
                     // console.log(regionValue, Traveldays, Triptype);
                 }).catch(function (error) {
                     self.error = error.data;
                     self.productList = "";
+                    self.productTotal = "0";
 
 
                     //    self.productList = error.data;
