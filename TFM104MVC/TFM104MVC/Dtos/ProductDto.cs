@@ -27,9 +27,9 @@ namespace TFM104MVC.Dtos
         public string Region { get; set; }
         public ICollection<ProductPictureDto> ProductPictures { get; set; }
 
-        //public  ICollection<CustomerRatingDto> CustomerRatings { get; set; } 
+        public  ICollection<CustomerRatingDto> CustomerRatings { get; set; } 
 
-        //public  ICollection<OrderdetailDto> Orderdetails { get; set; }
+        public  ICollection<OrderdetailDto> Orderdetails { get; set; }
 
     }
 }
