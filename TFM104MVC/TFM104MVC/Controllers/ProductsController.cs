@@ -95,7 +95,6 @@ namespace TFM104MVC.Controllers
 
         [HttpPost] // api/products
         [Authorize(Roles ="Admin,Firm")]
-        [Authorize(AuthenticationSchemes ="Bearer")]
 
         public async Task<IActionResult> CreateProduct([FromForm] ProductCreationDto productCreationDto)
         {
