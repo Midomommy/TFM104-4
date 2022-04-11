@@ -35,7 +35,7 @@ namespace TFM104MVC.Models.Entity
         [MaxLength(1500)]
         public string Notes { get; set; }
 
-        public ProductStatus ProductStatus { get; set; } //商品狀態
+        public ProductStatus? ProductStatus { get; set; } //商品狀態
         public double? CustomerRating { get; set; }
         public TravelDays? TravelDays { get; set; }
         public TripType? TripType { get; set; }

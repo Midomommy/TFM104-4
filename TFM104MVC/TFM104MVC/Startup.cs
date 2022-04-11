@@ -36,26 +36,34 @@ namespace TFM104MVC
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages().AddRazorRuntimeCompilation();
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options => 
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(opt =>
                 {
-                    var secretByte = Encoding.UTF8.GetBytes(Configuration["Authentication:SecretKey"]);
-                    options.TokenValidationParameters = new TokenValidationParameters()
-                    {
-                        ValidateIssuer = true,
-                        ValidIssuer = Configuration["Authentication:Issuer"],
-
-                        ValidateAudience = true,
-                        ValidAudience = Configuration["Authentication:Audience"],
-
-                        ValidateLifetime = true,
-
-                        IssuerSigningKey = new SymmetricSecurityKey(secretByte)
-                    };
+                    opt.LoginPath = "/Shared/_Layout";
+                }).AddFacebook(opt =>
+                {
+                    opt.AppId = "461446905740380";
+                    opt.AppSecret = "9521db1cab2a6400f1c62ff393069bae";
                 });
+            //---FB用(修)
+            //services.AddAuthentication(opt =>
+            //{
+            //    opt.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            //}).AddCookie(opt =>
+            //{
+            //    opt.LoginPath = "/Shared/_Layout";
+            //}).AddFacebook(opt =>
+            //{
+            //    opt.AppId = "461446905740380";
+            //    opt.AppSecret = "9521db1cab2a6400f1c62ff393069bae";
+            //});
+            //
+
+
             services.AddControllersWithViews();
             services.AddControllers(setupAction => setupAction.ReturnHttpNotAcceptable = true)
-                .AddNewtonsoftJson(setupAction=> {
+                .AddNewtonsoftJson(setupAction =>
+                {
                     setupAction.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                 })
                 .AddXmlDataContractSerializerFormatters()
@@ -82,9 +90,19 @@ namespace TFM104MVC
             services.AddTransient<IAuthenticateRepository, AuthenticateRepository>();
             services.AddSingleton<ISender, EmailSender>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+
+            // 將 Session 存在 ASP.NET Core 記憶體中
+            services.AddDistributedMemoryCache();
+            //註冊session服務
+            services.AddSession();
+
             services.AddDbContext<AppDbContext>(builder => builder.UseSqlServer(Configuration.GetConnectionString("MVC")));
             //掃描profile檔案
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -108,6 +126,18 @@ namespace TFM104MVC
             app.UseAuthentication(); // 表示 你是誰
 
             app.UseAuthorization(); // 表示 你可以幹什麼
+
+            // SessionMiddleware 加入 Pipeline
+            app.UseSession();
+
+            //試跑一次看有沒有加到 //結果確實有加到
+            //app.Run(async (context) =>
+            //{
+            //    context.Session.SetString("Sample", "This is Session.");
+            //    string message = context.Session.GetString("Sample");
+            //    await context.Response.WriteAsync($"{message}");
+            //});
+
 
             app.UseEndpoints(endpoints =>
             {

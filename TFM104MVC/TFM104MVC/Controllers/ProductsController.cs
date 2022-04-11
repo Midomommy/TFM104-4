@@ -52,7 +52,7 @@ namespace TFM104MVC.Controllers
                     ratingValue = int.Parse(match.Groups[2].Value);
                 }
             }
-            var productsFromRepo = await _productRepository.GetProductsAsync(parameters.Keyword, operatorType, ratingValue, parameters.Region, parameters.Traveldays, parameters.Triptype,parameters.PageSize,parameters.PageNumber);
+            var productsFromRepo = await _productRepository.GetProductsAsync(parameters.Keyword, operatorType, ratingValue, parameters.Region, parameters.Traveldays, parameters.Triptype,parameters.PageSize,parameters.PageNumber,parameters.OrderBy);
 
 
             if (productsFromRepo == null || productsFromRepo.Count() <= 0)
@@ -72,6 +72,7 @@ namespace TFM104MVC.Controllers
             var productFromRepo = await _productRepository.GetProductAsync(productId);
             if (productFromRepo == null)
             {
+                Console.WriteLine("kello");
                 return NotFound($"找不到編號為{productId}的商品");
             }
             //var productDto = new ProductDto()
@@ -95,7 +96,6 @@ namespace TFM104MVC.Controllers
 
         [HttpPost] // api/products
         [Authorize(Roles ="Admin,Firm")]
-        [Authorize(AuthenticationSchemes ="Bearer")]
 
         public async Task<IActionResult> CreateProduct([FromForm] ProductCreationDto productCreationDto)
         {

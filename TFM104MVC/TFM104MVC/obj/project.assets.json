@@ -196,7 +196,8 @@
       "Microsoft.CodeAnalysis.Analyzers/3.0.0": {
         "type": "package",
         "build": {
-          "build/_._": {}
+          "build/Microsoft.CodeAnalysis.Analyzers.props": {},
+          "build/Microsoft.CodeAnalysis.Analyzers.targets": {}
         }
       },
       "Microsoft.CodeAnalysis.Common/3.8.0": {
@@ -7711,6 +7712,7 @@
       "Microsoft.AspNetCore.JsonPatch >= 5.0.15",
       "Microsoft.AspNetCore.Mvc.NewtonsoftJson >= 5.0.15",
       "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation >= 5.0.13",
+      "Microsoft.CodeAnalysis.Analyzers >= 3.0.0",
       "Microsoft.EntityFrameworkCore >= 5.0.15",
       "Microsoft.EntityFrameworkCore.SqlServer >= 5.0.15",
       "Microsoft.EntityFrameworkCore.Tools >= 5.0.15",
@@ -7787,6 +7789,12 @@
             "target": "Package",
             "version": "[5.0.13, )"
           },
+          "Microsoft.CodeAnalysis.Analyzers": {
+            "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+            "suppressParent": "All",
+            "target": "Package",
+            "version": "[3.0.0, )"
+          },
           "Microsoft.EntityFrameworkCore": {
             "target": "Package",
             "version": "[5.0.15, )"
@@ -7836,7 +7844,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.101\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.406\\RuntimeIdentifierGraph.json"
       }
     }
   }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TFM104MVC.Models;
+using TFM104MVC.Models.Entity;
 
 namespace TFM104MVC.Dtos
 {
@@ -20,10 +21,16 @@ namespace TFM104MVC.Dtos
         public DateTime? UpdateTime { get; set; }
         public DateTime? GoTouristTime { get; set; }
         public string Notes { get; set; }
+        public string ProductStatus { get; set; }
         public double? CustomerRating { get; set; }
         public string TravelDays { get; set; }
         public string TripType { get; set; }
         public string Region { get; set; }
         public ICollection<ProductPictureDto> ProductPictures { get; set; }
+
+        public  ICollection<CustomerRating> CustomerRatings { get; set; } 
+
+        public  ICollection<Orderdetail> Orderdetails { get; set; }
+
     }
 }
