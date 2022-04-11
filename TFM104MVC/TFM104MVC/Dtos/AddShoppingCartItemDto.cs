@@ -8,5 +8,6 @@ namespace TFM104MVC.Dtos
     public class AddShoppingCartItemDto
     {
         public Guid ProductId { get; set; }
+        
     }
 }

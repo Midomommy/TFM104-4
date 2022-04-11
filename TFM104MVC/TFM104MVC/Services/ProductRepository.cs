@@ -25,7 +25,7 @@ namespace TFM104MVC.Services
             //return _context.Products.Where(n => n.Id == ProductId).FirstOrDefault();
         }
 
-        public async Task<IEnumerable<Product>> GetProductsAsync(string keyword , string operatorType , int ratingValue,string region,string travelDays,string tripType,int pageSize, int pageNumber,string orderBy)
+        public async Task<IEnumerable<Product>> GetProductsAsync(string keyword , string operatorType , int ratingValue,string region,string travelDays,string tripType,int pageSize, int pageNumber,string orderBy,string orderByDesc)
 
         {
             IQueryable<Product> result = _context.Products.Include(t => t.ProductPictures);
@@ -33,6 +33,7 @@ namespace TFM104MVC.Services
             {
                 keyword = keyword.Trim();
                 result = result.Where(n => n.Title.Contains(keyword));
+                result = result.Where(n => n.Description.Contains(keyword));
             }
             if (ratingValue > 0)
             {
@@ -96,6 +97,24 @@ namespace TFM104MVC.Services
                         break;
                     case "gotouristtime":
                         result = result.OrderBy(x => x.GoTouristTime);
+                        break;
+                }
+            }
+            if (!string.IsNullOrWhiteSpace(orderByDesc))
+            {
+                switch (orderByDesc.ToLowerInvariant())
+                {
+                    case "originalprice":
+                        result = result.OrderByDescending(x => x.OriginalPrice);
+                        break;
+                    case "createdate":
+                        result = result.OrderByDescending(x => x.CreateDate);
+                        break;
+                    case "customerrating":
+                        result = result.OrderByDescending(x => x.CustomerRating);
+                        break;
+                    case "gotouristtime":
+                        result = result.OrderByDescending(x => x.GoTouristTime);
                         break;
                 }
             }
@@ -201,5 +220,9 @@ namespace TFM104MVC.Services
             await _context.Orders.AddAsync(order);
         }
 
+        public async Task<Product> GetProductWithNoPicturesAsync(Guid ProductId)
+        {
+            return await _context.Products.FirstOrDefaultAsync(n => n.Id == ProductId);
+        }
     }
 }
