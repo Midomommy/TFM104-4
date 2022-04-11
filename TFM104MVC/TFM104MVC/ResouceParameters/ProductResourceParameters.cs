@@ -8,6 +8,7 @@ namespace TFM104MVC.ResouceParameters
 {
     public class ProductResourceParameters
     {
+        public string OrderByDesc { get; set; }
         public string OrderBy { get; set; }
         public string Keyword { get; set; }
         public string Rating { get; set; }

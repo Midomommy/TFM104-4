@@ -140,12 +140,6 @@ namespace TFM104MVC.Controllers
             string message = "恭喜註冊成功，請點擊以下文字開通您的帳號" +"<br>" + messageUrl;
             _sender.Sender(userModel.Account, subject, message);
 
-            //給新用戶在註冊時就初始化購物車
-            var shoppingCart = new ShoppingCart()
-            {
-                UserId = userModel.Id
-            };
-            await _productRepository.CreateShoppingCart(shoppingCart);
             await _productRepository.SaveAsync();
 
             return Ok("註冊成功");
