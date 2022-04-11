@@ -26,14 +26,5 @@ namespace TFM104MVC.Services
         void AddProductPicture(Guid productId, ProductPicture productPicture);
         void DeleteProduct(Product product);
         void DeleteProductPicture(ProductPicture productPicture);
-
-        Task<ShoppingCart> GetShoppingCartByUserId(string UserId);
-        Task CreateShoppingCart(ShoppingCart shoppingCart);
-        Task AddShoppingCartItem(LineItem lineItem);
-        Task<LineItem> GetShoppingCartByItemId(int itemId);
-        void DeleteShoppingCartItem(LineItem lineItem);
-
-        Task AddOrderAsync(Order order);
-
     }
 }

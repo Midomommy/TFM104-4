@@ -184,42 +184,6 @@ namespace TFM104MVC.Services
             _context.ProductPictures.Remove(productPicture);
         }
 
-        public async Task<ShoppingCart> GetShoppingCartByUserId(string UserId)
-        {
-            int userId = int.Parse(UserId);
-            return await _context.ShoppingCarts
-                .Include(s => s.User)
-                .Include(s => s.ShoppingCartItems)
-                .ThenInclude(li => li.Product)
-                .Where(s => s.UserId == userId)
-                .FirstOrDefaultAsync();
-        }
-
-        public async Task CreateShoppingCart(ShoppingCart shoppingCart)
-        {
-            await _context.ShoppingCarts.AddAsync(shoppingCart);
-        }
-
-        public async Task AddShoppingCartItem(LineItem lineItem)
-        {
-            await _context.LineItems.AddAsync(lineItem);
-        }
-
-        public async Task<LineItem> GetShoppingCartByItemId(int itemId)
-        {
-            return await _context.LineItems.Where(li => li.Id == itemId).FirstOrDefaultAsync();
-        }
-
-        public void DeleteShoppingCartItem(LineItem lineItem)
-        {
-            _context.LineItems.Remove(lineItem);
-        }
-
-        public async Task AddOrderAsync(Order order)
-        {
-            await _context.Orders.AddAsync(order);
-        }
-
         public async Task<Product> GetProductWithNoPicturesAsync(Guid ProductId)
         {
             return await _context.Products.FirstOrDefaultAsync(n => n.Id == ProductId);

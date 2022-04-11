@@ -39,21 +39,21 @@ namespace TFM104MVC.Controllers
 
             var productFromRepo = await  _productRepository.GetProductAsync(Guid.Parse(pid));
 
-            var orderItem = new LineItem()
-            {
-                ProductId = productFromRepo.Id,
-                DiscountPersent = productFromRepo.DiscountPersent,
-                OriginalPrice = productFromRepo.OriginalPrice,
-                Product = productFromRepo,
-            };
+            //var orderItem = new LineItem()
+            //{
+            //    ProductId = productFromRepo.Id,
+            //    DiscountPersent = productFromRepo.DiscountPersent,
+            //    OriginalPrice = productFromRepo.OriginalPrice,
+            //    Product = productFromRepo,
+            //};
 
-            var order = new Order()
-            {
-                UserId = int.Parse(userId),
-                CreateDateUTC = DateTime.UtcNow,
-                State = OrderStateEnum.Pending,
-                OrderItems = (ICollection<LineItem>)orderItem
-            };
+            //var order = new Order()
+            //{
+            //    UserId = int.Parse(userId),
+            //    CreateDateUTC = DateTime.UtcNow,
+            //    State = OrderStateEnum.Pending,
+            //    OrderItems = (ICollection<LineItem>)orderItem
+            //};
 
 
             return View();
