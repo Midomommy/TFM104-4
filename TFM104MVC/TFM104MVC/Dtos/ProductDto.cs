@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TFM104MVC.Models;
+using TFM104MVC.Models.Entity;
 
 namespace TFM104MVC.Dtos
 {
@@ -27,9 +28,9 @@ namespace TFM104MVC.Dtos
         public string Region { get; set; }
         public ICollection<ProductPictureDto> ProductPictures { get; set; }
 
-        public  ICollection<CustomerRatingDto> CustomerRatings { get; set; } 
+        public  ICollection<CustomerRating> CustomerRatings { get; set; } 
 
-        public  ICollection<OrderdetailDto> Orderdetails { get; set; }
+        public  ICollection<Orderdetail> Orderdetails { get; set; }
 
     }
 }

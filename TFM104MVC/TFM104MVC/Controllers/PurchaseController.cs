@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Security.Claims;
 using TFM104MVC.Dtos;
 using TFM104MVC.Services;
 
@@ -23,17 +24,20 @@ namespace TFM104MVC.Controllers
 
         public IActionResult Booking()
         {
+
             //把商品id從session拿出來
             var pid= HttpContext.Session.GetString("pid");
 
             //測試一下有沒有拿到對的id
-            //System.Console.WriteLine(pid); //確定有拿到 我好棒
+            System.Console.WriteLine(pid); //確定有拿到 我好棒
 
-            var productFromRepo =  _productRepository.GetProductAsync(Guid.Parse(pid));
-            var productDto = _mapper.Map<ProductDto>(productFromRepo);
-            var x = productDto.Price;
-            //測試一下拿到值要幹嘛
-            Console.WriteLine(x);
+            var userid = HttpContext.User.FindFirstValue("userId");
+            Console.WriteLine(userid);
+            //var productFromRepo = _productRepository.GetProductAsync(Guid.Parse(pid));
+            //var productDto = _mapper.Map<ProductDto>(productFromRepo);
+            //var x = productDto.Price;
+            ////測試一下拿到值要幹嘛
+            //Console.WriteLine(x);
 
             return View();
         }
