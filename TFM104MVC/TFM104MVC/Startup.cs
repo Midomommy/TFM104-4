@@ -20,6 +20,7 @@ using System.Text;
 using Newtonsoft.Json.Serialization;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using TFM104MVC.Database;
+using TFM104MVC.Helpers;
 
 namespace TFM104MVC
 {
@@ -58,7 +59,6 @@ namespace TFM104MVC
             //    opt.AppSecret = "9521db1cab2a6400f1c62ff393069bae";
             //});
             //
-
 
             services.AddControllersWithViews();
             services.AddControllers(setupAction => setupAction.ReturnHttpNotAcceptable = true)

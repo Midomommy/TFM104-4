@@ -17,7 +17,7 @@ namespace TFM104MVC.Controllers
         {
             //把商品id存進session裡面，準備之後傳到其他地方(訂購頁,購物車 etc...)用
             HttpContext.Session.SetString("pid", id.ToString());
-
+            
             //HttpContext.Session.GetString("camping_area_id");
             //Convert.ToInt32()
 

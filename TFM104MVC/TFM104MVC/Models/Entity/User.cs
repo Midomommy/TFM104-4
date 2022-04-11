@@ -50,9 +50,6 @@ namespace TFM104MVC.Models.Entity
 
         //會員
         public virtual Member Members { get; set; }
-
-        public virtual ShoppingCart ShoppingCart { get; set; }
-
         public virtual ICollection<Order> Orders { get; set; }
     }
 }
