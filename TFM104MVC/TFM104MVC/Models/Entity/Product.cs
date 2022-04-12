@@ -50,6 +50,11 @@ namespace TFM104MVC.Models.Entity
         //一個商品擁有多個評價
 
         public virtual ICollection<Orderdetail> Orderdetails { get; set; }
+
+        public static implicit operator Product(Task<Product> v)
+        {
+            throw new NotImplementedException();
+        }
         //訂單與商品多對多 延伸出的關係   //一個商品擁有多個訂單明細
 
     }

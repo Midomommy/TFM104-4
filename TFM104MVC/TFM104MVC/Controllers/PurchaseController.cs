@@ -3,8 +3,13 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Security.Claims;
+using System.Threading.Tasks;
+
 using TFM104MVC.Dtos;
+using TFM104MVC.Models;
+using TFM104MVC.Models.Entity;
 using TFM104MVC.Services;
 
 namespace TFM104MVC.Controllers
@@ -22,22 +27,34 @@ namespace TFM104MVC.Controllers
             _environment = webHostEnvironment;
         }
 
-        public IActionResult Booking()
+        public async Task<IActionResult> Booking()
         {
 
             //把商品id從session拿出來
             var pid= HttpContext.Session.GetString("pid");
+        
+            //System.Console.WriteLine(pid); //確定有拿到 我好棒
 
-            //測試一下有沒有拿到對的id
-            System.Console.WriteLine(pid); //確定有拿到 我好棒
+            var userId = HttpContext.User.FindFirstValue("userId");
 
-            var userid = HttpContext.User.FindFirstValue("userId");
-            Console.WriteLine(userid);
-            //var productFromRepo = _productRepository.GetProductAsync(Guid.Parse(pid));
-            //var productDto = _mapper.Map<ProductDto>(productFromRepo);
-            //var x = productDto.Price;
-            ////測試一下拿到值要幹嘛
-            //Console.WriteLine(x);
+            var productFromRepo = await  _productRepository.GetProductAsync(Guid.Parse(pid));
+
+            //var orderItem = new LineItem()
+            //{
+            //    ProductId = productFromRepo.Id,
+            //    DiscountPersent = productFromRepo.DiscountPersent,
+            //    OriginalPrice = productFromRepo.OriginalPrice,
+            //    Product = productFromRepo,
+            //};
+
+            //var order = new Order()
+            //{
+            //    UserId = int.Parse(userId),
+            //    CreateDateUTC = DateTime.UtcNow,
+            //    State = OrderStateEnum.Pending,
+            //    OrderItems = (ICollection<LineItem>)orderItem
+            //};
+
 
             return View();
         }
