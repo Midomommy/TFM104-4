@@ -186,7 +186,12 @@ namespace TFM104MVC.Services
 
         public async Task<Product> GetProductWithNoPicturesAsync(Guid ProductId)
         {
-            return await _context.Products.FirstOrDefaultAsync(n => n.Id == ProductId);
+            return await _context.Products.Where(n => n.Id == ProductId).FirstOrDefaultAsync();
+        }
+
+        public async Task AddOrder(Order order)
+        {
+            await _context.Orders.AddAsync(order);
         }
     }
 }
