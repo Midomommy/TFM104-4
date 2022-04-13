@@ -198,19 +198,19 @@
                     </div>
                     <div>
                         ｜
-                        <a href=""v-on:click=>kkday推薦</a>
+                        <a href=""v-on:click.prevent="regionClick(orderbyClick='&orderby=originalprice') ">kkday推薦</a>
                     </div>
                     <div>
                         ｜
-                        <a href=""v-on:click>熱門程度</a>
+                        <a href="" v-on:click.prevent="regionClick(orderbyClick='&orderbydesc=originalprice') ">熱門程度</a>
                     </div>
                     <div>
                         ｜
-                        <a href=""v-on:click>用戶評價</a>
+                        <a href=""v-on:click.prevent="regionClick(orderbyClick='&orderbydesc=customerRating') ">用戶評價</a>
                     </div>
                     <div>
                         ｜
-                        <a href=""v-on:click>$價格：低到高</a>
+                        <a href=""v-on:click.prevent="regionClick(orderbyClick='&orderby=originalprice') ">$價格：低到高</a>
                     </div>
                 </div>
             </div>
@@ -316,13 +316,12 @@
                         </li>
                         <li class="page-item" v-bind:class="{'disabled': (currPage === totalPage)}"
                             @@click.prevent="setPage(currPage+1)">
-                            <a class="page-link" href="#">></a>
+                            <a class="page-link"v-if="productTotal>0" href="#">></a>
                         </li>
                     </ul>
                 </nav>
                 @*</div>*@
             </div>
-
 
         </div>
     </div>
@@ -343,6 +342,8 @@
             TraveldaysValue: "",
             TriptypeValue: "",
             productTotal: '',
+            orderbyClick: '',
+            pageLeftBtn:true,
 
 
             countOfPage: 1,// 幾個一頁
@@ -368,7 +369,8 @@
             },
             totalPage: function () {
                 return Math.ceil(this.productList.length / this.countOfPage);
-            }
+            },
+           
         },
 
         mounted: function () {
@@ -390,6 +392,7 @@
                 var regionValue = self.regionValue;
                 var Traveldays = self.TraveldaysValue;
                 var Triptype = self.TriptypeValue
+                var orderbyClick = self.orderbyClick;
                 // api/products?Traveldays=&Region=&Triptype=
                 //    axios.get("/api/products?Region=" + regionValue + "&Traveldays=" + Traveldays + "&Triptype=" + Triptype).then(function (res) {
 
@@ -406,17 +409,17 @@
                 //    Triptype === " ";
 
 
-                axios.get("/api/products?Region=" + regionValue + "&Traveldays=" + Traveldays + "&Triptype=" + Triptype).then(function (res) {
+                axios.get("/api/products?Region=" + regionValue + "&Traveldays=" + Traveldays + "&Triptype=" + Triptype + orderbyClick).then(function (res) {
                     for (let i of res.data) {
                         i.region = self.sectionObject[i.region];
-              
+
                     };
 
                     self.productList = res.data;
                     self.error = "";
                     self.currPage = "1";
                     self.productTotal = res.data.length;
-
+                    console.log(this.orderbyClick);
                     // console.log(regionValue, Traveldays, Triptype);
                 }).catch(function (error) {
                     self.error = error.data;
@@ -442,6 +445,11 @@
                 }
                 this.currPage = idx;
             },
+            //originalpriceClick: function () {
+            //    axios.get("/api/products?orderby=" + orderbyClick).then(function (res) {
+            //        self.productList = res.data;
+            //    })
+            //},
         },
         filters: {
             ellipsis(value) {
@@ -451,7 +459,8 @@
                 }
                 return value
             }
-        }
+        },
+    
 
 
 
