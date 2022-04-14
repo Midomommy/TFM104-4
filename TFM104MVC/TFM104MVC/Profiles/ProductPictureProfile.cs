@@ -18,6 +18,7 @@ namespace TFM104MVC.Profiles
                                                                        //與Guid不同 不用去new出一個新的
                                                                        //程式會自動幫我們偵測遞增
             CreateMap<ProductPicture, ProductPictureForCreationDto>();
+            CreateMap<ProductPictureDto, ProductPicture>();
 
         }
     }
