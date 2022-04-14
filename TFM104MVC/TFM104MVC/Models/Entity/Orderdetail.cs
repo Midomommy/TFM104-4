@@ -6,6 +6,10 @@ namespace TFM104MVC.Models.Entity
 {
     public class Orderdetail
     {
+        //[Key]
+        //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        //public int Id { get; set; }
+
         [Required]
         [Column(TypeName = "decimal(18,2)")]
         public decimal UnitPrice { get; set; }  //商品單價金額
@@ -19,20 +23,20 @@ namespace TFM104MVC.Models.Entity
         //[Key]
         //[Column(Order = 1)]
         //外來鍵商品id
-        [ForeignKey("Product")]
+        //[ForeignKey("Product")]
         public Guid ProductId { get; set; }
         public virtual Product Product { get; set; }
 
         //[Key]
         //[Column(Order = 2)]
         //外來鍵訂單id
-        [ForeignKey("Order")]
+        //[ForeignKey("Order")]
         public int OrderId { get; set; }
         public virtual Order Order { get; set; }
 
-        //與商品評價 一對一關係
-        [ForeignKey("CustomerRating")]
-        public int RateId { get; set; } //評價編號
-        public virtual CustomerRating CustomerRating { get; set; }
+        //    //與商品評價 一對一關係
+        //    [ForeignKey("CustomerRating")]
+        //    public int RateId { get; set; } //評價編號
+        //    public virtual CustomerRating CustomerRating { get; set; }
     }
 }

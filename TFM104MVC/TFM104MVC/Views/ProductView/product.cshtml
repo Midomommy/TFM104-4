@@ -57,8 +57,8 @@
         <div class="breadcrumb mt-3">
             <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#">台灣</a></li>
-                    <li class="breadcrumb-item"><a href="#">{{product.region}}</a></li>
+                    <li class="breadcrumb-item"><a href="">台灣</a></li>
+                    <li class="breadcrumb-item"><a href="">{{chregion}}</a></li>
                     <li class="breadcrumb-item active" aria-current="page">{{product.title}}</li>
                 </ol>
             </nav>
@@ -212,7 +212,7 @@
 
                     <div class="row mx-auto option-item">
 
-                        <a href="#">
+                        <a href="#"v-on:click.prevent="restcuntClick" >
                             <div class="d-flex justify-content-end gap-1 mb-1">
                                 <span class="fw-bold text-success"><i class="fas fa-redo"></i></span>
                                 <div class="fw-bold text-success">全部重選</div>
@@ -250,7 +250,7 @@
                                     總金額
                                 </div>
                                 <div class="fw-bold text-info fs-5">
-                                    TWD {{product.price}}
+                                    TWD {{cuntprice}}
                                 </div>
                             </div>
                             <!--點數-->
@@ -261,7 +261,7 @@
                                 <div class="d-flex gap-2">
                                     <span class="text-warning"><i class="bi bi-exclamation-circle-fill"></i></span>
                                     <div class="fw-bold text-warning">
-                                        {{product.price*0.1}}
+                                        {{cuntpoint}}
                                     </div>
                                 </div>
                             </div>
@@ -749,11 +749,11 @@
                 <div class="price-preview mb-2" id="">
                     <div class="price-info">
                         <span class="fw-bold fs-5 text-info">
-                            TWD {{product.price}}
+                            TWD {{cuntprice}}
                         </span>
                         <span class="text-muted text-decoration-line-through">
                             <small>
-                                TWD {{product.price}}
+                                TWD {{cuntOringPrice}}
                             </small>
                         </span>
                     </div>
@@ -801,12 +801,27 @@
     var pid = getUrlString.replace("/ProductView/product/", " ");//字元處理 移除"/ProductView/product/" 字串
 
 
-    var app = new Vue({
+    var app242 = new Vue({
         el: '#productVue',
         data: {
             product: [],
             pic: [],
-            index:0,
+            index: 0,
+            sectionObject: {
+                "North": "北北基",
+                "MiddleNorth": "桃竹苗",
+                "Middle": "中彰投",
+                "MiddleSouth": "雲嘉南",
+                "South": "高屏",
+                "East": "宜花東",
+                "OutsideIsland": "宜花東"
+            },
+            chregion: "",
+
+
+
+
+
         },
         computed: {
 
@@ -820,19 +835,37 @@
             axios.get("/api/products/" + pid).then(function (res) {
                 self.product = res.data;
                 self.pic = res.data.productPictures;
+                //self.local = res.data.region;
+                self.chregion = app242.sectionObject[res.data.region];
 
-                console.log(self.pic);
+
+
             })
         },
-         methods:{
-            changeIndex(change){
-              let self = this;
-                self.index+=change;
+        methods: {
+            restcuntClick: function () {
+                this.index = 0;
+           
+            },
+            changeIndex(change) {
+                let self = this;
+                self.index += change;
                 //控管範圍  TODO抓取資料庫數量
-                if(self.index<0){
-                    self.index=0;
+                if (self.index < 0) {
+                    self.index = 0;
                 }
+            },
+           
+        },
+    computed: {
+            cuntprice: function () {
+                return  this.product.price * this. index
+            }, cuntpoint: function () {
+                return this.cuntprice * 0.1
+            }, cuntOringPrice: function () {
+                return this.product.originalPrice * this.index
             }
+
         }
     });
 </script>
