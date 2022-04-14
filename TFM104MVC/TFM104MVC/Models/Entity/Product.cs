@@ -45,9 +45,9 @@ namespace TFM104MVC.Models.Entity
 
         //成為別人的外來鍵 在自己家裡面一定是主索引鍵
 
-        public virtual ICollection<CustomerRating> CustomerRatings { get; set; } //商品評價
-              = new List<CustomerRating>();
-        //一個商品擁有多個評價
+        //public virtual ICollection<CustomerRating> CustomerRatings { get; set; } //商品評價
+        //      = new List<CustomerRating>();
+        ////一個商品擁有多個評價
 
         public virtual ICollection<Orderdetail> Orderdetails { get; set; }
 
