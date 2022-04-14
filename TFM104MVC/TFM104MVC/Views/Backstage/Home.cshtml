@@ -1,0 +1,176 @@
+﻿@{
+    ViewData["Title"] = "後台總覽儀錶板";
+}
+
+<link rel="stylesheet" href="/css/BackHome.css" type="text/css">
+
+<!-- 右側本體內容-->
+<!--麵包屑-->
+<div class="breadcrumb d-flex align-items-center">
+    <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="#">後台面板</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">總覽</li>
+        </ol>
+    </nav>
+</div>
+<div class="container-fluid g-3">
+    <!--標題-->
+    <div class="row">
+        <p class="fs-3 fw-bold" style="color: #3c5587;">
+            總覽
+        </p>
+        <hr class="text-muted">
+    </div>
+    <!--EC訂單總覽-->
+    <div class="ec-order mt-3">
+        <!--標題-->
+        <div class="order-title">
+            <p class="fs-4 fw-bold" style="color: #3c5587;">
+                EC訂單
+            </p>
+        </div>
+        <!--訂單數量呈現-->
+        <div class="container-fluid">
+            <!--訂單筆數-->
+            <div class="row gap-3">
+                <!--今天 金額/訂單數-->
+                <div class="col infobox">
+                    <div class="infobox-icon mb-3">
+                        <span class="badge bg-danger">今天</span>
+                    </div>
+                    <div class="infobox-data">
+                        <span class="infobox-data-number">
+                            <small class="fw-bold" style="font-size: 13px;">
+                                NT$
+                            </small>
+                            X,XXX
+                        </span>
+                        <span class="infobox-text">
+                            /
+                        </span>
+                        <span class="infobox-text">
+                            x筆訂單
+                        </span>
+                    </div>
+                </div>
+                <!--昨天 金額/訂單數-->
+                <div class="col infobox">
+                    <div class="infobox-icon mb-3">
+                        <span class="badge bg-secondary">昨天</span>
+                    </div>
+                    <div class="infobox-data">
+                        <span class="infobox-data-number">
+                            <small class="fw-bold" style="font-size: 13px;">
+                                NT$
+                            </small>
+                            X,XXX
+                        </span>
+                        <span class="infobox-text">
+                            /
+                        </span>
+                        <span class="infobox-text">
+                            x筆訂單
+                        </span>
+                    </div>
+                </div>
+                <!--上週 金額/訂單數-->
+                <div class="col infobox">
+                    <div class="infobox-icon mb-3">
+                        <span class="badge bg-secondary">上週</span>
+                    </div>
+                    <div class="infobox-data">
+                        <span class="infobox-data-number">
+                            <small class="fw-bold" style="font-size: 13px;">
+                                NT$
+                            </small>
+                            X,XXX
+                        </span>
+                        <span class="infobox-text">
+                            /
+                        </span>
+                        <span class="infobox-text">
+                            x筆訂單
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <!--總量-->
+            <div class="row gap-3 mt-3">
+                <div class="col infobox-block infobox-green">
+                    <div class="infobox-amount">
+                        XXX
+                    </div>
+                    <div class="infobox-content">
+                        今日取消訂單數
+                    </div>
+                </div>
+                <div class="col infobox-block infobox-blue">
+                    <div class="infobox-amount">
+                        XXX
+                    </div>
+                    <div class="infobox-content">
+                        訂單總量
+                    </div>
+                </div>
+                <div class="col infobox-block infobox-blue2">
+                    <div class="infobox-amount">
+                        XXX
+                    </div>
+                    <div class="infobox-content">
+                        總商品數
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--最近訂單-->
+    <div class="row mt-5">
+        <!--標題-->
+        <div class="order-title">
+            <p class="fs-4 fw-bold" style="color: #3c5587;">
+                最近訂單
+            </p>
+        </div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">編號</th>
+                    <th scope="col">總價</th>
+                    <th scope="col">時間</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">
+                        <a href="">
+                            #1
+                        </a>
+                    </th>
+                    <td>11900.0</td>
+                    <td>4月14日 08:07</td>
+                </tr>
+                <tr>
+                    <th scope="row">
+                        <a href="">
+                            #2
+                        </a>
+                    </th>
+                    <td>14060.0</td>
+                    <td>4月14日 08:53</td>
+                </tr>
+                <tr>
+                    <th scope="row">
+                        <a href="">
+                            #3
+                        </a>
+                    </th>
+                    <td>4999.0</td>
+                    <td>4月14日 11:07</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
