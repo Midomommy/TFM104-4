@@ -6,20 +6,20 @@
 <link rel="stylesheet" href="/css/allProduct.css" type="text/css">
 
 
-<div class="container">
+<div class="container" id="search">
     <div class="row breadcrumb mt-3 mb-3">
         <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/">首頁</a></li>
-                <li class="breadcrumb-item active" aria-current="page">露營</li>
+                <li class="breadcrumb-item active" aria-current="page">{{keyword}}</li>
             </ol>
         </nav>
     </div>
     <div class="row mb-3">
-        <h2 class="fw-bold">
+        <h2 class="fw-bold" v-if="keyword!== ''">
             搜尋結果"
             <b class="text-success">
-                xxx
+                {{keyword}}
             </b>
             "
         </h2>
@@ -332,6 +332,17 @@
 
 
 <script>
+    var keyword = window.location.search.replace("?", "");
+    var keywordDecode = decodeURI(window.location.search.replace("?keyword=", ""));
+
+    var app242 = new Vue({
+        el: '#search',
+        data: {
+            keyword: keywordDecode,
+        }
+    });
+
+ 
     var app241 = new Vue({
         el: '#GetProducts',
 
@@ -343,7 +354,8 @@
             TriptypeValue: "",
             productTotal: '',
             orderbyClick: '',
-            pageLeftBtn:true,
+            pageLeftBtn: true,
+       
 
 
             countOfPage: 1,// 幾個一頁
@@ -375,7 +387,9 @@
 
         mounted: function () {
             var self = this;
-            axios.get("/api/products").then(function (res) {
+           
+            
+            axios.get("/api/products?" + keyword).then(function (res) {
                 for (let i of res.data) {
                     i.region = self.sectionObject[i.region];
                     i.goTouristTime = "" + i.goTouristTime;
@@ -383,8 +397,12 @@
                 self.productList = res.data;
                 self.productTotal = res.data.length;
                 //    self.chRegion = app1.sectionObject[res.data.region];
+            }).catch(function (error) {
+                self.error = error.data;
+                self.productList = "";
+                self.productTotal = "0";
             })
-        },
+                },
 
         methods: {
             regionClick: function () {
@@ -409,7 +427,7 @@
                 //    Triptype === " ";
 
 
-                axios.get("/api/products?Region=" + regionValue + "&Traveldays=" + Traveldays + "&Triptype=" + Triptype + orderbyClick).then(function (res) {
+                axios.get("/api/products?Region=" + regionValue + "&Traveldays=" + Traveldays + "&Triptype=" + Triptype + orderbyClick + "&" + keyword).then(function (res) {
                     for (let i of res.data) {
                         i.region = self.sectionObject[i.region];
 

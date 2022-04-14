@@ -17,7 +17,7 @@ using TFM104MVC.Models.Entity;
 
 namespace TFM104MVC.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]")] // api/products
     [ApiController]
     public class ProductsController : ControllerBase
     {

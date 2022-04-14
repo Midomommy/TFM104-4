@@ -32,8 +32,7 @@ namespace TFM104MVC.Services
             if (!string.IsNullOrWhiteSpace(keyword))
             {
                 keyword = keyword.Trim();
-                result = result.Where(n => n.Title.Contains(keyword));
-                result = result.Where(n => n.Description.Contains(keyword));
+                result = result.Where(n => n.Title.Contains(keyword) || n.Description.Contains(keyword));
             }
             if (ratingValue > 0)
             {
