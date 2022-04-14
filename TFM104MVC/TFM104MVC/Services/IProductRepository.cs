@@ -26,5 +26,7 @@ namespace TFM104MVC.Services
         void AddProductPicture(Guid productId, ProductPicture productPicture);
         void DeleteProduct(Product product);
         void DeleteProductPicture(ProductPicture productPicture);
+
+        Task AddOrder(Order order);
     }
 }

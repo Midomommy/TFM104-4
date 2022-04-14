@@ -18,7 +18,7 @@ namespace TFM104MVC.Database
         public DbSet<ProductPicture> ProductPictures { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Orderdetail> Orderdetails { get; set; }
-        public DbSet<CustomerRating> CustomerRatings { get; set; }
+        //public DbSet<CustomerRating> CustomerRatings { get; set; }
 
 
         public DbSet<User> Users { get; set; }
