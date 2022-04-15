@@ -212,7 +212,7 @@
 
                     <div class="row mx-auto option-item">
 
-                        <a href="#"v-on:click.prevent="restcuntClick" >
+                        <a href="#" v-on:click.prevent="restcuntClick">
                             <div class="d-flex justify-content-end gap-1 mb-1">
                                 <span class="fw-bold text-success"><i class="fas fa-redo"></i></span>
                                 <div class="fw-bold text-success">全部重選</div>
@@ -221,7 +221,10 @@
                         <!--左側：日期選擇-->
                         <div class="col-6">
                             <p class="text-muted fw-bold mb-3">請選擇日期</p>
-                            <div class="text-info">這邊要放日曆</div>
+                            @*<div class="text-info">這邊要放日曆</div>*@
+                            <input type="datetime-local" id="meeting-time" name="meeting-time"
+                                   value="2022-05-06T19:30" min="2018-06-07T00:00" max="2025-06-14T00:00">
+
                         </div>
                         <!--右側：商品數量&金額-->
                         <div class="col-6">
@@ -229,7 +232,7 @@
                             <!--商品數量-->
                             <div class="item d-flex justify-content-between">
                                 <div class="fw-bold">
-                                    我是商品數量
+                                    商品數量
                                 </div>
                                 <div class="text-muted">
                                     TWD{{product.price}}/每人
@@ -321,7 +324,7 @@
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                     <li>
-                                        <a class="dropdown-item" href="#">
+                                        <a class="dropdown-item" href="javascript:void(0);">
                                             <span class="text-warning">
                                                 <i class="bi bi-star-fill"></i>
                                                 <i class="bi bi-star-fill"></i>
@@ -332,7 +335,7 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" href="#">
+                                        <a class="dropdown-item" href="javascript:void(0);">
                                             <span class="text-warning">
                                                 <i class="bi bi-star-fill"></i>
                                                 <i class="bi bi-star-fill"></i>
@@ -342,7 +345,7 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" href="#">
+                                        <a class="dropdown-item" href="javascript:void(0);">
                                             <span class="text-warning">
                                                 <i class="bi bi-star-fill"></i>
                                                 <i class="bi bi-star-fill"></i>
@@ -351,7 +354,7 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" href="#">
+                                        <a class="dropdown-item" href="javascript:void(0);">
                                             <span class="text-warning">
                                                 <i class="bi bi-star-fill"></i>
                                                 <i class="bi bi-star-fill"></i>
@@ -359,7 +362,7 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" href="#">
+                                        <a class="dropdown-item" href="javascript:void(0);">
                                             <span class="text-warning">
                                                 <i class="bi bi-star-fill"></i>
                                             </span>
@@ -444,13 +447,13 @@
                     <div class="m-5">
                         <nav aria-label="Page navigation example">
                             <ul class="pagination d-flex justify-content-center">
-                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item"><a class="page-link" href="#">4</a></li>
-                                <li class="page-item"><a class="page-link" href="#">5</a></li>
-                                <li class="page-item"><a class="page-link" href="#">6</a></li>
-                                <li class="page-item"><a class="page-link" href="#">></a></li>
+                                <li class="page-item active"><a class="page-link" href="">1</a></li>
+                                <li class="page-item"><a class="page-link" href="">2</a></li>
+                                <li class="page-item"><a class="page-link" href="">3</a></li>
+                                <li class="page-item"><a class="page-link" href="">4</a></li>
+                                <li class="page-item"><a class="page-link" href="">5</a></li>
+                                <li class="page-item"><a class="page-link" href="">6</a></li>
+                                <li class="page-item"><a class="page-link" href="">></a></li>
                             </ul>
                         </nav>
                     </div>
@@ -459,7 +462,7 @@
             <div class="col-3">
                 <div class="item">
                     <nav id="navbar-example3" class="navbar navbar-light bg-light flex-column align-items-stretch p-3">
-                        <a class="navbar-brand mb-3" href="#">快速目錄</a>
+                        <a class="navbar-brand mb-3" href="javascript:void(0);">快速目錄</a>
                         <nav class="nav nav-pills flex-column">
                             <a class="nav-link" href="#product">商品介紹</a>
                             <a class="nav-link" href="#lastReview">最新評價</a>
@@ -845,7 +848,7 @@
         methods: {
             restcuntClick: function () {
                 this.index = 0;
-           
+
             },
             changeIndex(change) {
                 let self = this;
@@ -855,11 +858,11 @@
                     self.index = 0;
                 }
             },
-           
+
         },
-    computed: {
+        computed: {
             cuntprice: function () {
-                return  this.product.price * this. index
+                return this.product.price * this.index
             }, cuntpoint: function () {
                 return this.cuntprice * 0.1
             }, cuntOringPrice: function () {

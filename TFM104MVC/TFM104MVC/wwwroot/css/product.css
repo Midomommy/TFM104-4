@@ -1,6 +1,7 @@
-/*body底部設定*/
+/*body背景&底部設定*/
 
 body {
+    background-color: white;
     padding-bottom: 70px;
 }
 
