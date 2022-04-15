@@ -143,18 +143,25 @@
 
             <div class="collapse mb-5" id="datepicker">
                 <div class="card card-body">
-                    這邊想要置入日期選擇器
+                    <input type="datetime-local" id="goTravel-time" name="goTravel-time"
+                           value="2022-05-06T19:30" min="2021-06-07T00:00" max="2025-06-14T00:00" />
                 </div>
             </div>
 
-            <!--我是價錢-->
+            <!--評價-->
             <div class="item">
-                <p class="fw-bold mb-3">價錢(TWD)</p>
-                <label class="form-label" for="customRange1">Example range</label>
+                <p class="fw-bold mb-3">評價</p>
+                <div>
+                    <label class="form-label" for="customerRatingRange">1~5分：請選擇</label>
+                </div>
                 <div class="range">
-                    <input type="range" class="form-range" id="customRange1" />
+                    <input type="range" class="form-range" min="1" max="5" step="1" id="customerRatingRange" />
+                </div>
+                <div>
+                    <span class="text-center text-muted">最左：1分；最右：5分</span>
                 </div>
             </div>
+
             <!--行程時間-->
             <div class="item">
                 <p class="fw-bold mb-3">行程天數</p>
@@ -197,19 +204,19 @@
                     <div>
                         <p>排序 :</p>
                     </div>
-                    <div>
+                    <div class="filter-link">
                         ｜
                         <a href="" v-on:click.prevent="regionClick(orderbyClick='&orderby=originalprice') ">kkday推薦</a>
                     </div>
-                    <div>
+                    <div class="filter-link">
                         ｜
                         <a href="" v-on:click.prevent="regionClick(orderbyClick='&orderbydesc=originalprice') ">熱門程度</a>
                     </div>
-                    <div>
+                    <div class="filter-link">
                         ｜
                         <a href="" v-on:click.prevent="regionClick(orderbyClick='&orderbydesc=customerRating') ">用戶評價</a>
                     </div>
-                    <div>
+                    <div class="filter-link">
                         ｜
                         <a href="" v-on:click.prevent="regionClick(orderbyClick='&orderby=originalprice') ">$價格：低到高</a>
                     </div>
@@ -230,8 +237,9 @@
                                 <a v-bind:href=" '/ProductView/product/ '+ item.id " target="_blank" rel="noopener">
                                     <div class="d-flex justify-content-between">
                                         <h5 class="card-title mb-3">{{item.title}}</h5>
+                                        <!--收藏愛心-->
                                         <div class="text-muted">
-                                            <a href="#" class="text-danger"><i class="bi bi-heart"></i></a>
+                                            <a href="javascript:void(0);" class="text-danger"><i class="bi bi-heart"></i></a>
                                         </div>
                                     </div>
                                 </a>
@@ -290,7 +298,7 @@
             <div>{{error}}</div>
 
 
-            <!--商品分頁-->
+            <!--商品分頁：原始-->
             @*<div class="mt-5">
                     <nav aria-label="Page navigation example">
                         <ul class="pagination d-flex justify-content-center">
@@ -304,6 +312,8 @@
                         </ul>
                     </nav>
                 </div>*@
+
+            <!--商品分頁：新-->
             <div class="mt-5">
                 <nav aria-label="Page navigation example">
                     @*<div class="pagination">*@
@@ -326,8 +336,10 @@
 
         </div>
     </div>
+
     <div class="row row-cols-3">
     </div>
+
 </div>
 
 
