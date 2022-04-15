@@ -1,4 +1,4 @@
-html,
+
 /*底*/
         
 .page-wrap{
@@ -109,11 +109,11 @@ ul li{
     background-color: transparent;
     transition: all .3s linear;
 }
-ul li:hover{
+.page-menu li:hover {
     background-color: rgba(0, 0, 0, 0.2);
     color: #eaeaea;
 }
-ul li a:hover{
+.page-menu li a:hover {
     color: #eaeaea;
 }
 /*左下欄icon*/
@@ -139,12 +139,12 @@ ul li a:hover{
 a, a:focus, a:hover{
     text-decoration: none;
 }
-a{
-    cursor: pointer;
+/*a{
+    cursor: pointer;    
     color: #26bec9;
     transition: .25s;
     background-color: transparent;
-}
+}*/
 .page-menu li.active a::before{
     content: "";
     position: absolute;
@@ -155,12 +155,12 @@ a{
     width: 4px;
     background-color: #26bec9;
 }
-*{
+/**{
     box-sizing: border-box;
 }
 *, ::after, ::before{
     box-sizing: border-box;
-}
+}*/
 
 /*登入*/
 .page-aside .account-group{
@@ -281,14 +281,15 @@ input{
     -webkit-box-smoothing: antialiased;
 }
 
-.btn{
+ .btn-save {
     width: 80px;
     height: 35px;
     text-align: center;
     margin-bottom: 10px;
     margin-right: 10px;
+
 }
-.btn-primary{
+/*.btn-primary{
     background-color: #26bec9;
     color: #fff;
     float: right;
@@ -299,4 +300,4 @@ input{
     color: #fff;
     background-color: #22a7aa;
     border-color: #22a7aa;
-}
+}*/
