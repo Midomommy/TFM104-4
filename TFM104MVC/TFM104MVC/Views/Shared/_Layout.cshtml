@@ -212,7 +212,7 @@
                                 <button type="submit" v-on:click="submitLogin" class="btn btn-primary mb-3">登入</button>
                             </div>
                             <div class="mb-3" data-bs-toggle="modal" data-bs-target="#register">
-                                <a href="#">還未加入kkday嗎？立即註冊！</a>
+                                <a href="javascript:void(0);">還未加入kkday嗎？立即註冊！</a>
                             </div>
                         </div>
 
@@ -275,12 +275,12 @@
                                     我已詳閱並同意<a href="#">使用者條款</a>&<a href="#">隱私權保護政策</a>
                                 </label>
                             </div>
-                            <div class="form-check mb-3">
+                            @*<div class="form-check mb-3">
                                 <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
                                 <label class="form-check-label" for="flexCheckDefault">
                                     我不是機器人
                                 </label>
-                            </div>
+                            </div>*@
                             <div class="d-grid gap-2">
                                 <button type="submit" class="btn btn-primary mb-3" v-on:click="addRegister">註冊</button>
                             </div>
@@ -335,13 +335,16 @@
                         <hr>
                         <div class="container">
                             <div class="mb-3">
-                                <input type="text" class="form-control" placeholder="電子郵件">
+                                <input type="email" class="form-control" placeholder="電子郵件">
+                            </div>
+                            <div class="mb-3">
+                                <input type="password" class="form-control" placeholder="請輸入新密碼">
                             </div>
                             <div class="d-grid gap-2">
                                 <button type="submit" class="btn btn-primary mb-3">重新設定密碼</button>
                             </div>
                             <div class="mb-3" data-bs-toggle="modal" data-bs-target="#register">
-                                <a href="">還未加入kkday嗎？立即註冊！</a>
+                                <a href="javascript:void(0);">還未加入kkday嗎？立即註冊！</a>
                             </div>
                         </div>
 
