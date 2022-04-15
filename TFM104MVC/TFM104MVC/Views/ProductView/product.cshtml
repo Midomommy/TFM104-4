@@ -191,7 +191,7 @@
 
                     <div class="m-3">
                         <div class="d-grid gap-2">
-                            <button class="btn btn-primary" type="button">立即下訂</button>
+                            <button class="btn btn-primary" type="button" onclick="location.href='@Url.Action("Booking", "Purchase")'">立即下訂</button>
                         </div>
                     </div>
 
@@ -271,7 +271,7 @@
                             <!--加入購物車or下訂-->
                             <div class="d-flex justify-content-end gap-3">
                                 <button type="button" class="btn btn-primary">加入購物車</button>
-                                <button type="button" class="btn btn-info">立即訂購</button>
+                                <button type="button" class="btn btn-info" onclick="location.href='@Url.Action("Booking", "Purchase")'">立即訂購</button>
                             </div>
                         </div>
                     </div>
@@ -475,6 +475,7 @@
         </div>
 
     </div>
+    
     <!--你可能也會喜歡-->
     <div class="container mb-5">
         <div class="d-flex justify-content-between mb-3">
