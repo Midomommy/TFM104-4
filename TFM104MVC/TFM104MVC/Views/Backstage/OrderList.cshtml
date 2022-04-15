@@ -5,14 +5,24 @@
 <link rel="stylesheet" href="/css/BackOrderList.css" type="text/css">
 
 <!-- 右側本體內容-->
-<div class="col-12 col-md-10">
-    <!--麵包屑//灰底-->
-    <nav aria-label="breadcrumb">
+<!--麵包屑//灰底-->
+@*<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">後台面板</a></li>
+        <li class="breadcrumb-item active" aria-current="page">訂單管理</li>
+    </ol>
+</nav>*@
+<div class="breadcrumb d-flex align-items-center">
+    <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="#">後台面板</a></li>
+            <li class="breadcrumb-item">
+                <a href="#">後台面板</a>
+            </li>
             <li class="breadcrumb-item active" aria-current="page">訂單管理</li>
         </ol>
     </nav>
+</div>
+<div class="container g-3">
     <!--按鈕色rgb(100, 179, 244)-->
     <div class="bd_board">
         <div class="page-title">
