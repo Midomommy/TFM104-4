@@ -10,6 +10,7 @@ namespace TFM104MVC.Controllers
 {
     public class LoginController : Controller
     {
+        //會員管理頁
         public IActionResult Index()
         {
             return View();

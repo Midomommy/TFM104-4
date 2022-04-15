@@ -49,8 +49,8 @@
                 </a>
             </div>
             <div class="col">
-                <a class="navbar-brand" asp-area="" asp-controller="Collect" asp-action="WishList">
-                    這裡暫時放收藏頁連結
+                <a class="navbar-brand" asp-area="" asp-controller="Login" asp-action="Index ">
+                    這裡暫時放會員管理連結
                 </a>
             </div>
             <div class="col">
@@ -66,6 +66,11 @@
             <div class="col">
                 <a class="navbar-brand" asp-area="" asp-controller="Order" asp-action="Edit">
                     這裡暫時放訂單修改
+                </a>
+            </div>
+            <div class="col">
+                <a class="navbar-brand" asp-area="" asp-controller="Collect" asp-action="WishList">
+                    這裡暫時放收藏頁連結
                 </a>
             </div>
         </div>
@@ -1116,7 +1121,7 @@
 
 <!--edm-->
 <div class="container-fluid" style="background-color: dimgray; height: 105px;">
-    <div class="row pt-3 d-flex justify-content-end pt-4">
+    <div class="row pt-5 d-flex justify-content-end pt-4 mt-5">
         <div class="col-md-6 text-block">
             <span class="text-white">即刻訂閱！搶先獲得用戶限定優惠及最新熱門景點旅遊資訊！</span>
             <div class="tip">
@@ -1135,13 +1140,15 @@
             </nav>
         </div>
     </div>
-    <div class="row mx-auto my-3 " style="text-align:center;max-width:1100px;margin-bottom:5%;">
+    <div class="row mx-auto my-5 " style="text-align:center;max-width:1100px;margin-bottom:5%;">
         <hr class="text-white">
     </div>
 </div>
+
 <!--頁尾-->
 <div class="container-fluid footer-item pt-3">
-    <div class="row footer-links d-flex justify-content-around px-5">
+    <div class="row footer-links d-flex justify-content-around my-5 px-5">
+        <!--前台網站地圖-->
         <div class="col-12 col-md-4">
             <h4>前台網站地圖</h4>
             <ul class="footer-list">
@@ -1158,6 +1165,11 @@
                 <li>
                     <a class="navbar-brand" asp-area="" asp-controller="Purchase" asp-action="booking">
                         訂購頁
+                    </a>
+                </li>
+                <li>
+                    <a class="navbar-brand" asp-area="" asp-controller="Login" asp-action="Index">
+                        會員管理
                     </a>
                 </li>
                 <li>
@@ -1182,20 +1194,58 @@
                 </li>
             </ul>
         </div>
+        <!--後台網站地圖-->
         <div class="col-12 col-md-4">
             <h4>後台網站地圖</h4>
             <ul class="footer-list">
                 <li>
-                    <a href="#">首頁</a>
+                    <a class="navbar-brand" asp-area="" asp-controller="Backstage" asp-action="Login">
+                        供應商登入
+                    </a>
                 </li>
                 <li>
-                    <a href="#">商品列表</a>
+                    <a class="navbar-brand" asp-area="" asp-controller="Backstage" asp-action="Register">
+                        供應商註冊
+                    </a>
                 </li>
                 <li>
-                    <a href="#">會員管理</a>
+                    <a class="navbar-brand" asp-area="" asp-controller="Backstage" asp-action="Home">
+                        後台總覽儀錶板頁
+                    </a>
+                </li>
+                <li>
+                    <a class="navbar-brand" asp-area="" asp-controller="Backstage" asp-action="ProductList">
+                        後台商品列表
+                    </a>
+                </li>
+                <li>
+                    <a class="navbar-brand" asp-area="" asp-controller="Backstage" asp-action="NewProduct">
+                        新增商品
+                    </a>
+                </li>
+                <li>
+                    <a class="navbar-brand" asp-area="" asp-controller="Backstage" asp-action="EditProduct">
+                        修改商品
+                    </a>
+                </li>
+                <li>
+                    <a class="navbar-brand" asp-area="" asp-controller="Backstage" asp-action="Admin">
+                        後台管理中心
+                    </a>
+                </li>
+                <li>
+                    <a class="navbar-brand" asp-area="" asp-controller="Backstage" asp-action="OrderList">
+                        訂單列表
+                    </a>
+                </li>
+                <li>
+                    <a class="navbar-brand" asp-area="" asp-controller="Backstage" asp-action="Order">
+                        單筆訂單檢視
+                    </a>
                 </li>
             </ul>
         </div>
+        <!--社群追蹤-->
         <div class="footer-follows col-12 col-md-4">
             <h4>追蹤我們</h4>
             <ul class="footer-list">
