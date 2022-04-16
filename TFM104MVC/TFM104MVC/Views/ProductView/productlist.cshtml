@@ -10,7 +10,7 @@
     <div class="row breadcrumb mt-3 mb-3">
         <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#">首頁</a></li>
+                <li class="breadcrumb-item"><a href="/">首頁</a></li>
                 <li class="breadcrumb-item active" aria-current="page">露營</li>
             </ol>
         </nav>
@@ -198,19 +198,19 @@
                     </div>
                     <div>
                         ｜
-                        <a href="#">kkday推薦</a>
+                        <a href=""v-on:click.prevent="regionClick(orderbyClick='&orderby=originalprice') ">kkday推薦</a>
                     </div>
                     <div>
                         ｜
-                        <a href="#">熱門程度</a>
+                        <a href="" v-on:click.prevent="regionClick(orderbyClick='&orderbydesc=originalprice') ">熱門程度</a>
                     </div>
                     <div>
                         ｜
-                        <a href="#">用戶評價</a>
+                        <a href=""v-on:click.prevent="regionClick(orderbyClick='&orderbydesc=customerRating') ">用戶評價</a>
                     </div>
                     <div>
                         ｜
-                        <a href="#">$價格：低到高</a>
+                        <a href=""v-on:click.prevent="regionClick(orderbyClick='&orderby=originalprice') ">$價格：低到高</a>
                     </div>
                 </div>
             </div>
@@ -248,12 +248,12 @@
                                         <!--地點-->
                                         <div class="d-flex gap-1">
                                             <span class="text-muted"><i class="bi bi-geo-alt-fill"></i></span>
-                                            <p><small class="text-muted">地點</small></p>
+                                            <p><small class="text-muted">地點:{{item.region}}</small></p>
                                         </div>
                                         <!--日期-->
                                         <div class="d-flex gap-1">
                                             <span class="text-muted"><i class="bi bi-calendar"></i></span>
-                                            <p><small class="text-muted">最早可預訂日期：2022-05-06</small></p>
+                                            <p><small class="text-muted">最早可預訂日期：{{item.goTouristTime}}</small></p>
                                         </div>
                                     </div>
                                 </a>
@@ -312,16 +312,16 @@
                         @*現在頁面+1*@
                         <li class="page-item" v-for="n in totalPage" v-bind:class="{'active': (currPage === (n))}"
                             @@click.prevent="setPage(n)">
-                        <a class="page-link" href="#">{{n}}</a></li>
+                            <a class="page-link" href="#">{{n}}</a>
+                        </li>
                         <li class="page-item" v-bind:class="{'disabled': (currPage === totalPage)}"
                             @@click.prevent="setPage(currPage+1)">
-                            <a class="page-link" href="#" >></a>
+                            <a class="page-link"v-if="productTotal>0" href="#">></a>
                         </li>
                     </ul>
                 </nav>
                 @*</div>*@
             </div>
-
 
         </div>
     </div>
@@ -332,20 +332,32 @@
 
 
 <script>
-    var app = new Vue({
+    var app241 = new Vue({
         el: '#GetProducts',
 
         data: {
             productList: [],
             error: "",
-            regionValue: [], // 開[]為多選   ""為單選
-            TraveldaysValue: [],
-            TriptypeValue: [],
-            productTotal:'',
+            regionValue: "", // 開[]為多選   ""為單選
+            TraveldaysValue: "",
+            TriptypeValue: "",
+            productTotal: '',
+            orderbyClick: '',
+            pageLeftBtn:true,
 
 
             countOfPage: 1,// 幾個一頁
             currPage: 1,//初始頁
+            sectionObject: {
+                "North": "北北基",
+                "MiddleNorth": "桃竹苗",
+                "Middle": "中彰投",
+                "MiddleSouth": "雲嘉南",
+                "South": "高屏",
+                "East": "宜花東",
+                "OutsideIsland": "宜花東"
+            },
+            chRegion: "",
 
 
         },
@@ -357,14 +369,20 @@
             },
             totalPage: function () {
                 return Math.ceil(this.productList.length / this.countOfPage);
-            }
+            },
+           
         },
 
         mounted: function () {
             var self = this;
             axios.get("/api/products").then(function (res) {
+                for (let i of res.data) {
+                    i.region = self.sectionObject[i.region];
+                    i.goTouristTime = "" + i.goTouristTime;
+                }
                 self.productList = res.data;
                 self.productTotal = res.data.length;
+                //    self.chRegion = app1.sectionObject[res.data.region];
             })
         },
 
@@ -374,6 +392,7 @@
                 var regionValue = self.regionValue;
                 var Traveldays = self.TraveldaysValue;
                 var Triptype = self.TriptypeValue
+                var orderbyClick = self.orderbyClick;
                 // api/products?Traveldays=&Region=&Triptype=
                 //    axios.get("/api/products?Region=" + regionValue + "&Traveldays=" + Traveldays + "&Triptype=" + Triptype).then(function (res) {
 
@@ -390,11 +409,17 @@
                 //    Triptype === " ";
 
 
-                axios.get("/api/products?Region=" + regionValue + "&Traveldays=" + Traveldays + "&Triptype=" + Triptype).then(function (res) {
+                axios.get("/api/products?Region=" + regionValue + "&Traveldays=" + Traveldays + "&Triptype=" + Triptype + orderbyClick).then(function (res) {
+                    for (let i of res.data) {
+                        i.region = self.sectionObject[i.region];
+
+                    };
+
                     self.productList = res.data;
                     self.error = "";
                     self.currPage = "1";
                     self.productTotal = res.data.length;
+                    console.log(this.orderbyClick);
                     // console.log(regionValue, Traveldays, Triptype);
                 }).catch(function (error) {
                     self.error = error.data;
@@ -420,6 +445,11 @@
                 }
                 this.currPage = idx;
             },
+            //originalpriceClick: function () {
+            //    axios.get("/api/products?orderby=" + orderbyClick).then(function (res) {
+            //        self.productList = res.data;
+            //    })
+            //},
         },
         filters: {
             ellipsis(value) {
@@ -429,7 +459,8 @@
                 }
                 return value
             }
-        }
+        },
+    
 
 
 
