@@ -1,9 +1,13 @@
 ﻿@{
-    ViewData["Title"] = "這邊要是該商品標題";
+    ViewData["Title"] = ViewBag.message ;
 }
 
 <link rel="stylesheet" href="/css/product.css" type="text/css">
-
+<style>
+    .carousel-inner {
+        overflow: visible;
+    }
+</style>
 <section id="productVue">
 
     <!--商品輪播區塊-->
@@ -11,13 +15,16 @@
         <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-indicators">
                 <!----goiyugiausgdyoaiuh piu-->
+
                 @*<template v-for="(img,num) in pic">*@
 
                     <button type="button" v-for="(img,num) in pic" data-bs-target="#carouselExampleIndicators" :data-bs-slide-to="num"  v-bind:class ="{'active' :num ===0 }"
                             aria-current="true" v-bind:aria-label=" 'Slide'+ num" @*v-if="num == 0"*@></button>
 
+
                     @*<button type="button" data-bs-target="#carouselExampleIndicators" v-bind:data-bs-slide-to="num"
                             v-bind:aria-label=" 'Slide'+ num" v-else></button>
+
                 </template>*@
                 
             
@@ -25,6 +32,7 @@
         aria-label="Slide 2"></button>
         <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
         aria-label="Slide 3"></button>*@
+
             </div>
             <div class="carousel-inner">
                 @*<template v-for="(img,num) in pic">*@
@@ -38,8 +46,8 @@
                     <!--</div>-->
                 @*</template>*@
                 @*<div class="carousel-item">
-                    <img src="https://picsum.photos/750/350?random=7" class="d-block w-100" alt="...">
-                    </div>*@
+                <img src="https://picsum.photos/750/350?random=7" class="d-block w-100" alt="...">
+                </div>*@
             </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
                     data-bs-slide="prev">
@@ -857,6 +865,11 @@
 
 
             })
+                .catch(function (err) {
+                    if (err.status == 404) {
+                        alert(err.data);
+                    }
+                })
         },
         methods: {
 

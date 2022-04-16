@@ -39,7 +39,9 @@
 
                 </div>
                 <div class="d-block text-center">
-                    <button class="btn btn-info mt-3" type="button">跟著kkday一起探索台灣</button>
+                    <button class="btn btn-info mt-3" type="button" onclick="location.href='@Url.Action("Index", "Home")'">
+                    跟著kkday一起探索台灣
+                    </button>
                 </div>
             </div>
         </div>
@@ -150,10 +152,8 @@
                             <!--下訂btn-->
                             <div class="item btn">
                                 <div class="d-flex justify-content-end gap-3">
-                                    <button type="button" class="btn btn-info">
-                                        @*<a asp-area="" asp-controller="Purchase" asp-action="booking">*@
+                                    <button type="button" class="btn btn-info" onclick="location.href='@Url.Action("booking", "Purchase")'">
                                             前往結帳
-                                        @*</a>*@
                                     </button>
                                 </div>
                             </div>
@@ -166,12 +166,12 @@
     </div>
 </div>
 
-<div class="container g-0">
-    <a class="float-end" href="#">繼續購物></a>
+<div class="container g-0 continue-shop">
+    <a id="continue-shop" class="float-end" onclick="location.href='@Url.Action("Index", "Home")'">繼續購物></a>
 </div>
 
 <!--你可能也會喜歡-->
-<div class="container cart-recommend">
+<div class="container cart-recommend mb-5">
     <div class="d-flex justify-content-between mb-3">
         <span class="fs-5 fw-bold">▎你可能也會喜歡</span>
     </div>

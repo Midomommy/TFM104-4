@@ -19,7 +19,8 @@ namespace TFM104MVC.Profiles
                 .ForMember(dest => dest.TravelDays, opt => opt.MapFrom(src => src.TravelDays.ToString()))
                 .ForMember(dest => dest.TripType, opt => opt.MapFrom(src => src.TripType.ToString()))
                 .ForMember(dest => dest.Region, opt => opt.MapFrom(src => src.Region.ToString()))
-                .ForMember(dest => dest.ProductStatus, opt => opt.MapFrom(src => src.ProductStatus.ToString()));
+                .ForMember(dest => dest.ProductStatus, opt => opt.MapFrom(src => src.ProductStatus.ToString()))
+                .ForMember(dest => dest.GoTouristTime, opt => opt.MapFrom(src => src.GoTouristTime.ToString()));
 
             CreateMap<ProductCreationDto, Product>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => Guid.NewGuid()));

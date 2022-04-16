@@ -1,26 +1,10 @@
-html,
-body {
-    font-family: "Lato", "Noto Sans TC", sans-serif;
-    /* outline: 3px solid tomato; */
-    margin: 0;
-    font-weight: 400;
-    letter-spacing: .5px;
-    padding: 0;
-    color: #333333;
-    /* background-color: #f6f7f8; */
-    background-color: #f5f5f5;
-    overflow-x: hidden;
-    /* box-sizing: border-box; */
-}
-
-body {
-    padding-top: 70px;
-    padding-bottom: 70px;
-}
+/**/
 
 .container {
     max-width: 800px;
 }
+
+/*--------------------*/
 
 /*覆蓋bootsrtap的樣式語法*/
 
@@ -68,13 +52,21 @@ body {
         color: #fff;
     }
 
-a, a:hover {
+.continue-shop a, .continue-shop a:hover {
     text-decoration: none;
     color: #26bec9;
     cursor: pointer;
     background-color: transparent;
     transition: .25s;
 }
+
+/*    #continue-shop a, #continue-shop a:hover {
+        text-decoration: none;
+        color: #26bec9;
+        cursor: pointer;
+        background-color: transparent;
+        transition: .25s;
+    }*/
 
 .cart-group a, .cart-group a:hover {
     text-decoration: none;
@@ -92,16 +84,20 @@ a, a:hover {
     transition: .25s;
 }*/
 
+
+/*--------------------*/
+
+
 /*改商品結帳的字*/
 .item > .align-items-center > .text-muted {
     font-size: 6px;
 }
 
 
-a:hover {
+/*a:hover {
     text-decoration: underline;
 }
-
+*/
 /* .navbar-collapse{
     outline: 3px solid tomato;
 
@@ -117,20 +113,6 @@ a:hover {
     /* outline: 3px solid tomato; */
 }
 
-.shop-cart {
-    margin-top: 5px;
-    width: 20px;
-    height: 20px;
-}
-
-.login-provider-button-circle {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    margin: 3px;
-    padding: 10px;
-    /* border: none; */
-}
 
 
 .cart-recommend {

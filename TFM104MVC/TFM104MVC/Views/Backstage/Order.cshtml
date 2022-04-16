@@ -6,14 +6,24 @@
 
 
 <!--麵包屑-->
-<nav aria-label="breadcrumb">
+@*<nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="#">後台面板</a></li>
         <li class="breadcrumb-item"><a href="#">訂單管理</a></li>
         <li class="breadcrumb-item active" aria-current="page">訂單 #1234</li>
     </ol>
-</nav>
-
+</nav>*@
+<div class="breadcrumb d-flex align-items-center">
+    <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="#">後台面板</a>
+            </li>
+            <li class="breadcrumb-item"><a href="#">訂單管理</a></li>
+            <li class="breadcrumb-item active" aria-current="page">訂單 #1234</li>
+        </ol>
+    </nav>
+</div>
 <div class="page-title">
     <h2>訂單#1234</h2>
     <h5>成立時間：2022-05-06 23:38</h5>
