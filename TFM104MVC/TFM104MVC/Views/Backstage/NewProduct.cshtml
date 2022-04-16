@@ -1,0 +1,168 @@
+﻿@{
+    ViewData["Title"] = "後台新增商品";
+}
+
+<link rel="stylesheet" href="/css/BackNewProduct.css" type="text/css">
+
+<!-- 右側本體內容-->
+<div class="container g-3">
+    <!--麵包屑-->
+    <div class="row breadcrumb mt-3">
+        <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="#">所有商品</a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">新增商品</li>
+            </ol>
+        </nav>
+    </div>
+    <!--新增商品標題-->
+    <div class="row">
+        <p class="fs-3 fw-bold" style="color: #3c5587;">
+            新增商品
+        </p>
+    </div>
+    <!--商品編輯本體內容-->
+    <div class="product-edit-body mt-3">
+        <!--區塊標題-->
+        <div class="body-title">
+            <p class="fs-5 fw-bold" style="color: #3c5587;">
+                基本設定
+            </p>
+        </div>
+        <!--商品名稱-->
+        <div class="prdouct-name mb-3">
+            <label for="prdouctNameFormControlInput" class="form-label fs-6 "
+                   style="color: #3c5587;">商品名稱(必填)</label>
+            <input type="text" class="form-control" id="prdouctNameFormControlInput"
+                   placeholder="請輸入商品名稱">
+        </div>
+        <!--商品價格-->
+        <div class="prdouct-price mb-3 d-flex gap-3">
+            <div class="origin-price">
+                <label for="prdouctPriceFormControlInput" class="form-label fs-6 "
+                       style="color: #3c5587;">商品價格(必填)</label>
+                <input type="text" class="form-control" id="prdouctPriceFormControlInput"
+                       placeholder="請輸入商品定價">
+            </div>
+            <div class="price-discount">
+                <label for="prdouctDiscountFormControlInput" class="form-label fs-6 "
+                       style="color: #3c5587;">商品折扣</label>
+                <input type="text" class="form-control" id="prdouctDiscountFormControlInput"
+                       placeholder="請輸入商品折扣">
+            </div>
+        </div>
+        <!--商品選擇-->
+        <div class="prdouct-choose">
+            <p class="fs-6 " style="color: #3c5587;">
+                商品相關分類設定
+            </p>
+            <div class="d-flex gap-3">
+                <!-- 商品分類 -->
+                <div class="product-type">
+                    <select class="form-select" aria-label="product-type">
+                        <option selected disabled>商品分類</option>
+                        <option value="1">露營</option>
+                        <option value="2">水上活動</option>
+                        <option value="3">人文之旅</option>
+                        <option value="1">地方特色</option>
+                        <option value="2">溫泉之旅</option>
+                        <option value="3">戶外休閒</option>
+                        <option value="1">景點門票</option>
+                    </select>
+                </div>
+                <!-- 商品狀態 -->
+                <div class="product-status">
+                    <select class="form-select" aria-label="product-status">
+                        <option selected disabled>商品狀態</option>
+                        <option value="1">未審核</option>
+                        <option value="2">已上架</option>
+                        <option value="3">已下架</option>
+                    </select>
+                </div>
+                <!-- 地區分類 -->
+                <div class="region-type">
+                    <select class="form-select" aria-label="region-type">
+                        <option selected disabled>地區分類</option>
+                        <option value="1">北北基</option>
+                        <option value="2">桃竹苗</option>
+                        <option value="3">中彰投</option>
+                        <option value="1">雲嘉南</option>
+                        <option value="2">高屏</option>
+                        <option value="3">宜花東</option>
+                        <option value="3">離島地區</option>
+                    </select>
+                </div>
+                <!-- 旅遊天數 -->
+                <div class="travel-day">
+                    <select class="form-select" aria-label="travel-day">
+                        <option selected disabled>旅遊天數</option>
+                        <option value="1">1天</option>
+                        <option value="2">2天</option>
+                        <option value="3">3天</option>
+                        <option value="1">4天</option>
+                        <option value="2">5天</option>
+                        <option value="3">6天</option>
+                        <option value="3">7天</option>
+                        <option value="3">8天</option>
+                        <option value="3">8天以上</option>
+                    </select>
+                </div>
+
+                <!-- 出發日期 -->
+                <div class="travel-date d-flex align-content-center">
+                    <input type="datetime-local" id="meeting-time" name="meeting-time"
+                           value="2022-05-06T19:30" min="2018-06-07T00:00" max="2025-06-14T00:00">
+                </div>
+            </div>
+        </div>
+        <!-- 商品描述 -->
+        <div class="product-description mt-3">
+            <p class="fs-6 " style="color: #3c5587;">
+                商品描述
+            </p>
+            <textarea id="description" name="description" rows="10" cols="105">請輸入關於商品的描述</textarea>
+        </div>
+        <!-- 商品備註 -->
+        <div class="product-note mt-3">
+            <p class="fs-6" style="color: #3c5587;">
+                商品備註
+            </p>
+            <textarea id="note" name="note" rows="5" cols="105">請輸入商品備註</textarea>
+        </div>
+    </div>
+    <!--商品圖片編輯-->
+    <div class="product-edit-body mt-3 mb-3">
+        <p class="fs-5 fw-bold" style="color: #3c5587;">
+            商品圖片
+        </p>
+        <div class="photo-display-container mb-3">
+            <div class="photo-display">
+                <img src="https://fakeimg.pl/100x100/">
+                <div class="photo-edit-icons">
+                    <i class="bi bi-arrows-move"></i>
+                    <i class="bi bi-x-lg"></i>
+                </div>
+            </div>
+        </div>
+        <div class="input-group mb-3">
+            <input accept="image/*" multiple type="file" class="form-control" id="inputGroupFile">
+            <label class="input-group-text" for="inputGroupFile">Upload</label>
+        </div>
+    </div>
+    <!--商品儲存btn-->
+    <div class="product-btn d-flex gap-3">
+        <div class="mb-5">
+            <button type="button" class="btn btn-primary">
+                儲存
+            </button>
+        </div>
+        <div class="">
+            <button type="button" class="btn btn-outline-primary">
+                返回列表
+            </button>
+        </div>
+    </div>
+
+</div>

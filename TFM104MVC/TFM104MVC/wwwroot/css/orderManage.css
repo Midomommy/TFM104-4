@@ -7,24 +7,25 @@
     background-color: silver;
 }
 /*按鈕效果*/
-.btn {
-    font-size: 14px;
+.card-items .btn {
+    /*    font-size: 14px;
     color: #FFF;
     width: 80px;
     height: 30px;
     text-align: center;
-    background-color: rgba(57, 168, 219, 0.781);
+   */ background-color: #26bec9;
     border: none;
     float: right;
     position: relative;
+    margin-left: 1rem;
 }
 
-    .btn > p {
+    .card-items .btn > p {
         position: relative;
         z-index: 1;
     }
 
-    .btn::before {
+    .card-items .btn::before {
         content: "";
         width: 0%;
         height: 0%;
@@ -37,17 +38,23 @@
         transition: all .3s ease;
     }
 
-    .btn:hover {
+    .card-items .btn:hover {
         color: rgba(53, 53, 71, 0.795);
     }
 
-        .btn:hover::before {
+        .card-items .btn:hover::before {
             width: 100%;
             height: 100%;
             opacity: 1;
         }
+
+a > p {
+    margin-bottom: 0;
+}
+
+
 /*向上卷軸按鈕*/
-.scroll-top-inner {
+/*.scroll-top-inner {
     opacity: 40%;
     background-color: #fff;
     color: rgb(65, 147, 202);
@@ -56,13 +63,14 @@
     float: right;
     width: 48px;
     height: 48px;
-}
+}*/
 
 /*邊框*/
-#border-items {
+/*#border-items {
     width: 650px;
     height: 365px;
-}
+}*/
+
 /*左資訊欄*/
 .bd_board {
     background-color: #FFF;
@@ -73,8 +81,8 @@
 }
 
 .card-items {
-    width: 770px;
-    height: 180px;
+    /*    width: 770px;
+    height: 180px;*/
     margin: auto;
     line-height: 20px;
 }
@@ -126,10 +134,11 @@
     text-align: center;
     white-space: nowrap;
 }
+
 /*右資訊欄*/
 .board {
-    height: 1000px;
-    background-color: white;
+    /*    height: 1000px;
+*/ background-color: white;
 }
 
 .page-head {
@@ -147,8 +156,10 @@
     margin-bottom: 40px;
     padding-top: 20px;
 }
+
+
 /*按鈕*/
-.btn {
+/*.btn {
     font-size: 14px;
     color: #FFF;
     width: 90px;
@@ -168,10 +179,10 @@
 
     .btn:hover {
         color: gray;
-    }
+    }*/
 
 /*向上卷軸按鈕*/
-.scroll-top-inner {
+/*.scroll-top-inner {
     opacity: 40%;
     background-color: #fff;
     color: rgb(65, 147, 202);
@@ -180,13 +191,13 @@
     float: right;
     width: 48px;
     height: 48px;
-}
+}*/
 
 /*左資訊欄*/
-
 .card-items {
     padding: 15px;
 }
+
 /*使用者名稱*/
 h4 {
     display: block;
@@ -202,6 +213,7 @@ h4 {
 .break-word {
     text-align: center !important;
 }
+
 /*左欄使用者資訊*/
 .page-aside {
     display: block;
@@ -241,6 +253,7 @@ h4 {
     background-size: cover;
     background-position: 50%;
 }
+
 /*左欄下選單*/
 .page-menu {
     margin-top: 15px;
@@ -280,10 +293,10 @@ ul li {
     transition: all .3s linear;
 }
 
-    ul li:hover {
-        background-color: rgba(0, 0, 0, 0.2);
-        color: #eaeaea;
-    }
+.page-menu li:hover {
+    background-color: rgba(0, 0, 0, 0.2);
+    color: #eaeaea;
+}
 
     ul li a:hover {
         color: #eaeaea;
@@ -312,11 +325,11 @@ ul li {
     position: relative;
 }
 
-a, a:focus, a:hover {
+.page-menu a, a:focus, a:hover {
     text-decoration: none;
 }
 
-a {
+.page-menu a {
     cursor: pointer;
     color: #26bec9;
     transition: .25s;

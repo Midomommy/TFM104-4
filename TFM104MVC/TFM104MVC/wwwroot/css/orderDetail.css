@@ -2,6 +2,11 @@
 .body {
     background-color: rgb(224, 222, 222);
 }
+
+/*左側功能表*/
+.card {
+    border-radius: 5px;
+}
 /*表格*/
 .table {
     background-color: #FFF;
@@ -104,7 +109,7 @@
 }
 
 /*向上卷軸按鈕*/
-.scroll-top-inner {
+/*.scroll-top-inner {
     opacity: 40%;
     background-color: #fff;
     color: rgb(65, 147, 202);
@@ -113,10 +118,13 @@
     float: right;
     width: 48px;
     height: 48px;
-}
+}*/
+
 /*右欄上板*/
 .board {
     background-color: #FFF;
+    border-radius: 5px;
+    padding: 3% 5%;
 }
 
 /*文字*/

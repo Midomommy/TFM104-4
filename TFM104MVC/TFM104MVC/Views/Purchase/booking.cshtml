@@ -8,13 +8,14 @@
 <div class="container mt-3">
     <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="#">付款</a></li>
+            <li class="breadcrumb-item"><a href="javascript:void(0);">付款</a></li>
             <li class="breadcrumb-item active" aria-current="page">訂購完成</li>
         </ol>
     </nav>
 </div>
+
 <!--訂購頁本體-->
-<main>
+<main class="mb-5">
     <form action="/Bank/SpgatewayPayBill" method="post">
         <div class="container">
             <!--訂購人資料-->
@@ -432,7 +433,7 @@
                         <!--支付金額-->
                         <div class="d-flex justify-content-between">
                             <p class="fw-bold">支付金額</p>
-                            <span class="fw-bold text-info fs-6">TWD xxxx</span>
+                            <span class="fw-bold text-info fs-5">TWD xxxx</span>
                         </div>
                         <hr class="text-muted">
                         <!--訂單回饋 -->
