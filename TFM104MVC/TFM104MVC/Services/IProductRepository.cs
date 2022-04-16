@@ -32,6 +32,6 @@ namespace TFM104MVC.Services
         Task<Order> GetOrderdetailByOrderId(int orderId);
 
         string GetProductTitle(Guid id);
-        
+        Task<List<Product>> GetProductsByIds(Guid[] productId);
     }
 }

@@ -213,5 +213,10 @@ namespace TFM104MVC.Services
         {
             return _context.Products.FirstOrDefault(x => x.Id == id)?.Title;
         }
+
+        public async Task<List<Product>> GetProductsByIds(Guid[] productId)
+        {
+            return await _context.Products.Include(x=>x.ProductPictures).Where(x => productId.Contains(x.Id)).ToListAsync();
+        }
     }
 }
