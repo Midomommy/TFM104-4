@@ -805,6 +805,7 @@
 </section>
 
 
+
 <script>
     var getUrlString = location.pathname; //抓網頁路徑部分(/ProductView/product/XXXXX)
     var pid = getUrlString.replace("/ProductView/product/", " ");//字元處理 移除"/ProductView/product/" 字串
@@ -874,10 +875,7 @@
         methods: {
 
             restcuntClick: function () {
-
                 this.index = 1;
-
-
             },
             changeIndex(change) {
                 let self = this;
@@ -890,6 +888,11 @@
                     self.index = 10;
                 }
             },
+
+            addCart: function () {
+                var self = this;
+                axios.get("")
+            }
 
         },
 
