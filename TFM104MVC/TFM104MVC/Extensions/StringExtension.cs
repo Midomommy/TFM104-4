@@ -33,5 +33,16 @@ namespace TFM104MVC.Extensions
 
             return result;
         }
+
+        /// <summary>
+        /// For KeyValuePair find key exist
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        public static string GetValueByKey(this List<KeyValuePair<string, string>> data, string text)
+        {
+            return data.FirstOrDefault(x => x.Key.ToLower().Contains(text)).Value;
+        }
     }
 }
