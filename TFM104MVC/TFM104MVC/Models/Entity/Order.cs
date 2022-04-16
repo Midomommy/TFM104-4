@@ -12,7 +12,6 @@ namespace TFM104MVC.Models.Entity
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; } //訂單編號
 
-        [Required]
         [MaxLength(10)]
         public string Name { get; set; } //訂購人姓名
 

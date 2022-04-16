@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "這邊要是該商品標題";
+    ViewData["Title"] = ViewBag.message ;
 }
 
 <link rel="stylesheet" href="/css/product.css" type="text/css">
@@ -850,6 +850,11 @@
 
 
             })
+                .catch(function (err) {
+                    if (err.status == 404) {
+                        alert(err.data);
+                    }
+                })
         },
         methods: {
             restcuntClick: function () {

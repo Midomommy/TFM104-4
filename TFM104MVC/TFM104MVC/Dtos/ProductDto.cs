@@ -19,7 +19,7 @@ namespace TFM104MVC.Dtos
         public double? DiscountPersent { get; set; }
         public DateTime CreateDate { get; set; }
         public DateTime? UpdateTime { get; set; }
-        public DateTime? GoTouristTime { get; set; }
+        public string GoTouristTime { get; set; }
         public string Notes { get; set; }
         public string ProductStatus { get; set; }
         public double? CustomerRating { get; set; }
