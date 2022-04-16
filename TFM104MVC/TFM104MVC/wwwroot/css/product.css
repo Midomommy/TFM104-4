@@ -1,23 +1,13 @@
-html,
+/*body背景&底部設定*/
+
 body {
-    font-family: "Lato", "Noto Sans TC", sans-serif;
-    /* outline: 3px solid tomato; */
-    margin: 0;
-    font-weight: 400;
-    letter-spacing: .5px;
-    padding: 0;
-    color: #333333;
     background-color: white;
-    /* background-color: #f6f7f8; */
-    /* background-color: #f5f5f5; */
-    overflow-x: hidden;
-    /* box-sizing: border-box; */
     padding-bottom: 70px;
 }
 
-body {
-    padding-top: 70px;
-}
+/*---------------------------*/
+
+/*測試用設定*/
 
 /*.container {
      background-color: azure; 
@@ -28,7 +18,6 @@ body {
     margin-bottom: 30px;
     padding: 1%;
 }*/
-
 /*.item {
     background-color: white;
     border-radius: 5px;
@@ -37,6 +26,8 @@ body {
     margin-bottom: 5%;
     padding: 5%;
 }*/
+
+/*---------------------------*/
 
 /*商品下訂區塊設定*/
 .order-block {
@@ -60,8 +51,10 @@ body {
     border-radius: 5px;
 }
 
+/*---------------------------*/
+
 /*連結色彩設定*/
-a, a:hover {
+/*a, a:hover {
     text-decoration: none;
     color: #26bec9;
     cursor: pointer;
@@ -71,12 +64,35 @@ a, a:hover {
 
     a:hover {
         text-decoration: underline;
+    }*/
+
+/*麵包屑連結色彩設定*/
+
+.breadcrumb a, .breadcrumb a:hover {
+    text-decoration: none;
+    color: #26bec9;
+    cursor: pointer;
+    background-color: transparent;
+    transition: .25s;
+}
+
+    .breadcrumb a:hover {
+        text-decoration: underline;
     }
 
-/*.breadcrumb li a:hover {
-    text-decoration: underline;
-}*/
+/*更多評價連結色彩設定*/
 
+#lastReview a, #lastReview a:hover {
+    text-decoration: none;
+    color: #26bec9;
+    cursor: pointer;
+    background-color: transparent;
+    transition: .25s;
+}
+
+    #lastReview a:hover {
+        text-decoration: underline;
+    }
 
 /*快速目錄的連結色彩設定*/
 .nav-link {
@@ -88,6 +104,9 @@ a, a:hover {
         color: #26bec9;
         cursor: pointer;
     }
+
+/*---------------------------*/
+
 
 /*客人評價區塊設定*/
 .review-item {
@@ -116,7 +135,7 @@ a, a:hover {
     border-color: #26bec9;
 }*/
 
-    /*立即訂購按鈕設定*/
+/*立即訂購按鈕設定*/
 .btn-info, .btn-info:hover {
     color: #fff;
 }
@@ -170,10 +189,32 @@ a, a:hover {
     z-index: 1;
 }
 
-.product-info{
-    font-size:10px;
+.product-info {
+    font-size: 10px;
 }
 
-.row a{
-    text-decoration:none;
+.row a {
+    text-decoration: none;
 }
+
+/*商品輪播區塊圖片高度設定*/
+.carousel-item {
+    height: 400px;
+/*    margin: 0;
+    padding: 0;*/
+}
+
+.carousel-item img {
+    /*        margin: 0;
+        padding: 0;*/
+
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/*.carousel-item > .w-100 {
+        width: 100% !important;*/
+/*        height: 75vh;
+*/ /*max-height: 300px;
+    }*/

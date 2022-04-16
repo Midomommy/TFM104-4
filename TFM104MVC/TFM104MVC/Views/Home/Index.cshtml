@@ -28,7 +28,7 @@
     </div>
 </section>
 
-<!--暫時的東西-->
+<!--暫時的東西：前台-->
 <section class="my-5" style="background-color:aquamarine">
     <div class="container">
         <div class="row">
@@ -45,12 +45,12 @@
 
             <div class="col">
                 <a class="navbar-brand" asp-area="" asp-controller="Purchase" asp-action="booking">
-                    這裡暫時放訂購頁連結
+                    這裡暫時放訂購頁連結(有時直接點會跳錯誤)
                 </a>
             </div>
             <div class="col">
-                <a class="navbar-brand" asp-area="" asp-controller="Collect" asp-action="WishList">
-                    這裡暫時放收藏頁連結
+                <a class="navbar-brand" asp-area="" asp-controller="Login" asp-action="Index">
+                    這裡暫時放會員管理連結
                 </a>
             </div>
             <div class="col">
@@ -68,50 +68,814 @@
                     這裡暫時放訂單修改
                 </a>
             </div>
+            <div class="col">
+                <a class="navbar-brand" asp-area="" asp-controller="Collect" asp-action="WishList">
+                    這裡暫時放收藏頁連結
+                </a>
+            </div>
         </div>
     </div>
 </section>
 
+<!--暫時的東西：後台-->
+<section class="my-5" style="background-color:aquamarine">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <a class="navbar-brand" asp-area="" asp-controller="Backstage" asp-action="Home">
+                    這裡是暫時放後台總覽儀錶板頁連結
+                </a>
+            </div>
+            <div class="col">
+                <a class="navbar-brand" asp-area="" asp-controller="Backstage" asp-action="ProductList">
+                    這裡暫時放後台商品列表連結
+                </a>
+            </div>
 
-<!--最新旅遊優惠-->
-<section class="container">
-    <div class="row">
-        <p class="fs-4 fw-bold">最新旅遊優惠</p>
-    </div>
-    <div class="card_news" style="display: inline-block;">
-        <div class="card-body">
-            <a href="#" class="card3_link" style="text-decoration: none;">
-                <img alt="" class="card3_img" src="https://picsum.photos/360/170?ramdom=10">
-            </a>
+            <div class="col">
+                <a class="navbar-brand" asp-area="" asp-controller="Backstage" asp-action="NewProduct">
+                    這裡暫時放新增商品連結
+                </a>
+            </div>
+            <div class="col">
+                <a class="navbar-brand" asp-area="" asp-controller="Backstage" asp-action="EditProduct">
+                    這裡暫時放修改商品連結
+                </a>
+            </div>
+            <div class="col">
+                <a class="navbar-brand" asp-area="" asp-controller="Backstage" asp-action="Admin">
+                    這裡暫時放管理中心
+                </a>
+            </div>
+            <div class="col">
+                <a class="navbar-brand" asp-area="" asp-controller="Backstage" asp-action="OrderList">
+                    這裡暫時放訂單列表
+                </a>
+            </div>
+            <div class="col">
+                <a class="navbar-brand" asp-area="" asp-controller="Backstage" asp-action="Order">
+                    這裡暫時放單筆訂單
+                </a>
+            </div>
+            <div class="col">
+                <a class="navbar-brand" asp-area="" asp-controller="Backstage" asp-action="Login">
+                    這裡暫時放登入
+                </a>
+            </div>
+            <div class="col">
+                <a class="navbar-brand" asp-area="" asp-controller="Backstage" asp-action="Register">
+                    這裡暫時放後台註冊頁
+                </a>
+            </div>
         </div>
     </div>
-    <div class="card_news" style="display: inline-block;">
-        <div class="card-body">
-            <a href="#" class="card3_link" style="text-decoration: none;">
-                <img alt="" class="card3_img" src="https://picsum.photos/360/170?ramdom=10">
-            </a>
-        </div>
-    </div>
-    <div class="card_news" style="display: inline-block;">
-        <div class="card-body">
-            <a href="#" class="card3_link" style="text-decoration: none;">
-                <img alt="" class="card3_img" src="https://picsum.photos/360/170?ramdom=10">
-            </a>
-        </div>
-    </div>
-    @*    <button type="button" class="new_btn shadow">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-arrow-right-circle" viewBox="0 0 16 16">
-        <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"/>
-        </svg>
-        </button>*@
 </section>
 
-<!--熱門商品-->
+<!--商品列表-->
 <div class="container my-3">
-    <div class="row">
-        <p class="fs-4 fw-bold">Top 10 熱門商品</p>
+    <!--第一列商品-->
+    <div class="row ">
+        <p class="fs-4 fw-bold">最新商品</p>
     </div>
+    <div class="row mb-3">
+        <!--商品單項 直接在最外層加a標籤-->
+        <div class="col-6 col-md-3">
+            <a class="text-secondary" href="#" target="_blank" rel="noopener">
+                <div class="mb-1">
+                    <div class="card mb-1">
+                        <div class="row g-0">
+                            <div class="col-12 product-card-image" style="background-image: url(https://picsum.photos/150/100);">
+                                <div class="mt-3 d-flex justify-content-between mx-3">
+                                    <!--地點-->
+                                    <div class="d-flex gap-1">
+                                        <span class="text-light">
+                                            <i class="bi bi-geo-alt-fill"></i>
+                                        </span>
+                                        <p><small class="text-light">地點</small></p>
+                                    </div>
+                                    <!--收藏愛心 這邊暫時不做a標籤 -->
+                                    <div class="text-muted">
+                                        <span class="text-danger"><i class="bi bi-heart"></i></span>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-12">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <h5 class="card-title mb-3">商品標題</h5>
+                                    </div>
+
+                                    <!--產品資訊：評價&購買數量-->
+                                    <div class="product-info d-flex gap-1">
+                                        <!--評價-->
+                                        <div class="product-star d-flex">
+                                            <span class="text-warning"><i class="bi bi-star-fill"></i></span>
+                                            <p><small class="text-muted">(星星評價數)</small></p>
+                                        </div>
+                                        <span class="divider">|</span>
+                                        <!--熱門程度-->
+                                        <div class="prodcut-book d-flex gap-1">
+                                            <span>
+                                                <i class="fas fa-fire text-danger"></i>
+                                            </span>
+                                            <p><small class="text-muted">xxxx個已訂購</small></p>
+                                        </div>
+                                    </div>
+                                    <!--產品資訊：評價&熱門程度&價格-->
+                                    <div class="product-footer d-flex gap-1 ">
+                                        <!--價格-->
+                                        <div class="product-price gap-3">
+                                            <div>
+                                                <p class="fw-bolder">TWD X,XXX </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <!--商品單項 直接在最外層加a標籤-->
+        <div class="col-6 col-md-3">
+            <a class="text-secondary" href="#" target="_blank" rel="noopener">
+                <div class="mb-1">
+                    <div class="card mb-1">
+                        <div class="row g-0">
+                            <div class="col-12 product-card-image" style="background-image: url(https://picsum.photos/150/100);">
+                                <div class="mt-3 d-flex justify-content-between mx-3">
+                                    <!--地點-->
+                                    <div class="d-flex gap-1">
+                                        <span class="text-light">
+                                            <i class="bi bi-geo-alt-fill"></i>
+                                        </span>
+                                        <p><small class="text-light">地點</small></p>
+                                    </div>
+                                    <!--收藏愛心 這邊暫時不做a標籤 -->
+                                    <div class="text-muted">
+                                        <span class="text-danger"><i class="bi bi-heart"></i></span>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-12">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <h5 class="card-title mb-3">商品標題</h5>
+                                    </div>
+
+                                    <!--產品資訊：評價&購買數量-->
+                                    <div class="product-info d-flex gap-1">
+                                        <!--評價-->
+                                        <div class="product-star d-flex">
+                                            <span class="text-warning"><i class="bi bi-star-fill"></i></span>
+                                            <p><small class="text-muted">(星星評價數)</small></p>
+                                        </div>
+                                        <span class="divider">|</span>
+                                        <!--熱門程度-->
+                                        <div class="prodcut-book d-flex gap-1">
+                                            <span>
+                                                <i class="fas fa-fire text-danger"></i>
+                                            </span>
+                                            <p><small class="text-muted">xxxx個已訂購</small></p>
+                                        </div>
+                                    </div>
+                                    <!--產品資訊：評價&熱門程度&價格-->
+                                    <div class="product-footer d-flex gap-1 ">
+                                        <!--價格-->
+                                        <div class="product-price gap-3">
+                                            <div>
+                                                <p class="fw-bolder">TWD X,XXX </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <!--商品單項 直接在最外層加a標籤-->
+        <div class="col-6 col-md-3">
+            <a class="text-secondary" href="#" target="_blank" rel="noopener">
+                <div class="mb-1">
+                    <div class="card mb-1">
+                        <div class="row g-0">
+                            <div class="col-12 product-card-image" style="background-image: url(https://picsum.photos/150/100);">
+                                <div class="mt-3 d-flex justify-content-between mx-3">
+                                    <!--地點-->
+                                    <div class="d-flex gap-1">
+                                        <span class="text-light">
+                                            <i class="bi bi-geo-alt-fill"></i>
+                                        </span>
+                                        <p><small class="text-light">地點</small></p>
+                                    </div>
+                                    <!--收藏愛心 這邊暫時不做a標籤 -->
+                                    <div class="text-muted">
+                                        <span class="text-danger"><i class="bi bi-heart"></i></span>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-12">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <h5 class="card-title mb-3">商品標題</h5>
+                                    </div>
+
+                                    <!--產品資訊：評價&購買數量-->
+                                    <div class="product-info d-flex gap-1">
+                                        <!--評價-->
+                                        <div class="product-star d-flex">
+                                            <span class="text-warning"><i class="bi bi-star-fill"></i></span>
+                                            <p><small class="text-muted">(星星評價數)</small></p>
+                                        </div>
+                                        <span class="divider">|</span>
+                                        <!--熱門程度-->
+                                        <div class="prodcut-book d-flex gap-1">
+                                            <span>
+                                                <i class="fas fa-fire text-danger"></i>
+                                            </span>
+                                            <p><small class="text-muted">xxxx個已訂購</small></p>
+                                        </div>
+                                    </div>
+                                    <!--產品資訊：評價&熱門程度&價格-->
+                                    <div class="product-footer d-flex gap-1 ">
+                                        <!--價格-->
+                                        <div class="product-price gap-3">
+                                            <div>
+                                                <p class="fw-bolder">TWD X,XXX </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <!--商品單項 直接在最外層加a標籤-->
+        <div class="col-6 col-md-3">
+            <a class="text-secondary" href="#" target="_blank" rel="noopener">
+                <div class="mb-1">
+                    <div class="card mb-1">
+                        <div class="row g-0">
+                            <div class="col-12 product-card-image" style="background-image: url(https://picsum.photos/150/100);">
+                                <div class="mt-3 d-flex justify-content-between mx-3">
+                                    <!--地點-->
+                                    <div class="d-flex gap-1">
+                                        <span class="text-light">
+                                            <i class="bi bi-geo-alt-fill"></i>
+                                        </span>
+                                        <p><small class="text-light">地點</small></p>
+                                    </div>
+                                    <!--收藏愛心 這邊暫時不做a標籤 -->
+                                    <div class="text-muted">
+                                        <span class="text-danger"><i class="bi bi-heart"></i></span>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-12">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <h5 class="card-title mb-3">商品標題</h5>
+                                    </div>
+
+                                    <!--產品資訊：評價&購買數量-->
+                                    <div class="product-info d-flex gap-1">
+                                        <!--評價-->
+                                        <div class="product-star d-flex">
+                                            <span class="text-warning"><i class="bi bi-star-fill"></i></span>
+                                            <p><small class="text-muted">(星星評價數)</small></p>
+                                        </div>
+                                        <span class="divider">|</span>
+                                        <!--熱門程度-->
+                                        <div class="prodcut-book d-flex gap-1">
+                                            <span>
+                                                <i class="fas fa-fire text-danger"></i>
+                                            </span>
+                                            <p><small class="text-muted">xxxx個已訂購</small></p>
+                                        </div>
+                                    </div>
+                                    <!--產品資訊：評價&熱門程度&價格-->
+                                    <div class="product-footer d-flex gap-1 ">
+                                        <!--價格-->
+                                        <div class="product-price gap-3">
+                                            <div>
+                                                <p class="fw-bolder">TWD X,XXX </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <!--第二列商品-->
     <div class="row">
+        <p class="fs-4 fw-bold">離島地區</p>
+    </div>
+    <div class="row mb-3">
+        <!--商品單項 直接在最外層加a標籤-->
+        <div class="col-6 col-md-3">
+            <a class="text-secondary" href="#" target="_blank" rel="noopener">
+                <div class="mb-1">
+                    <div class="card mb-1">
+                        <div class="row g-0">
+                            <div class="col-12 product-card-image" style="background-image: url(https://picsum.photos/150/100);">
+                                <div class="mt-3 d-flex justify-content-between mx-3">
+                                    <!--地點-->
+                                    <div class="d-flex gap-1">
+                                        <span class="text-light">
+                                            <i class="bi bi-geo-alt-fill"></i>
+                                        </span>
+                                        <p><small class="text-light">地點</small></p>
+                                    </div>
+                                    <!--收藏愛心 這邊暫時不做a標籤 -->
+                                    <div class="text-muted">
+                                        <span class="text-danger"><i class="bi bi-heart"></i></span>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-12">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <h5 class="card-title mb-3">商品標題</h5>
+                                    </div>
+
+                                    <!--產品資訊：評價&購買數量-->
+                                    <div class="product-info d-flex gap-1">
+                                        <!--評價-->
+                                        <div class="product-star d-flex">
+                                            <span class="text-warning"><i class="bi bi-star-fill"></i></span>
+                                            <p><small class="text-muted">(星星評價數)</small></p>
+                                        </div>
+                                        <span class="divider">|</span>
+                                        <!--熱門程度-->
+                                        <div class="prodcut-book d-flex gap-1">
+                                            <span>
+                                                <i class="fas fa-fire text-danger"></i>
+                                            </span>
+                                            <p><small class="text-muted">xxxx個已訂購</small></p>
+                                        </div>
+                                    </div>
+                                    <!--產品資訊：評價&熱門程度&價格-->
+                                    <div class="product-footer d-flex gap-1 ">
+                                        <!--價格-->
+                                        <div class="product-price gap-3">
+                                            <div>
+                                                <p class="fw-bolder">TWD X,XXX </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <!--商品單項 直接在最外層加a標籤-->
+        <div class="col-6 col-md-3">
+            <a class="text-secondary" href="#" target="_blank" rel="noopener">
+                <div class="mb-1">
+                    <div class="card mb-1">
+                        <div class="row g-0">
+                            <div class="col-12 product-card-image" style="background-image: url(https://picsum.photos/150/100);">
+                                <div class="mt-3 d-flex justify-content-between mx-3">
+                                    <!--地點-->
+                                    <div class="d-flex gap-1">
+                                        <span class="text-light">
+                                            <i class="bi bi-geo-alt-fill"></i>
+                                        </span>
+                                        <p><small class="text-light">地點</small></p>
+                                    </div>
+                                    <!--收藏愛心 這邊暫時不做a標籤 -->
+                                    <div class="text-muted">
+                                        <span class="text-danger"><i class="bi bi-heart"></i></span>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-12">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <h5 class="card-title mb-3">商品標題</h5>
+                                    </div>
+
+                                    <!--產品資訊：評價&購買數量-->
+                                    <div class="product-info d-flex gap-1">
+                                        <!--評價-->
+                                        <div class="product-star d-flex">
+                                            <span class="text-warning"><i class="bi bi-star-fill"></i></span>
+                                            <p><small class="text-muted">(星星評價數)</small></p>
+                                        </div>
+                                        <span class="divider">|</span>
+                                        <!--熱門程度-->
+                                        <div class="prodcut-book d-flex gap-1">
+                                            <span>
+                                                <i class="fas fa-fire text-danger"></i>
+                                            </span>
+                                            <p><small class="text-muted">xxxx個已訂購</small></p>
+                                        </div>
+                                    </div>
+                                    <!--產品資訊：評價&熱門程度&價格-->
+                                    <div class="product-footer d-flex gap-1 ">
+                                        <!--價格-->
+                                        <div class="product-price gap-3">
+                                            <div>
+                                                <p class="fw-bolder">TWD X,XXX </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <!--商品單項 直接在最外層加a標籤-->
+        <div class="col-6 col-md-3">
+            <a class="text-secondary" href="#" target="_blank" rel="noopener">
+                <div class="mb-1">
+                    <div class="card mb-1">
+                        <div class="row g-0">
+                            <div class="col-12 product-card-image" style="background-image: url(https://picsum.photos/150/100);">
+                                <div class="mt-3 d-flex justify-content-between mx-3">
+                                    <!--地點-->
+                                    <div class="d-flex gap-1">
+                                        <span class="text-light">
+                                            <i class="bi bi-geo-alt-fill"></i>
+                                        </span>
+                                        <p><small class="text-light">地點</small></p>
+                                    </div>
+                                    <!--收藏愛心 這邊暫時不做a標籤 -->
+                                    <div class="text-muted">
+                                        <span class="text-danger"><i class="bi bi-heart"></i></span>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-12">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <h5 class="card-title mb-3">商品標題</h5>
+                                    </div>
+
+                                    <!--產品資訊：評價&購買數量-->
+                                    <div class="product-info d-flex gap-1">
+                                        <!--評價-->
+                                        <div class="product-star d-flex">
+                                            <span class="text-warning"><i class="bi bi-star-fill"></i></span>
+                                            <p><small class="text-muted">(星星評價數)</small></p>
+                                        </div>
+                                        <span class="divider">|</span>
+                                        <!--熱門程度-->
+                                        <div class="prodcut-book d-flex gap-1">
+                                            <span>
+                                                <i class="fas fa-fire text-danger"></i>
+                                            </span>
+                                            <p><small class="text-muted">xxxx個已訂購</small></p>
+                                        </div>
+                                    </div>
+                                    <!--產品資訊：評價&熱門程度&價格-->
+                                    <div class="product-footer d-flex gap-1 ">
+                                        <!--價格-->
+                                        <div class="product-price gap-3">
+                                            <div>
+                                                <p class="fw-bolder">TWD X,XXX </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <!--商品單項 直接在最外層加a標籤-->
+        <div class="col-6 col-md-3">
+            <a class="text-secondary" href="#" target="_blank" rel="noopener">
+                <div class="mb-1">
+                    <div class="card mb-1">
+                        <div class="row g-0">
+                            <div class="col-12 product-card-image" style="background-image: url(https://picsum.photos/150/100);">
+                                <div class="mt-3 d-flex justify-content-between mx-3">
+                                    <!--地點-->
+                                    <div class="d-flex gap-1">
+                                        <span class="text-light">
+                                            <i class="bi bi-geo-alt-fill"></i>
+                                        </span>
+                                        <p><small class="text-light">地點</small></p>
+                                    </div>
+                                    <!--收藏愛心 這邊暫時不做a標籤 -->
+                                    <div class="text-muted">
+                                        <span class="text-danger"><i class="bi bi-heart"></i></span>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-12">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <h5 class="card-title mb-3">商品標題</h5>
+                                    </div>
+
+                                    <!--產品資訊：評價&購買數量-->
+                                    <div class="product-info d-flex gap-1">
+                                        <!--評價-->
+                                        <div class="product-star d-flex">
+                                            <span class="text-warning"><i class="bi bi-star-fill"></i></span>
+                                            <p><small class="text-muted">(星星評價數)</small></p>
+                                        </div>
+                                        <span class="divider">|</span>
+                                        <!--熱門程度-->
+                                        <div class="prodcut-book d-flex gap-1">
+                                            <span>
+                                                <i class="fas fa-fire text-danger"></i>
+                                            </span>
+                                            <p><small class="text-muted">xxxx個已訂購</small></p>
+                                        </div>
+                                    </div>
+                                    <!--產品資訊：評價&熱門程度&價格-->
+                                    <div class="product-footer d-flex gap-1 ">
+                                        <!--價格-->
+                                        <div class="product-price gap-3">
+                                            <div>
+                                                <p class="fw-bolder">TWD X,XXX </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <!--第三列商品-->
+    <div class="row">
+        <p class="fs-4 fw-bold">宜花東地區</p>
+    </div>
+    <div class="row mb-3">
+        <!--商品單項 直接在最外層加a標籤-->
+        <div class="col-6 col-md-3">
+            <a class="text-secondary" href="#" target="_blank" rel="noopener">
+                <div class="mb-1">
+                    <div class="card mb-1">
+                        <div class="row g-0">
+                            <div class="col-12 product-card-image" style="background-image: url(https://picsum.photos/150/100);">
+                                <div class="mt-3 d-flex justify-content-between mx-3">
+                                    <!--地點-->
+                                    <div class="d-flex gap-1">
+                                        <span class="text-light">
+                                            <i class="bi bi-geo-alt-fill"></i>
+                                        </span>
+                                        <p><small class="text-light">地點</small></p>
+                                    </div>
+                                    <!--收藏愛心 這邊暫時不做a標籤 -->
+                                    <div class="text-muted">
+                                        <span class="text-danger"><i class="bi bi-heart"></i></span>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-12">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <h5 class="card-title mb-3">商品標題</h5>
+                                    </div>
+
+                                    <!--產品資訊：評價&購買數量-->
+                                    <div class="product-info d-flex gap-1">
+                                        <!--評價-->
+                                        <div class="product-star d-flex">
+                                            <span class="text-warning"><i class="bi bi-star-fill"></i></span>
+                                            <p><small class="text-muted">(星星評價數)</small></p>
+                                        </div>
+                                        <span class="divider">|</span>
+                                        <!--熱門程度-->
+                                        <div class="prodcut-book d-flex gap-1">
+                                            <span>
+                                                <i class="fas fa-fire text-danger"></i>
+                                            </span>
+                                            <p><small class="text-muted">xxxx個已訂購</small></p>
+                                        </div>
+                                    </div>
+                                    <!--產品資訊：評價&熱門程度&價格-->
+                                    <div class="product-footer d-flex gap-1 ">
+                                        <!--價格-->
+                                        <div class="product-price gap-3">
+                                            <div>
+                                                <p class="fw-bolder">TWD X,XXX </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <!--商品單項 直接在最外層加a標籤-->
+        <div class="col-6 col-md-3">
+            <a class="text-secondary" href="#" target="_blank" rel="noopener">
+                <div class="mb-1">
+                    <div class="card mb-1">
+                        <div class="row g-0">
+                            <div class="col-12 product-card-image" style="background-image: url(https://picsum.photos/150/100);">
+                                <div class="mt-3 d-flex justify-content-between mx-3">
+                                    <!--地點-->
+                                    <div class="d-flex gap-1">
+                                        <span class="text-light">
+                                            <i class="bi bi-geo-alt-fill"></i>
+                                        </span>
+                                        <p><small class="text-light">地點</small></p>
+                                    </div>
+                                    <!--收藏愛心 這邊暫時不做a標籤 -->
+                                    <div class="text-muted">
+                                        <span class="text-danger"><i class="bi bi-heart"></i></span>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-12">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <h5 class="card-title mb-3">商品標題</h5>
+                                    </div>
+
+                                    <!--產品資訊：評價&購買數量-->
+                                    <div class="product-info d-flex gap-1">
+                                        <!--評價-->
+                                        <div class="product-star d-flex">
+                                            <span class="text-warning"><i class="bi bi-star-fill"></i></span>
+                                            <p><small class="text-muted">(星星評價數)</small></p>
+                                        </div>
+                                        <span class="divider">|</span>
+                                        <!--熱門程度-->
+                                        <div class="prodcut-book d-flex gap-1">
+                                            <span>
+                                                <i class="fas fa-fire text-danger"></i>
+                                            </span>
+                                            <p><small class="text-muted">xxxx個已訂購</small></p>
+                                        </div>
+                                    </div>
+                                    <!--產品資訊：評價&熱門程度&價格-->
+                                    <div class="product-footer d-flex gap-1 ">
+                                        <!--價格-->
+                                        <div class="product-price gap-3">
+                                            <div>
+                                                <p class="fw-bolder">TWD X,XXX </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <!--商品單項 直接在最外層加a標籤-->
+        <div class="col-6 col-md-3">
+            <a class="text-secondary" href="#" target="_blank" rel="noopener">
+                <div class="mb-1">
+                    <div class="card mb-1">
+                        <div class="row g-0">
+                            <div class="col-12 product-card-image" style="background-image: url(https://picsum.photos/150/100);">
+                                <div class="mt-3 d-flex justify-content-between mx-3">
+                                    <!--地點-->
+                                    <div class="d-flex gap-1">
+                                        <span class="text-light">
+                                            <i class="bi bi-geo-alt-fill"></i>
+                                        </span>
+                                        <p><small class="text-light">地點</small></p>
+                                    </div>
+                                    <!--收藏愛心 這邊暫時不做a標籤 -->
+                                    <div class="text-muted">
+                                        <span class="text-danger"><i class="bi bi-heart"></i></span>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-12">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <h5 class="card-title mb-3">商品標題</h5>
+                                    </div>
+
+                                    <!--產品資訊：評價&購買數量-->
+                                    <div class="product-info d-flex gap-1">
+                                        <!--評價-->
+                                        <div class="product-star d-flex">
+                                            <span class="text-warning"><i class="bi bi-star-fill"></i></span>
+                                            <p><small class="text-muted">(星星評價數)</small></p>
+                                        </div>
+                                        <span class="divider">|</span>
+                                        <!--熱門程度-->
+                                        <div class="prodcut-book d-flex gap-1">
+                                            <span>
+                                                <i class="fas fa-fire text-danger"></i>
+                                            </span>
+                                            <p><small class="text-muted">xxxx個已訂購</small></p>
+                                        </div>
+                                    </div>
+                                    <!--產品資訊：評價&熱門程度&價格-->
+                                    <div class="product-footer d-flex gap-1 ">
+                                        <!--價格-->
+                                        <div class="product-price gap-3">
+                                            <div>
+                                                <p class="fw-bolder">TWD X,XXX </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <!--商品單項 直接在最外層加a標籤-->
+        <div class="col-6 col-md-3">
+            <a class="text-secondary" href="#" target="_blank" rel="noopener">
+                <div class="mb-1">
+                    <div class="card mb-1">
+                        <div class="row g-0">
+                            <div class="col-12 product-card-image" style="background-image: url(https://picsum.photos/150/100);">
+                                <div class="mt-3 d-flex justify-content-between mx-3">
+                                    <!--地點-->
+                                    <div class="d-flex gap-1">
+                                        <span class="text-light">
+                                            <i class="bi bi-geo-alt-fill"></i>
+                                        </span>
+                                        <p><small class="text-light">地點</small></p>
+                                    </div>
+                                    <!--收藏愛心 這邊暫時不做a標籤 -->
+                                    <div class="text-muted">
+                                        <span class="text-danger"><i class="bi bi-heart"></i></span>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-12">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <h5 class="card-title mb-3">商品標題</h5>
+                                    </div>
+
+                                    <!--產品資訊：評價&購買數量-->
+                                    <div class="product-info d-flex gap-1">
+                                        <!--評價-->
+                                        <div class="product-star d-flex">
+                                            <span class="text-warning"><i class="bi bi-star-fill"></i></span>
+                                            <p><small class="text-muted">(星星評價數)</small></p>
+                                        </div>
+                                        <span class="divider">|</span>
+                                        <!--熱門程度-->
+                                        <div class="prodcut-book d-flex gap-1">
+                                            <span>
+                                                <i class="fas fa-fire text-danger"></i>
+                                            </span>
+                                            <p><small class="text-muted">xxxx個已訂購</small></p>
+                                        </div>
+                                    </div>
+                                    <!--產品資訊：評價&熱門程度&價格-->
+                                    <div class="product-footer d-flex gap-1 ">
+                                        <!--價格-->
+                                        <div class="product-price gap-3">
+                                            <div>
+                                                <p class="fw-bolder">TWD X,XXX </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <!--第四列商品-->
+    <div class="row">
+        <p class="fs-4 fw-bold">高屏地區</p>
+    </div>
+    <div class="row mb-3">
         <!--商品單項 直接在最外層加a標籤-->
         <div class="col-6 col-md-3">
             <a class="text-secondary" href="#" target="_blank" rel="noopener">
@@ -357,7 +1121,7 @@
 
 <!--edm-->
 <div class="container-fluid" style="background-color: dimgray; height: 105px;">
-    <div class="row pt-3 d-flex justify-content-end pt-4">
+    <div class="row pt-5 d-flex justify-content-end pt-4 mt-5">
         <div class="col-md-6 text-block">
             <span class="text-white">即刻訂閱！搶先獲得用戶限定優惠及最新熱門景點旅遊資訊！</span>
             <div class="tip">
@@ -376,44 +1140,112 @@
             </nav>
         </div>
     </div>
-    <div class="row mx-auto my-3 " style="text-align:center;max-width:1100px;margin-bottom:5%;">
-        <hr class="text-white" >
+    <div class="row mx-auto my-5 " style="text-align:center;max-width:1100px;margin-bottom:5%;">
+        <hr class="text-white">
     </div>
 </div>
+
 <!--頁尾-->
 <div class="container-fluid footer-item pt-3">
-    <div class="row footer-links d-flex justify-content-around px-5">
+    <div class="row footer-links d-flex justify-content-around mt-5 mb-2 px-5">
+        <!--前台網站地圖-->
         <div class="col-12 col-md-4">
-            <h4>認識XXX</h4>
+            <h4>前台網站地圖</h4>
             <ul class="footer-list">
                 <li>
-                    <a href="#">關於XXX</a>
+                    <a class="navbar-brand" asp-area="" asp-controller="ProductView" asp-action="productlist">
+                        商品列表
+                    </a>
                 </li>
                 <li>
-                    <a href="#">條款1</a>
+                    <a class="navbar-brand" asp-area="" asp-controller="Purchase" asp-action="cart">
+                        購物車
+                    </a>
                 </li>
                 <li>
-                    <a href="#">條款2</a>
+                    <a class="navbar-brand" asp-area="" asp-controller="Purchase" asp-action="booking">
+                        訂購頁
+                    </a>
                 </li>
                 <li>
-                    <a href="#">條款3</a>
+                    <a class="navbar-brand" asp-area="" asp-controller="Login" asp-action="Index">
+                        會員管理
+                    </a>
+                </li>
+                <li>
+                    <a class="navbar-brand" asp-area="" asp-controller="Collect" asp-action="WishList">
+                        收藏頁
+                    </a>
+                </li>
+                <li>
+                    <a class="navbar-brand" asp-area="" asp-controller="Order" asp-action="Manage">
+                        訂單管理
+                    </a>
+                </li>
+                <li>
+                    <a class="navbar-brand" asp-area="" asp-controller="Order" asp-action="Detail">
+                        訂單明細
+                    </a>
+                </li>
+                <li>
+                    <a class="navbar-brand" asp-area="" asp-controller="Order" asp-action="Edit">
+                        訂單修改
+                    </a>
                 </li>
             </ul>
         </div>
+        <!--後台網站地圖-->
         <div class="col-12 col-md-4">
-            <h4>網站地圖</h4>
+            <h4>後台網站地圖</h4>
             <ul class="footer-list">
                 <li>
-                    <a href="#">首頁</a>
+                    <a class="navbar-brand" asp-area="" asp-controller="Backstage" asp-action="Login">
+                        供應商登入
+                    </a>
                 </li>
                 <li>
-                    <a href="#">商品列表</a>
+                    <a class="navbar-brand" asp-area="" asp-controller="Backstage" asp-action="Register">
+                        供應商註冊
+                    </a>
                 </li>
                 <li>
-                    <a href="#">會員管理</a>
+                    <a class="navbar-brand" asp-area="" asp-controller="Backstage" asp-action="Home">
+                        後台總覽儀錶板頁
+                    </a>
+                </li>
+                <li>
+                    <a class="navbar-brand" asp-area="" asp-controller="Backstage" asp-action="ProductList">
+                        後台商品列表
+                    </a>
+                </li>
+                <li>
+                    <a class="navbar-brand" asp-area="" asp-controller="Backstage" asp-action="NewProduct">
+                        新增商品
+                    </a>
+                </li>
+                <li>
+                    <a class="navbar-brand" asp-area="" asp-controller="Backstage" asp-action="EditProduct">
+                        修改商品
+                    </a>
+                </li>
+                <li>
+                    <a class="navbar-brand" asp-area="" asp-controller="Backstage" asp-action="Admin">
+                        後台管理中心
+                    </a>
+                </li>
+                <li>
+                    <a class="navbar-brand" asp-area="" asp-controller="Backstage" asp-action="OrderList">
+                        訂單列表
+                    </a>
+                </li>
+                <li>
+                    <a class="navbar-brand" asp-area="" asp-controller="Backstage" asp-action="Order">
+                        單筆訂單檢視
+                    </a>
                 </li>
             </ul>
         </div>
+        <!--社群追蹤-->
         <div class="footer-follows col-12 col-md-4">
             <h4>追蹤我們</h4>
             <ul class="footer-list">

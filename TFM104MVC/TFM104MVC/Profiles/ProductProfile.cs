@@ -6,7 +6,7 @@ using AutoMapper;
 using TFM104MVC.Dtos;
 using TFM104MVC.Models;
 using TFM104MVC.Models.Entity;
-using TFM104MVC.Models.Session;
+//using TFM104MVC.Models.Session;
 
 namespace TFM104MVC.Profiles
 {
