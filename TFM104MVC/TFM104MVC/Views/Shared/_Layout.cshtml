@@ -76,7 +76,7 @@
                                 else
                                 {
                                     <!--登入的畫面：會員頭像-->
-                                   <li class="nav-item" data-bs-toggle="modal" data-bs-target="#login">
+                                    <li class="nav-item" data-bs-toggle="modal" data-bs-target="#login">
                                         <a class="btn" data-bs-toggle="offcanvas" href="#offcanvasFUser" role="button" aria-controls="offcanvasFUser">
                                             <img src="https://fakeimg.pl/35/" class="rounded-circle img-fluid">
                                         </a>
@@ -470,3 +470,32 @@
         }
     })
 </script>
+<script>
+    var cartListVue = new Vue({
+        el: "#offcanvasShopCart",
+        data: {
+            cartList: []
+
+        },
+        methods: {
+            getCurrentUserCart: function () {
+                let self = this;
+                axios.get("/api/Cart/GetFullInfoCart")
+                    .then(function (res) {
+                        if (res.data.length == 0) {
+                            self.cartList.splice(0);
+                        } else {
+                            self.cartList = res.data;
+                        }
+                    })                    
+                    .catch(function (err) {
+                        if (err.status == 404) {
+                            alert(err.data);
+                            }
+                        });
+                        },
+
+        }
+    })
+</script>
+

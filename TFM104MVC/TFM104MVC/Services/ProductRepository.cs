@@ -20,7 +20,7 @@ namespace TFM104MVC.Services
         }
 
         public async Task<Product> GetProductAsync(Guid ProductId)
-        {
+        {          
             return await _context.Products.Include(t=>t.ProductPictures).FirstOrDefaultAsync(n => n.Id == ProductId);
             //return _context.Products.Where(n => n.Id == ProductId).FirstOrDefault();
         }

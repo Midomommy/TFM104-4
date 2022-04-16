@@ -228,14 +228,14 @@
                 <div class="card mb-3">
                     <div class="row g-0">
                         <div class="col-md-4">
-                            <a v-bind:href=" '/ProductView/product/ '+ item.id " target="_blank" rel="noopener">
+                            <a v-bind:href=" '/ProductView/product/'+ item.id " target="_blank" rel="noopener">
                                 <img v-bind:src="item.productPictures[0].url"
                                      class="w-100 img-fluid rounded-start product-pic" alt="...">
                             </a>
                         </div>
                         <div class="col-md-8">
                             <div class="card-body">
-                                <a v-bind:href=" '/ProductView/product/ '+ item.id " target="_blank" rel="noopener">
+                                <a v-bind:href=" '/ProductView/product/'+ item.id " target="_blank" rel="noopener">
                                     <div class="d-flex justify-content-between">
                                         <h5 class="card-title mb-3">{{item.title}}</h5>
                                         <!--收藏愛心-->
@@ -246,14 +246,14 @@
                                 </a>
 
                                 <!--商品內容敘述-->
-                                <a v-bind:href=" '/ProductView/product/ '+ item.id " target="_blank" rel="noopener">
+                                <a v-bind:href=" '/ProductView/product/'+ item.id " target="_blank" rel="noopener">
                                     <p class="card-text mb-3">
                                         {{item.description |ellipsis}}
                                     </p>
                                 </a>
 
                                 <!--產品資訊：地點&日期-->
-                                <a v-bind:href=" '/ProductView/product/ '+ item.id " target="_blank" rel="noopener">
+                                <a v-bind:href=" '/ProductView/product/'+ item.id " target="_blank" rel="noopener">
                                     <div class="product-info mb-5 d-flex gap-3">
                                         <!--地點-->
                                         <div class="d-flex gap-1">

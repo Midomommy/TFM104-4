@@ -38,7 +38,7 @@ namespace TFM104MVC.Controllers
                 List<AddCartItemDto> cart = new List<AddCartItemDto>();
                 cart.Add(addCartItemDto);
                 SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
-                return Ok(cart);
+                return Ok();
             }
             else
             {
@@ -54,7 +54,7 @@ namespace TFM104MVC.Controllers
                 {
                     cart.Add(addCartItemDto);
                 }
-                return Ok(cart);
+                return Ok();
             }
         }
         [HttpPost("removecart")]
@@ -82,20 +82,46 @@ namespace TFM104MVC.Controllers
             return NoContent();
         }
 
-        [HttpGet]
+        //[HttpGet]
+        //[Authorize(AuthenticationSchemes = "Cookies")]
+        //public IActionResult GetCart()
+        //{
+        //    var cart = SessionHelper.GetObjectFromJson<List<AddCartItemDto>>(HttpContext.Session, "cart");
+        //    if (cart == null || cart.Count() == 0)
+        //    {
+        //        return Ok(new List<AddCartItemDto>);
+        //    }
+        //    else
+        //    {
+        //        return Ok(cart);
+        //    }
+        //}
+
+        [HttpGet("GetFullInfoCart")]
         [Authorize(AuthenticationSchemes = "Cookies")]
-        public IActionResult GetCart()
+        public async Task<IActionResult> GetFullInfoCartAsync()
         {
             var cart = SessionHelper.GetObjectFromJson<List<AddCartItemDto>>(HttpContext.Session, "cart");
             if (cart == null || cart.Count() == 0)
             {
-                return Ok("目前購物車尚無商品");
+                return Ok(new List<AddCartItemDto>());
             }
             else
             {
-                return Ok(cart);
+                var allProd = await _productRepository.GetProductsByIds(cart.Select(x => x.ProductId).ToArray());
+                var data = allProd.Select(x => new
+                {
+                    x.Id,
+                    x.Title,
+                    x.GoTouristTime,
+                    qty = cart.First(c=>c.ProductId == x.Id).Quantity
+                });
+
+
+                return Ok(data);
             }
         }
+
 
         [HttpPost("checkout")]
         [Authorize(AuthenticationSchemes = "Cookies")]
