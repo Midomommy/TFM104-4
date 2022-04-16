@@ -1350,3 +1350,4 @@ C:\Users\Tibame_T14\Documents\TFM104MVCNewTest1\TFM104MVC\obj\Debug\net5.0\ref\T
 C:\Users\Tibame_T14\Documents\TFM104MVCNewTest1\TFM104MVC\obj\Debug\net5.0\TFM104MVC.pdb
 C:\Users\Tibame_T14\Documents\TFM104MVCNewTest1\TFM104MVC\obj\Debug\net5.0\TFM104MVC.genruntimeconfig.cache
 >>>>>>> Stashed changes
+C:\Users\Tibame_T14\Documents\GitHub\TFM104-4\TFM104MVC\TFM104MVC\obj\Debug\net5.0\staticwebassets\TFM104MVC.StaticWebAssets.xml

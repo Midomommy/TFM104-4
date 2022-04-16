@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -29,6 +30,11 @@ namespace TFM104MVC.Services
         public User CheckUser(string account,string password)
         {
             return _context.Users.FirstOrDefault(x=>x.Account == account && x.Password == password);
+        }
+
+        public User FindUser(int userId)
+        {
+            return _context.Users.Include(x=>x.Members).FirstOrDefault(x => x.Id == userId);
         }
 
         public bool Save()

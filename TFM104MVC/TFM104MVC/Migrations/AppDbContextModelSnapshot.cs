@@ -81,7 +81,6 @@ namespace TFM104MVC.Migrations
                         .HasColumnType("float");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
 

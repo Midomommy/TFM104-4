@@ -25,15 +25,14 @@ namespace TFM104MVC.Services
             //return _context.Products.Where(n => n.Id == ProductId).FirstOrDefault();
         }
 
-        public async Task<IEnumerable<Product>> GetProductsAsync(string keyword , string operatorType , int ratingValue,string region,string travelDays,string tripType,int pageSize, int pageNumber,string orderBy,string orderByDesc)
+        public async Task<IEnumerable<Product>> GetProductsAsync(string keyword , string operatorType , int ratingValue,string region,string travelDays,string tripType,int pageSize, int pageNumber,string orderBy,string orderByDesc,string goTouristTime)
 
         {
             IQueryable<Product> result = _context.Products.Include(t => t.ProductPictures);
             if (!string.IsNullOrWhiteSpace(keyword))
             {
                 keyword = keyword.Trim();
-                result = result.Where(n => n.Title.Contains(keyword));
-                result = result.Where(n => n.Description.Contains(keyword));
+                result = result.Where(n => n.Title.Contains(keyword) || n.Description.Contains(keyword)||n.OriginalPrice.ToString().Contains(keyword));
             }
             if (ratingValue > 0)
             {
@@ -71,6 +70,11 @@ namespace TFM104MVC.Services
                 tripType = tripType.Trim();
                 var r3 = (TripType)Enum.Parse(typeof(TripType), tripType);
                 result = result.Where(n => n.TripType == r3);
+            }
+            if (!string.IsNullOrWhiteSpace(goTouristTime))
+            {
+                goTouristTime = goTouristTime.Trim();
+                result = result.Where(n => n.GoTouristTime.ToString() == goTouristTime);
             }
 
             ////分頁功能的實現放在最後 因為首先要過濾數據 搜索排序 最後再形成分頁
@@ -189,9 +193,25 @@ namespace TFM104MVC.Services
             return await _context.Products.Where(n => n.Id == ProductId).FirstOrDefaultAsync();
         }
 
+
         public async Task AddOrder(Order order)
         {
             await _context.Orders.AddAsync(order);
+        }
+
+        public async Task<IEnumerable<Order>> GetOrders(int userId)
+        {
+            return await _context.Orders.Include(x=>x.Orderdetails).Where(x => x.UserId == userId).ToListAsync();
+        }
+
+        public async Task<Order> GetOrderdetailByOrderId(int orderId)
+        {
+            return await _context.Orders.Include(x => x.Orderdetails).ThenInclude(x=>x.Product).ThenInclude(x=>x.ProductPictures).Where(x => x.Id == orderId).FirstOrDefaultAsync();
+        }
+
+        public string GetProductTitle(Guid id)
+        {
+            return _context.Products.FirstOrDefault(x => x.Id == id)?.Title;
         }
     }
 }
