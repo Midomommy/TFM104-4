@@ -52,9 +52,9 @@
                     </button>
 
                     <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
-                        <form class="d-flex">
-                            <input class="form-control me-2" type="search" placeholder="探索全台行程活動" aria-label="Search">
-                            <button class="btn btn-outline-primary" type="submit">Search</button>
+                        <form class="d-flex" action="/ProductView/productlist">
+                            <input name="keyword" class="form-control me-2" type="search" placeholder="探索全台行程活動" aria-label="Search">                            
+                                <button class="btn btn-outline-primary" type="submit">Search</button>                           
                         </form>
                         <div class=" d-flex align-items-center ">
                             <ul class="navbar-nav mb-2 mb-lg-0 d-flex gap-3 ali">
@@ -406,7 +406,7 @@
             registerInformation: {
                 account: "",
                 password: "",
-                roleName:"Member"
+                roleName: "Member"
             }
         },
         methods: {
@@ -422,12 +422,10 @@
                         }
                     )
                     .catch(function (error) {
-                        if (error.status == 404)
-                        {
+                        if (error.status == 404) {
                             alert(error.data);
                         }
-                        if (error.status == 422)
-                        {
+                        if (error.status == 422) {
                             console.log(error.data);
                             alert(error.data.errors);
                         }
@@ -444,7 +442,7 @@
         data: {
             loginInformation: {
                 account: "",
-                password:""
+                password: ""
             }
         },
         methods: {
@@ -461,7 +459,8 @@
                             alert(err.data);
                         }
                     });
-            }
+            },
+
         }
     })
 </script>

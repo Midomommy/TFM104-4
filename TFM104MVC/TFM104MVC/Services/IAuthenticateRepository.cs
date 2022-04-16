@@ -16,5 +16,7 @@ namespace TFM104MVC.Services
         void AddUser(User user);
 
         bool Save();
+
+        User FindUser(int userId);
     }
 }

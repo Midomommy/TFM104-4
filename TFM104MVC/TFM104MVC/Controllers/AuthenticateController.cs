@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -31,7 +32,8 @@ namespace TFM104MVC.Controllers
         private readonly IMapper _mapper;
         private readonly ISender _sender;
         private readonly IProductRepository _productRepository;
-        public AuthenticateController(IConfiguration configuration,IAuthenticateRepository authenticateRepository,IMapper mapper,ISender sender,IProductRepository productRepository)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public AuthenticateController(IConfiguration configuration,IAuthenticateRepository authenticateRepository,IMapper mapper,ISender sender,IProductRepository productRepository,IHttpContextAccessor httpContextAccessor)
 
         {
             _configuration = configuration;
@@ -39,6 +41,7 @@ namespace TFM104MVC.Controllers
             _mapper = mapper;
             _sender = sender;
             _productRepository = productRepository;
+            _httpContextAccessor = httpContextAccessor;
 
         }
 
@@ -163,7 +166,7 @@ namespace TFM104MVC.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPut("update")]
+        [HttpPut("reset")]
         public IActionResult UpdatePassword([FromBody] LoginDto updatePasswordDto)
         {
             var userExist = _authenticateRepository.AccountCheck(updatePasswordDto.Account);
@@ -184,9 +187,28 @@ namespace TFM104MVC.Controllers
             return Ok("更新密碼完成，請妥善保管您的密碼");
 
         }
-        //    _authenticateRepository.AddUser(userModel);
-        //    _authenticateRepository.Save();
-        //    return Ok("註冊成功");
-        //}
+
+        [HttpPost("UpdateUserDetail")]
+        [Authorize(AuthenticationSchemes = "Cookies")]
+        public IActionResult UpdateUserDetail([FromBody] UserForUpdate userForUpdate)
+        {
+            //取出使用者Id
+            var userId = _httpContextAccessor.HttpContext.User.FindFirstValue("userId");
+            int UserId = int.Parse(userId);
+            //取出這個使用者資料表
+            var user = _authenticateRepository.FindUser(UserId);
+
+            //開始修改
+            user.FirstName = userForUpdate.FirstName;
+            user.LastName = userForUpdate.LastName;
+            user.Phone = userForUpdate.Phone;
+            user.Members.Gender = userForUpdate.Member.Gender;
+            user.Members.Birthday = Convert.ToDateTime(userForUpdate.Member.Birthday);
+
+            //儲存
+            _authenticateRepository.Save();
+            return NoContent();
+        }
     }
+
 }

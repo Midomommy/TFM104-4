@@ -17,7 +17,7 @@ using TFM104MVC.Models.Entity;
 
 namespace TFM104MVC.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]")] // api/products
     [ApiController]
     public class ProductsController : ControllerBase
     {
@@ -52,7 +52,7 @@ namespace TFM104MVC.Controllers
                     ratingValue = int.Parse(match.Groups[2].Value);
                 }
             }
-            var productsFromRepo = await _productRepository.GetProductsAsync(parameters.Keyword, operatorType, ratingValue, parameters.Region, parameters.Traveldays, parameters.Triptype,parameters.PageSize,parameters.PageNumber,parameters.OrderBy,parameters.OrderByDesc);
+            var productsFromRepo = await _productRepository.GetProductsAsync(parameters.Keyword, operatorType, ratingValue, parameters.Region, parameters.Traveldays, parameters.Triptype,parameters.PageSize,parameters.PageNumber,parameters.OrderBy,parameters.OrderByDesc,parameters.GoTouristTime);
 
 
             if (productsFromRepo == null || productsFromRepo.Count() <= 0)
