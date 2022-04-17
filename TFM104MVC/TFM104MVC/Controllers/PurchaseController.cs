@@ -27,17 +27,18 @@ namespace TFM104MVC.Controllers
             _environment = webHostEnvironment;
         }
 
-        public async Task<IActionResult> Booking()
+        [HttpPost]
+        public IActionResult Booking([FromForm]List<string> productId)
         {
 
             //把商品id從session拿出來
-            var pid= HttpContext.Session.GetString("pid");
+            //var pid= HttpContext.Session.GetString("pid");
         
             //System.Console.WriteLine(pid); //確定有拿到 我好棒
 
-            var userId = HttpContext.User.FindFirstValue("userId");
+            //var userId = HttpContext.User.FindFirstValue("userId");
 
-            var productFromRepo = await  _productRepository.GetProductAsync(Guid.Parse(pid));
+            //var productFromRepo = await  _productRepository.GetProductAsync(Guid.Parse(pid));
 
             //var orderItem = new LineItem()
             //{

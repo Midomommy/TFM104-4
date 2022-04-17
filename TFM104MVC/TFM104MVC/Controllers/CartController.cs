@@ -28,7 +28,7 @@ namespace TFM104MVC.Controllers
             _mapper = mapper;
         }
         [HttpPost("addcart")]
-        [Authorize(AuthenticationSchemes ="Cookies")]
+        [Authorize(AuthenticationSchemes = "Cookies")]
         public IActionResult AddCart([FromBody] AddCartItemDto addCartItemDto)
         {
             //判斷Session內有沒有購物車
