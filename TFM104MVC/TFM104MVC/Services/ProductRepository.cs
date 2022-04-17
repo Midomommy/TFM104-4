@@ -73,7 +73,6 @@ namespace TFM104MVC.Services
             }
             if (!string.IsNullOrWhiteSpace(goTouristTime))
             {
-                goTouristTime = goTouristTime.Trim();
                 result = result.Where(n => n.GoTouristTime.ToString() == goTouristTime);
             }
 
