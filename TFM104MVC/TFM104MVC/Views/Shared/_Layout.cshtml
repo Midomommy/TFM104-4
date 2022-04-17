@@ -78,17 +78,19 @@
                                 @if (!User.Identity.IsAuthenticated)
                                 {
                                     <li class="nav-item" data-bs-toggle="modal" data-bs-target="#login">
-                                        <a class="nav-link" href="#">登入/註冊</a>
+                                        <a class="nav-link" href="javascript:void(0);">登入/註冊</a>
                                     </li>
                                 }
                                 else
                                 {
                                     <!--登入的畫面：會員頭像-->
-                                    <li class="nav-item" data-bs-toggle="modal" data-bs-target="#login">
-                                        <a class="btn" data-bs-toggle="offcanvas" href="#offcanvasFUser" role="button" aria-controls="offcanvasFUser">
+                                    <li class="nav-item" data-bs-toggle="modal" data-bs-target="#Userlogin">
+                                        <a class="btn" data-bs-toggle="offcanvas" href="#offcanvasFUserLogin" role="button" aria-controls="offcanvasFUserLogin">
                                             <img src="https://fakeimg.pl/35/" class="rounded-circle img-fluid">
                                         </a>
                                     </li>
+
+
                                 }
                             </ul>
                         </div>
@@ -98,65 +100,66 @@
             </nav>
         </div>
 
+        <!--會員登入後的畫面-->
         <!--會員登入offcanva-->
-        @*<div class="navUser offcanvas offcanvas-end" tabindex="-1" id="offcanvasFUser" aria-labelledby="offcanvasFUser">
-                <div class="list-group">
-                    <div class="list-group-item list-group-item-action d-flex justify-content-between">
-                        <div class="">
-                            <a href="#">
-                                <img src="https://fakeimg.pl/50/" class="rounded-circle img-fluid">
-                                <span class="offcanvas-title " id="offcanvasUser">
-                                    登入會員名</h5>
-                                    <i class="bi bi-gear"></i>
-                            </a>
-                        </div>
-                        <!-- <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
-                            aria-label="Close"></button> -->
-                    </div>
-                    <div class="list-group-item list-group-item-action">
-                        <a href="#" class="d-flex gap-2" aria-current="true">
-                            <i class="bi bi-ticket-perforated fs-5"></i>
-                            <span>
-                                KKday折扣券
-                            </span>
+        <div class="navUser offcanvas offcanvas-end" tabindex="-1" id="offcanvasFUserLogin" aria-labelledby="offcanvasFUserLogin">
+            <div class="list-group">
+                <div class="list-group-item list-group-item-action d-flex justify-content-between">
+                    <div class="">
+                        <a onclick="location.href='@Url.Action("Index", "Login")'">
+                            <img src="https://fakeimg.pl/50/" class="rounded-circle img-fluid">
+                            <span class="offcanvas-title " id="offcanvasUser">
+                                登入會員名</h5>
+                                <i class="bi bi-gear"></i>
                         </a>
                     </div>
-                    <div class="list-group-item list-group-item-action">
-                        <a href="#" class="d-flex gap-2">
-                            <i class="bi bi-exclamation-circle-fill fs-5"></i>
-                            <span class="">
-                                KKday Points
-                            </span>
-                        </a>
-                    </div>
-                    <div class="list-group-item list-group-item-action">
-                        <a href="#" class="d-flex gap-2">
-                            <i class="bi bi-card-list fs-5"></i>
-                            <span>
-                                訂單管理
-                            </span>
-                        </a>
-                    </div>
-                    <div class="list-group-item list-group-item-action">
-                        <a href="#" class="d-flex gap-2">
-                            <i class="bi bi-heart"></i>
-                            <span>
-                                我的收藏
-                            </span>
-                        </a>
-                    </div>
-                    <div class="list-group-item list-group-item-action">
-                        <a href="#">
-                            <p class="text-center">
-                                登出
-                            </p>
-                        </a>
-                    </div>
+                    <!-- <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                    aria-label="Close"></button> -->
                 </div>
-            </div>*@
+                <div class="list-group-item list-group-item-action">
+                    <a href="javascript:void(0);" class="d-flex gap-2" aria-current="true">
+                        <i class="bi bi-ticket-perforated fs-5"></i>
+                        <span>
+                            KKday折扣券
+                        </span>
+                    </a>
+                </div>
+                <div class="list-group-item list-group-item-action">
+                    <a href="javascript:void(0);" class="d-flex gap-2">
+                        <i class="bi bi-exclamation-circle-fill fs-5"></i>
+                        <span class="">
+                            KKday Points
+                        </span>
+                    </a>
+                </div>
+                <div class="list-group-item list-group-item-action">
+                    <a onclick="location.href='@Url.Action("Manage", "Order")'" class="d-flex gap-2">
+                        <i class="bi bi-card-list fs-5"></i>
+                        <span>
+                            訂單管理
+                        </span>
+                    </a>
+                </div>
+                <div class="list-group-item list-group-item-action">
+                    <a onclick="location.href='@Url.Action("WishList", "Collect")'" class="d-flex gap-2">
+                        <i class="bi bi-heart"></i>
+                        <span>
+                            我的收藏
+                        </span>
+                    </a>
+                </div>
+                <div class="list-group-item list-group-item-action">
+                    <a href="javascript:void(0);">
+                        <p class="text-center">
+                            登出
+                        </p>
+                    </a>
+                </div>
+            </div>
+        </div>
 
-        <!-- 購物車功能 -->
-        <!--NavShopCart-empty-->
+        <!--以下是購物車的功能-->
+        <!--空購物車畫面：NavShopCart-empty-->
         <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasShopCart" aria-labelledby="offcanvasShopCart">
             <div class="list-group my-3">
                 <div class="mx-auto d-block">
@@ -214,7 +217,8 @@
                 </a>
             </div>
         </div>
-        <!--NavShopCart-add-->
+
+        <!--有商品的購物車：NavShopCart-add-->
         <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasShopCartAdd" aria-labelledby="offcanvasShopCartAdd">
             <div class="list-group">
                 <!-- <div class="list-group-item list-group-item-action d-flex justify-content-between">
@@ -279,6 +283,7 @@
                 </a>
             </div>
         </div>
+
         <!-- Modal 刪除商品-->
         <div class="modal fade" id="deleteProduct" tabindex="-1" aria-labelledby="deleteProduct" aria-hidden="true">
             <div class="modal-dialog">
@@ -302,6 +307,8 @@
             </div>
         </div>
 
+
+        <!--以下是未登入的功能-->
         <!-- Modal 登入-->
         <div class="modal fade" id="login" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -501,26 +508,7 @@
             </div>
         </div>
 
-        @*原始導覽列*@
-        @*  <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">TFM104MVC</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-            aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-            <ul class="navbar-nav flex-grow-1">
-            <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-            </li>
-            <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-            </li>
-            </ul>
-            </div>
-            </div>
-            </nav>*@
+
     </header>
 
     <div class="container-fluid g-0">
@@ -625,13 +613,13 @@
                         } else {
                             self.cartList = res.data;
                         }
-                    })                    
+                    })
                     .catch(function (err) {
                         if (err.status == 404) {
                             alert(err.data);
-                            }
-                        });
-                        },
+                        }
+                    });
+            },
 
         }
     })
