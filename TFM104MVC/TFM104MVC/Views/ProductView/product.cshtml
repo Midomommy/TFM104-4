@@ -896,6 +896,7 @@
                     quantity: self.index
                 }).then(function (res) {
                     if (res.status == 200) {
+                        cartListVue.getCurrentUserCart();
                         alert("加入購物車成功");
                     }
                 }).catch(function (err) {
