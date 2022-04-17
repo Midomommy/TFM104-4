@@ -57,7 +57,7 @@
                     <div class="row cart-item" v-for="item in cartList">
                         <div class="col-1 ckeckbox">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" :id="item.id" checked>
+                                <input class="form-check-input" type="checkbox" v-model="selectedProduct" :value="item.id" :id="item.id" checked>
                                 <label class="form-check-label" for="flexCheckChecked">
                                 </label>
                             </div>
@@ -124,10 +124,10 @@
                                     <!--商品金額-->
                                     <div class="d-flex gap-1 align-items-center">
                                         <div class="text-muted">
-                                            x件商品合計
+                                            {{totalCount}}件商品合計
                                         </div>
                                         <div class="fw-bold text-info fs-5">
-                                            TWD XXX
+                                            TWD {{totalPrice}}
                                         </div>
                                     </div>
                                     <!--點數-->
@@ -148,7 +148,7 @@
                                 <!--下訂btn-->
                                 <div class="item btn">
                                     <div class="d-flex justify-content-end gap-3">
-                                        <button type="button" class="btn btn-info" onclick="location.href='@Url.Action("booking", "Purchase")'">
+                                        <button type="button" class="btn btn-info" @@click="send">
                                             前往結帳
                                         </button>
                                     </div>
@@ -370,10 +370,19 @@
     var purchaseCarVue = new Vue({
         el: "#ShopCart",
         data: {
-            cartList: []
+            cartList: [],
+            selectedProduct:[]
         },
         mounted: function () {
             this.getCurrentUserCart();
+        },
+        computed: {
+            totalPrice: function () {
+                return this.cartList.map(x=> x.price).reduce((now, next) => now + next, 0);
+            },
+            totalCount: function () {
+                return this.cartList.length;
+            }
         },
         methods: {
             getCurrentUserCart: function () {
@@ -392,6 +401,21 @@
                         }
                     });
             },
+            send: function () {
+                var form = document.createElement("form");
+                form.method = "post";
+                form.action = "/Purchase/Booking"
+
+                for (var i = 0; i < this.selectedProduct.length; i++) {
+                    var inp = document.createElement("input");
+                    inp.type = "text";
+                    inp.name = "productId";
+                    inp.value = this.selectedProduct[i];
+                    form.appendChild(inp);
+                }
+                document.body.appendChild(form);
+                form.submit();
+            }
 
         }
     })
