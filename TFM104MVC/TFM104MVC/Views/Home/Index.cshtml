@@ -272,7 +272,7 @@
     </div>
     <div class="row mb-3">
         <!--商品單項 直接在最外層加a標籤-->
-        <div class="col-6 col-md-3" v-for="item in productlist.slice(0,4)">
+        <div class="col-6 col-md-3" v-for="item in productlistOutIsland.slice(0,4)">
             <a class="text-secondary" v-bind:href=" '/ProductView/product/'+ item.id " target="_blank" rel="noopener">
                 <div class="mb-1">
                     <div class="card mb-1">
@@ -345,7 +345,7 @@
     </div>
     <div class="row mb-3">
         <!--商品單項 直接在最外層加a標籤-->
-        <div class="col-6 col-md-3" v-for="item in productlist.slice(0,4)">
+        <div class="col-6 col-md-3" v-for="item in productlistEast.slice(0,4)">
             <a class="text-secondary" v-bind:href=" '/ProductView/product/'+ item.id " target="_blank" rel="noopener">
                 <div class="mb-1">
                     <div class="card mb-1">
@@ -418,7 +418,7 @@
     </div>
     <div class="row mb-3">
         <!--商品單項 直接在最外層加a標籤-->
-        <div class="col-6 col-md-3" v-for="item in productlist.slice(0,4)">
+        <div class="col-6 col-md-3" v-for="item in productlistSouth.slice(0,4)">
             <a class="text-secondary" v-bind:href=" '/ProductView/product/'+ item.id " target="_blank" rel="noopener">
                 <div class="mb-1">
                     <div class="card mb-1">
@@ -650,6 +650,9 @@
         el: '#productLayout',
         data: {
             productlist: [],
+            productlistOutIsland: [],
+            productlistEast: [],
+            productlistSouth: [],
             error: "",
             pic: [],
             sectionObject: {
@@ -659,23 +662,57 @@
                 "MiddleSouth": "雲嘉南",
                 "South": "高屏",
                 "East": "宜花東",
-                "OutsideIsland": "宜花東"
+                "OutsideIsland": "離島地區"
             },
         },
         mounted: function () {
             var self = this;
-            axios.get("/api/products").then(function (res) {
-                self.productlist = res.data;
-                self.pic = res.data.productPictures;
-                for (let i of res.data) {
-                    i.region = self.sectionObject[i.region];
-                }
-            })
-                .catch(function (err) {
+
+            axios.get("/api/products")
+                .then(function (res) {
+                    self.productlist = res.data;
+                    self.pic = res.data.productPictures;
+                    for (let i of res.data) {
+                        i.region = self.sectionObject[i.region];
+                    }
+                }).catch(function (err) {
                     if (err.status == 404) {
                         alert(err.data);
                     }
-                })
+                }),
+
+                axios.get("/api/products?Region=" + 6)
+                    .then(function (res) {
+                        self.productlistOutIsland = res.data;
+                        for (let i of res.data) {
+                            i.region = self.sectionObject[i.region];
+                        };
+
+                    }).catch(function (error) {
+                        self.error = error.data;
+                    }),
+
+            axios.get("/api/products?Region=" + 5)
+                .then(function (res) {
+                    self.productlistEast = res.data;
+                    for (let i of res.data) {
+                        i.region = self.sectionObject[i.region];
+                    };
+
+                }).catch(function (error) {
+                    self.error = error.data;
+                }),
+
+                axios.get("/api/products?Region=" + 4)
+                    .then(function (res) {
+                        self.productlistSouth = res.data;
+                        for (let i of res.data) {
+                            i.region = self.sectionObject[i.region];
+                        };
+
+                    }).catch(function (error) {
+                        self.error = error.data;
+                    })
         },
         filters: {
             ellipsis(value) {
