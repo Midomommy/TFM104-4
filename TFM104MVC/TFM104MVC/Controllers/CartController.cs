@@ -109,16 +109,27 @@ namespace TFM104MVC.Controllers
             else
             {
                 var allProd = await _productRepository.GetProductsByIds(cart.Select(x => x.ProductId).ToArray());
-                var data = allProd.Select(x => new
+                //var data = allProd.Select(x => new
+                //{
+                //    x.Id,
+                //    x.Title,
+                //    x.GoTouristTime,
+                //    x.Description,
+                //    x.OriginalPrice,
+                //    x.DiscountPersent,
+                //    qty = cart.First(c=>c.ProductId == x.Id).Quantity
+                //});
+
+                var productdto = _mapper.Map<List<ProductForCartDto>>(allProd);
+                
+                foreach(var i in productdto)
                 {
-                    x.Id,
-                    x.Title,
-                    x.GoTouristTime,
-                    qty = cart.First(c=>c.ProductId == x.Id).Quantity
-                });
+                    i.Title = i.Title.Substring(0, 10);
+                    i.qty = cart.First(c => c.ProductId == i.Id).Quantity;
+                    i.Description = i.Description.Substring(0, 10);
+                }
 
-
-                return Ok(data);
+                return Ok(productdto);
             }
         }
 

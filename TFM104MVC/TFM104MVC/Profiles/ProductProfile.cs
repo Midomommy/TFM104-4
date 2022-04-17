@@ -10,7 +10,7 @@ using TFM104MVC.Models.Entity;
 
 namespace TFM104MVC.Profiles
 {
-    public class ProductProfile:Profile
+    public class ProductProfile : Profile
     {
         public ProductProfile()
         {
@@ -27,7 +27,9 @@ namespace TFM104MVC.Profiles
             CreateMap<ProductUpdateDto, Product>();
             CreateMap<Product, ProductUpdateDto>();
             CreateMap<ProductUpdateDto, Product>();
-            CreateMap<ProductDto, Product>();
+            CreateMap<Product, ProductForCartDto>()
+                .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.OriginalPrice * (decimal)(src.DiscountPersent ?? 1)))
+                .ForMember(dest => dest.GoTouristTime, opt => opt.MapFrom(src => src.GoTouristTime.ToString()));
         }
     }
 }
