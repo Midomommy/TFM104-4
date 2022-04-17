@@ -61,15 +61,7 @@
                                 <!-- 購物車 -->
                                 <li class="nav-item dropdown">
                                     <div class="shop-cart">
-                                        <a class="btn" data-bs-toggle="offcanvas" href="#offcanvasShopCart" role="button" aria-controls="offcanvasUser">
-                                            <i class="bi bi-cart2 fs-5"></i>
-                                        </a>
-                                    </div>
-                                </li>
-                                <!---->
-                                <li class="nav-item dropdown">
-                                    <div class="shop-cart">
-                                        <a class="btn" data-bs-toggle="offcanvas" href="#offcanvasShopCartAdd" role="button" aria-controls="offcanvasUser">
+                                        <a class="btn" data-bs-toggle="offcanvas" href="#offcanvasShopCart" role="button" aria-controls="offcanvasShopCart">
                                             <i class="bi bi-cart2 fs-5"></i>
                                         </a>
                                     </div>
@@ -89,8 +81,6 @@
                                             <img src="https://fakeimg.pl/35/" class="rounded-circle img-fluid">
                                         </a>
                                     </li>
-
-
                                 }
                             </ul>
                         </div>
@@ -161,113 +151,65 @@
         <!--以下是購物車的功能-->
         <!--空購物車畫面：NavShopCart-empty-->
         <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasShopCart" aria-labelledby="offcanvasShopCart">
-            <div class="list-group my-3">
-                <div class="mx-auto d-block">
-                    <img src="https://cdn.kkday.com/pc-web/assets/img/empty_state/shopping_cart.svg" width="120" height="120">
-                </div>
-                <p class="text-muted text-center fs-6">您的購物車是空的</p>
-            </div>
-            <div class="list-group-item list-group-item-action d-flex justify-content-between">
-                <div v-for="item in cartList">
-                    <!--商品單項標題-->
-                    <div class="d-flex gap-3">
-                        <!--商品單項-->
-                        <div class="mb-3">
-                            <div class="row g-0">
-                                <div class="col-md-3">
-                                    <div class="product-pic w-80 h-50">
-                                        <img src="https://picsum.photos/200/150"
-                                             class="w-100 img-fluid rounded-start product-pic" alt="...">
-                                    </div>
-                                </div>
-                                <div class="col-md-9">
-                                    <div class="card-body">
-                                        <!--商品標題-->
-                                        <div class="d-flex gap-3">
-                                            <span class="card-title mb-3 fs-6 fw-bold">{{item.title}}｜{{item.description}}</span>
-                                            <a href="#" data-bs-toggle="modal" data-bs-target="#deleteProduct">
-                                                <i class="bi bi-trash3"></i>
-                                            </a>
-                                        </div>
-                                        <div class="d-flex justify-content-between">
-                                            <!--日期-->
-                                            <div class="d-flex gap-1">
-                                                <span class="text-muted"><i class="bi bi-calendar"></i></span>
-                                                <p><small class="text-muted">{{item.goTouristTime}}</small></p>
-                                            </div>
-                                            <!--人數-->
-                                            <div class="d-flex gap-1">
-                                                <span class="text-muted"><i class="bi bi-people-fill"></i></span>
-                                                <p><small class="text-muted">{{item.qty}}</small></p>
-                                            </div>
-                                        </div>
-                                        <!--價格-->
-                                        <div class="d-flex gap-1">
-                                            <span class="fw-bold text-info fs-6">TWD {{item.price}}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+            @if (!User.Identity.IsAuthenticated) //TODO 沒有加入購物車 不用管是否有登入
+            {
+                <div class="list-group my-3">
+                    <div class="mx-auto d-block">
+                        <img src="https://cdn.kkday.com/pc-web/assets/img/empty_state/shopping_cart.svg" width="120" height="120">
                     </div>
+                    <p class="text-muted text-center fs-6">您的購物車是空的</p>
                 </div>
-                <span>共xxx件商品</span>
-                <a class="btn btn-primary" asp-area="" asp-controller="Purchase" asp-action="cart">
-                    查看購物車
-                </a>
-            </div>
-        </div>
-
-        <!--有商品的購物車：NavShopCart-add-->
-        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasShopCartAdd" aria-labelledby="offcanvasShopCartAdd">
-            <div class="list-group">
-                <!-- <div class="list-group-item list-group-item-action d-flex justify-content-between">
-                    <div class="">
-                        <a href="#">
-                            <img src="https://fakeimg.pl/50/" class="rounded-circle img-fluid">
-                            <span class="offcanvas-title " id="offcanvasShopCart">登入會員名</h5>
-                                <i class="bi bi-gear"></i>
-                        </a>
-                    </div>
-                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
-                        aria-label="Close"></button>
-                </div> -->
-                <div class="list-group-item list-group-item-action">
-                    <!--商品單項標題-->
-                    <div class="d-flex gap-3">
-                        <!--商品單項-->
-                        <div class="mb-3">
-                            <div class="row g-0">
-                                <div class="col-md-3">
-                                    <div class="product-pic w-80 h-50">
-                                        <img src="https://picsum.photos/200/150"
-                                             class="w-100 img-fluid rounded-start product-pic" alt="...">
-                                    </div>
-                                </div>
-                                <div class="col-md-9">
-                                    <div class="card-body">
-                                        <!--商品標題-->
-                                        <div class="d-flex gap-3">
-                                            <span class="card-title mb-3 fs-6 fw-bold">商品標題｜商品標題內容敘述</span>
-                                            <a href="#" data-bs-toggle="modal" data-bs-target="#deleteProduct">
-                                                <i class="bi bi-trash3"></i>
-                                            </a>
-                                        </div>
-                                        <div class="d-flex justify-content-between">
-                                            <!--日期-->
-                                            <div class="d-flex gap-1">
-                                                <span class="text-muted"><i class="bi bi-calendar"></i></span>
-                                                <p><small class="text-muted">2022-05-06</small></p>
-                                            </div>
-                                            <!--人數-->
-                                            <div class="d-flex gap-1">
-                                                <span class="text-muted"><i class="bi bi-people-fill"></i></span>
-                                                <p><small class="text-muted">人數x?</small></p>
+                <div class="list-group-item list-group-item-action d-flex justify-content-between">
+                    <span>共0件商品</span>
+                    <a onclick="location.href='@Url.Action("cart", "Purchase")'" class="btn btn-primary" style="color:white;">
+                        查看購物車
+                    </a>
+                </div>
+            }
+            else
+            {
+                <div class="list-group">
+                    <div class="list-group-item list-group-item-action">
+                        <div v-for="item in cartList">
+                            <!--商品單項標題-->
+                            <div class="d-flex gap-3">
+                                <!--商品單項-->
+                                <div class="mb-3">
+                                    <div class="row g-0">
+                                        <div class="col-md-3">
+                                            <!--TODO商品圖片-->
+                                            <div class="product-pic w-80 h-50">
+                                                <img src="https://picsum.photos/200/150"
+                                                     class="w-100 img-fluid rounded-start product-pic" alt="...">
                                             </div>
                                         </div>
-                                        <!--價格-->
-                                        <div class="d-flex gap-1">
-                                            <span class="fw-bold text-info fs-6">TWD xxxx</span>
+                                        <div class="col-md-9">
+                                            <div class="card-body">
+                                                <!--商品標題-->
+                                                <div class="d-flex gap-3">
+                                                    <span class="card-title mb-3 fs-6 fw-bold">{{item.title}}</span>
+                                                    <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#deleteProduct">
+                                                        <i class="bi bi-trash3"></i>
+                                                    </a>
+                                                </div>
+                                                <!--日期&人數-->
+                                                <div class="d-flex justify-content-between">
+                                                    <!--日期-->
+                                                    <div class="d-flex gap-1">
+                                                        <span class="text-muted"><i class="bi bi-calendar"></i></span>
+                                                        <p><small class="text-muted">{{item.goTouristTime}}</small></p>
+                                                    </div>
+                                                    <!--人數-->
+                                                    <div class="d-flex gap-1">
+                                                        <span class="text-muted"><i class="bi bi-people-fill"></i></span>
+                                                        <p><small class="text-muted">{{item.qty}}</small></p>
+                                                    </div>
+                                                </div>
+                                                <!--價格-->
+                                                <div class="d-flex gap-1">
+                                                    <span class="fw-bold text-info fs-6">TWD {{item.price}}</span>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -275,262 +217,264 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="list-group-item list-group-item-action d-flex justify-content-between">
-                <span>共x件商品</span>
-                <a href="#" class="btn btn-primary">
-                    查看購物車
-                </a>
-            </div>
-        </div>
 
-        <!-- Modal 刪除商品-->
-        <div class="modal fade" id="deleteProduct" tabindex="-1" aria-labelledby="deleteProduct" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="deleteProduct">刪除商品</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <span>
-                            您確定要刪除所選商品嗎？
-                        </span>
-                        <div class="d-flex gap-3 justify-content-end">
-                            <div>
-                                <a href="#" data-bs-dismiss="modal" aria-label="Close">取消</a>
+                <!--//TODO總商品數量-->
+                <div class="list-group-item list-group-item-action d-flex justify-content-between">
+                    <span>共x件商品</span>
+                    <a class="btn btn-primary" asp-area="" asp-controller="Purchase" asp-action="cart">
+                        查看購物車
+                    </a>
+                </div>
+
+            }
+
+            <!-- Modal 刪除商品-->
+            <div class="modal fade" id="deleteProduct" tabindex="-1" aria-labelledby="deleteProduct" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="deleteProduct">刪除商品</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <span>
+                                您確定要刪除所選商品嗎？
+                            </span>
+                            <div class="d-flex gap-3 justify-content-end">
+                                <div>
+                                    <a href="#" data-bs-dismiss="modal" aria-label="Close">取消</a>
+                                </div>
+                                <button type="button" class="btn btn-danger">刪除</button>
                             </div>
-                            <button type="button" class="btn btn-danger">刪除</button>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
 
-        <!--以下是未登入的功能-->
-        <!-- Modal 登入-->
-        <div class="modal fade" id="login" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">登入/註冊</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="container">
-                            <div class="text-center fw-bold">使用社交平台帳戶登入</div>
-                            <div class="text-center">立即登入，隨時收到獨家優惠</div>
-
-                            <div class="d-flex flex-row justify-content-center">
-                                <div class="">
-                                    <!-- fb -->
-                                    <button class="login-provider-button-circle" style="background-color: rgb(24,119,242);" onclick="location.href='/Login/fblogin'">
-                                        <img width="24" height="24" src="/pic/facebook_white.svg" class="rounded-circle" alt="...">
-                                    </button>
-
-                                </div>
-                                <div class="">
-                                    <!-- line -->
-                                    <button class="login-provider-button-circle" style="background-color: rgb(0,195,0);">
-                                        <img width="24" height="24" src="/pic/line_nobg.svg" class="rounded-circle" alt="...">
-                                    </button>
-
-                                </div>
-                                <div class="">
-                                    <!-- google -->
-                                    <button class="login-provider-button-circle" style="background-color:white; border-color: gray;" onclick="location.href='/Login/googlelogin'">
-                                        <img width="24" height="24" src="/pic/google.svg" class="rounded-circle" alt="...">
-
-                                    </button>
-
-                                </div>
-                            </div>
+            <!--以下是未登入的功能-->
+            <!-- Modal 登入-->
+            <div class="modal fade" id="login" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">登入/註冊</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <hr>
-                        <div class="container" id="login1">
-                            <div class="mb-3"><b>kkday會員帳號登入</b></div>
-                            <div class="mb-3">
-                                <input type="text" class="form-control" placeholder="電子郵件" v-model="loginInformation.account">
+                        <div class="modal-body">
+                            <div class="container">
+                                <div class="text-center fw-bold">使用社交平台帳戶登入</div>
+                                <div class="text-center">立即登入，隨時收到獨家優惠</div>
+
+                                <div class="d-flex flex-row justify-content-center">
+                                    <div class="">
+                                        <!-- fb -->
+                                        <button class="login-provider-button-circle" style="background-color: rgb(24,119,242);" onclick="location.href='/Login/fblogin'">
+                                            <img width="24" height="24" src="/pic/facebook_white.svg" class="rounded-circle" alt="...">
+                                        </button>
+
+                                    </div>
+                                    <div class="">
+                                        <!-- line -->
+                                        <button class="login-provider-button-circle" style="background-color: rgb(0,195,0);">
+                                            <img width="24" height="24" src="/pic/line_nobg.svg" class="rounded-circle" alt="...">
+                                        </button>
+
+                                    </div>
+                                    <div class="">
+                                        <!-- google -->
+                                        <button class="login-provider-button-circle" style="background-color:white; border-color: gray;" onclick="location.href='/Login/googlelogin'">
+                                            <img width="24" height="24" src="/pic/google.svg" class="rounded-circle" alt="...">
+
+                                        </button>
+
+                                    </div>
+                                </div>
                             </div>
-                            <div class="mb-3">
-                                <input type="text" class="form-control" placeholder="密碼" v-model="loginInformation.password">
+                            <hr>
+                            <div class="container" id="login1">
+                                <div class="mb-3"><b>kkday會員帳號登入</b></div>
+                                <div class="mb-3">
+                                    <input type="text" class="form-control" placeholder="電子郵件" v-model="loginInformation.account">
+                                </div>
+                                <div class="mb-3">
+                                    <input type="text" class="form-control" placeholder="密碼" v-model="loginInformation.password">
+                                </div>
+                                <div class="mb-3">
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#resetcode">忘記密碼</a>
+                                </div>
+                                <div class="d-grid gap-2">
+                                    <button type="submit" v-on:click="submitLogin" class="btn btn-primary mb-3">登入</button>
+                                </div>
+                                <div class="mb-3" data-bs-toggle="modal" data-bs-target="#register">
+                                    <a href="javascript:void(0);">還未加入kkday嗎？立即註冊！</a>
+                                </div>
                             </div>
-                            <div class="mb-3">
-                                <a href="#" data-bs-toggle="modal" data-bs-target="#resetcode">忘記密碼</a>
-                            </div>
-                            <div class="d-grid gap-2">
-                                <button type="submit" v-on:click="submitLogin" class="btn btn-primary mb-3">登入</button>
-                            </div>
-                            <div class="mb-3" data-bs-toggle="modal" data-bs-target="#register">
-                                <a href="javascript:void(0);">還未加入kkday嗎？立即註冊！</a>
-                            </div>
+
                         </div>
 
                     </div>
-
                 </div>
             </div>
-        </div>
 
-        <!-- Modal 註冊-->
-        <div class="modal fade" id="register" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">登入/註冊</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="container">
-                            <div class="text-center fw-bold">使用社交平台帳戶登入</div>
-                            <div class="text-center">立即登入，隨時收到獨家優惠</div>
-
-                            <div class="d-flex flex-row justify-content-center">
-                                <div class="">
-                                    <!-- fb -->
-                                    <button class="login-provider-button-circle" style="background-color: rgb(24,119,242);" onclick="location.href='/fblogin'">
-                                        <img width="24" height="24" src="/pic/facebook_white.svg" class="rounded-circle" alt="...">
-                                    </button>
-
-                                </div>
-                                <div class="">
-                                    <!-- line -->
-                                    <button class="login-provider-button-circle" style="background-color: rgb(0,195,0);">
-                                        <img width="24" height="24" src="/pic/line_nobg.svg" class="rounded-circle" alt="...">
-                                    </button>
-
-                                </div>
-                                <div class="">
-                                    <!-- google -->
-                                    <button class="login-provider-button-circle" style="background-color:white; border-color: gray;" onclick="location.href='/googlelogin'">
-                                        <img width="24" height="24" src="/pic/google.svg" class="rounded-circle" alt="...">
-
-                                    </button>
-
-                                </div>
-                            </div>
+            <!-- Modal 註冊-->
+            <div class="modal fade" id="register" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">登入/註冊</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <hr>
-                        <div class="container">
-                            <div class="mb-3"><b>免費註冊</b></div>
-                            <div class="mb-3">
-                                <input type="text" class="form-control" onblur=isEmail(this.value) placeholder="電子郵件" v-model="registerInformation.account">
+                        <div class="modal-body">
+                            <div class="container">
+                                <div class="text-center fw-bold">使用社交平台帳戶登入</div>
+                                <div class="text-center">立即登入，隨時收到獨家優惠</div>
+
+                                <div class="d-flex flex-row justify-content-center">
+                                    <div class="">
+                                        <!-- fb -->
+                                        <button class="login-provider-button-circle" style="background-color: rgb(24,119,242);" onclick="location.href='/fblogin'">
+                                            <img width="24" height="24" src="/pic/facebook_white.svg" class="rounded-circle" alt="...">
+                                        </button>
+
+                                    </div>
+                                    <div class="">
+                                        <!-- line -->
+                                        <button class="login-provider-button-circle" style="background-color: rgb(0,195,0);">
+                                            <img width="24" height="24" src="/pic/line_nobg.svg" class="rounded-circle" alt="...">
+                                        </button>
+
+                                    </div>
+                                    <div class="">
+                                        <!-- google -->
+                                        <button class="login-provider-button-circle" style="background-color:white; border-color: gray;" onclick="location.href='/googlelogin'">
+                                            <img width="24" height="24" src="/pic/google.svg" class="rounded-circle" alt="...">
+
+                                        </button>
+
+                                    </div>
+                                </div>
                             </div>
-                            <div class="mb-3">
-                                <input type="password" class="form-control" placeholder="密碼" v-model="registerInformation.password">
-                            </div>
-                            <div class="form-check mb-3">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                <label class="form-check-label" for="flexCheckDefault">
-                                    我已詳閱並同意<a href="#">使用者條款</a>&<a href="#">隱私權保護政策</a>
-                                </label>
-                            </div>
-                            @*<div class="form-check mb-3">
+                            <hr>
+                            <div class="container">
+                                <div class="mb-3"><b>免費註冊</b></div>
+                                <div class="mb-3">
+                                    <input type="text" class="form-control" onblur=isEmail(this.value) placeholder="電子郵件" v-model="registerInformation.account">
+                                </div>
+                                <div class="mb-3">
+                                    <input type="password" class="form-control" placeholder="密碼" v-model="registerInformation.password">
+                                </div>
+                                <div class="form-check mb-3">
                                     <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
                                     <label class="form-check-label" for="flexCheckDefault">
-                                        我不是機器人
+                                        我已詳閱並同意<a href="#">使用者條款</a>&<a href="#">隱私權保護政策</a>
                                     </label>
-                                </div>*@
-                            <div class="d-grid gap-2">
-                                <button type="submit" class="btn btn-primary mb-3" v-on:click="addRegister">註冊</button>
+                                </div>
+                                @*<div class="form-check mb-3">
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    我不是機器人
+                                </label>
+                            </div>*@
+                                <div class="d-grid gap-2">
+                                    <button type="submit" class="btn btn-primary mb-3" v-on:click="addRegister">註冊</button>
+                                </div>
+                                <div class="mb-3">
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#login">已成為會員？立即登入！</a>
+                                </div>
                             </div>
-                            <div class="mb-3">
-                                <a href="#" data-bs-toggle="modal" data-bs-target="#login">已成為會員？立即登入！</a>
-                            </div>
-                        </div>
 
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Modal 忘記密碼-->
-        <div class="modal fade" id="resetcode" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">忘記密碼</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="container">
-                            <div class="text-center fw-bold">使用社交平台帳戶登入</div>
-                            <div class="text-center">立即登入，隨時收到獨家優惠</div>
-
-                            <div class="d-flex flex-row justify-content-center">
-                                <div class="">
-                                    <!-- fb -->
-                                    <button class="login-provider-button-circle" style="background-color: rgb(24,119,242);" onclick="location.href='/Login/fblogin'">
-                                        <img width="24" height="24" src="/pic/facebook_white.svg" class="rounded-circle" alt="...">
-                                    </button>
-
-                                </div>
-                                <div class="">
-                                    <!-- line -->
-                                    <button class="login-provider-button-circle" style="background-color: rgb(0,195,0);">
-                                        <img width="24" height="24" src="/pic/line_nobg.svg" class="rounded-circle" alt="...">
-                                    </button>
-
-                                </div>
-                                <div class="">
-                                    <!-- google -->
-                                    <button class="login-provider-button-circle" style="background-color:white; border-color: gray;" onclick="location.href='/Login/googlelogin'">
-                                        <img width="24" height="24" src="/pic/google.svg" class="rounded-circle" alt="...">
-
-                                    </button>
-
-                                </div>
-                            </div>
+            <!-- Modal 忘記密碼-->
+            <div class="modal fade" id="resetcode" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">忘記密碼</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <hr>
-                        <div class="container">
-                            <div class="mb-3">
-                                <input type="email" class="form-control" placeholder="電子郵件">
-                            </div>
-                            <div class="mb-3">
-                                <input type="password" class="form-control" placeholder="請輸入新密碼">
-                            </div>
-                            <div class="d-grid gap-2">
-                                <button type="submit" class="btn btn-primary mb-3">重新設定密碼</button>
-                            </div>
-                            <div class="mb-3" data-bs-toggle="modal" data-bs-target="#register">
-                                <a href="javascript:void(0);">還未加入kkday嗎？立即註冊！</a>
-                            </div>
-                        </div>
+                        <div class="modal-body">
+                            <div class="container">
+                                <div class="text-center fw-bold">使用社交平台帳戶登入</div>
+                                <div class="text-center">立即登入，隨時收到獨家優惠</div>
 
+                                <div class="d-flex flex-row justify-content-center">
+                                    <div class="">
+                                        <!-- fb -->
+                                        <button class="login-provider-button-circle" style="background-color: rgb(24,119,242);" onclick="location.href='/Login/fblogin'">
+                                            <img width="24" height="24" src="/pic/facebook_white.svg" class="rounded-circle" alt="...">
+                                        </button>
+
+                                    </div>
+                                    <div class="">
+                                        <!-- line -->
+                                        <button class="login-provider-button-circle" style="background-color: rgb(0,195,0);">
+                                            <img width="24" height="24" src="/pic/line_nobg.svg" class="rounded-circle" alt="...">
+                                        </button>
+
+                                    </div>
+                                    <div class="">
+                                        <!-- google -->
+                                        <button class="login-provider-button-circle" style="background-color:white; border-color: gray;" onclick="location.href='/Login/googlelogin'">
+                                            <img width="24" height="24" src="/pic/google.svg" class="rounded-circle" alt="...">
+
+                                        </button>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="container">
+                                <div class="mb-3">
+                                    <input type="email" class="form-control" placeholder="電子郵件">
+                                </div>
+                                <div class="mb-3">
+                                    <input type="password" class="form-control" placeholder="請輸入新密碼">
+                                </div>
+                                <div class="d-grid gap-2">
+                                    <button type="submit" class="btn btn-primary mb-3">重新設定密碼</button>
+                                </div>
+                                <div class="mb-3" data-bs-toggle="modal" data-bs-target="#register">
+                                    <a href="javascript:void(0);">還未加入kkday嗎？立即註冊！</a>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div> -->
                     </div>
-                    <!-- <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
-                    </div> -->
                 </div>
             </div>
+
+
+</header>
+
+        <div class="container-fluid g-0">
+            <main role="main" class="">
+                @RenderBody()
+            </main>
         </div>
 
-
-    </header>
-
-    <div class="container-fluid g-0">
-        <main role="main" class="">
-            @RenderBody()
-        </main>
-    </div>
-
-    <footer class="border-top footer ">
-        <div class="container">
-            &copy; 2022 - TFM104MVC 專題練習用網站 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
-    @*    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="~/js/site.js" asp-append-version="true"></script> *@
-    @await RenderSectionAsync("Scripts", required: false)
-</body>
+        <footer class="border-top footer ">
+            <div class="container">
+                &copy; 2022 - TFM104MVC 專題練習用網站 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            </div>
+        </footer>
+        @*    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+            <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+            <script src="~/js/site.js" asp-append-version="true"></script> *@
+        @await RenderSectionAsync("Scripts", required: false)
+    </body>
 </html>
 
 
-
+<!--發註冊API-->
 <script>
     var app = new Vue({
         el: '#register',
@@ -567,7 +511,7 @@
     })
 </script>
 
-
+<!--發登入API-->
 <script>
     var app1 = new Vue({
         el: "#login1",
@@ -596,12 +540,13 @@
         }
     })
 </script>
+
+<!--發購物車API-->
 <script>
     var cartListVue = new Vue({
         el: "#offcanvasShopCart",
         data: {
             cartList: []
-
         },
         methods: {
             getCurrentUserCart: function () {
