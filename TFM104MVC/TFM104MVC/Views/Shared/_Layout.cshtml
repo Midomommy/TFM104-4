@@ -300,7 +300,7 @@
                             <input type="text" class="form-control" placeholder="電子郵件" v-model="loginInformation.account">
                         </div>
                         <div class="mb-3">
-                            <input type="text" class="form-control" placeholder="密碼" v-model="loginInformation.password">
+                            <input type="password" class="form-control" placeholder="密碼" v-model="loginInformation.password">
                         </div>
                         <div class="mb-3">
                             <a href="#" data-bs-toggle="modal" data-bs-target="#resetcode">忘記密碼</a>
@@ -484,7 +484,10 @@
             registerInformation: {
                 account: "",
                 password: "",
-                roleName: "Member"
+                roleName: "Member",
+                members: {
+
+                }
             }
         },
         methods: {
@@ -495,7 +498,7 @@
                         function (res) {
                             if (res.status == 200) {
                                 alert("恭喜註冊成功，請再次登入，並至您的信箱接收帳號激活驗證信");
-                                window.location.href = "/home/index";
+                                axios.post("/auth/login", self.registerInformation).then(function (res) { window.location.href = "/home/index"; }).catch();
                             };
                         }
                     )
@@ -504,8 +507,9 @@
                             alert(error.data);
                         }
                         if (error.status == 422) {
-                            console.log(error.data);
-                            alert(error.data.errors);
+                            for (var i of Object.keys(error.data.errors)) {
+                                alert(error.data.errors[i][0]);
+                            }
                         }
                     });
             }
@@ -529,6 +533,7 @@
                 axios.post("/auth/login", self.loginInformation)
                     .then(function (res) {
                         if (res.status == 200) {
+                            location.reload();
                             alert("登入成功");
                         }
                     })
