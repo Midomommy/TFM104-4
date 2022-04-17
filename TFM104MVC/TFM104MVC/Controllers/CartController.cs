@@ -49,10 +49,12 @@ namespace TFM104MVC.Controllers
                 if(index != -1)
                 {
                     cart[index].Quantity += addCartItemDto.Quantity;
+                    SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
                 }
                 else
                 {
                     cart.Add(addCartItemDto);
+                    SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
                 }
                 return Ok();
             }
