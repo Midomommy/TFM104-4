@@ -84,8 +84,8 @@ namespace TFM104MVC.Controllers
             //await HttpContext.SignInAsync(claimsPrincipal);
 
             //return Ok("登入成功");
-            return Json(data);
-            //return Redirect("~/Home/Index");
+            //return Json(data);
+            return Redirect("~/Home/Index");
         }
 
 
