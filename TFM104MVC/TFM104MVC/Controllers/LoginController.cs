@@ -75,8 +75,8 @@ namespace TFM104MVC.Controllers
             var user = _context.Users.FirstOrDefault(x => x.Account == email);
 
             //return Ok("登入成功");
-            return Json(data);
-            //return Redirect("~/Home/Index");
+            //return Json(data);
+            return Redirect("~/Home/Index");
         }
 
 
