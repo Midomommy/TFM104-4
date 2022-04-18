@@ -569,7 +569,9 @@
                     })
                     .catch(function (err) {
                         if (err.status == 404) {
-                            alert(err.data);
+                        //    alert(err.data);
+                            console.log(err.data);
+
                         }
                     });
             }
@@ -588,7 +590,8 @@
                     })
                     .catch(function (err) {
                         if (err.status == 404) {
-                            alert(err.data);
+                            //alert(err.data);
+                            console.log(err.data);
                         }
                     });
             },
