@@ -21,6 +21,7 @@
 <div class="container" id="ShopCart">
 
     <div class="row">
+        <!--空的購物車-->
         <div class="empty-cart" v-if="cartList.length ==0">
             <div class="board d-block align-item-center">
                 <!--購物車標題-->
@@ -45,131 +46,122 @@
                 </div>
             </div>
         </div>
-        
-            <div class="board main-cart" v-else>
-                <!--購物車標題-->
-                <div class="board-title">
-                    <span class="fs-5 fw-bold">購物車</span>
-                </div>
-                <hr class="text-muted">
-                <!--購物車本體-->
-                <div class="container cart-group">
-                    <div class="row cart-item" v-for="item in cartList">
-                        <div class="col-1 ckeckbox">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" v-model="selectedProduct" :value="item.id" :id="item.id" checked>
-                                <label class="form-check-label" for="flexCheckChecked">
-                                </label>
-                            </div>
-                        </div>
-                        <div class="col-2">
-                            <a href="#">
-                                <img :src="item.productPictures[0].url" style="width:50px;height:50px;">
-                            </a>
-                        </div>
-                        <div class="col-2">
-                            <a :href="'/ProductView/product/'+ item.id ">
-                                {{item.title}}
-                            </a>
-                        </div>
-                        <div class="col-2">{{item.goTouristTime}}</div>
-                        <div class="col-2">數量x{{item.qty}}</div>
-                        <div class="col-2">
-                            <span class="fw-bold text-info ">
-                                TWD {{item.price}}
-                            </span>
-                        </div>
-                        <div class="col-1">
-                            <span>
-                                <a href="javascript:;">
-                                    <i class="bi bi-heart"></i>
-                                </a>
-                            </span>
-                            <span>
-                                <a href="javascript:;">
-                                    <i class="bi bi-trash3"></i>
-                                </a>
-                            </span>
+        <!--有東西的購物車-->
+        <div class="board main-cart" v-else>
+            <!--購物車標題-->
+            <div class="board-title">
+                <span class="fs-5 fw-bold">購物車</span>
+            </div>
+            <hr class="text-muted">
+            <!--購物車本體-->
+            <div class="container cart-group">
+                <div class="row cart-item" v-for="item in cartList">
+                    <div class="col-1 ckeckbox">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" v-model="selectedProduct" :value="item.id" :id="item.id" checked>
+                            <label class="form-check-label" for="flexCheckChecked">
+                            </label>
                         </div>
                     </div>
-                </div>
-                <hr class="text-muted">
-
-                <div class=" board-footer">
-                    <!--購物車勾選-->
-                    <div class=" board-action my-3 ml-3">
-                        <div class="d-flex gap-1 align-items-center">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-                                <label class="form-check-label text-muted" for="flexCheckChecked">
-                                    <a class="text-muted" href="javascript:;">
-                                        全選(x)
-                                    </a>
-                                </label>
-                            </div>
-                            <span class="text-muted">|</span>
-                            <div class="text-muted">
-                                <a href="javascript:;" class="text-muted">
-                                    刪除已選項目
-                                </a>
-                            </div>
-                        </div>
+                    <div class="col-2">
+                        <a href="#">
+                            <img :src="item.productPictures[0].url" style="width:50px;height:50px;">
+                        </a>
                     </div>
-                    <!--購物車金額計算&下單-->
-                    <div class=" board-cta d-flex justify-content-end">
-                        <div class="cart-total">
-                            <div class="d-flex justify-content-end">
-                                <!--總金額與點數-->
-                                <div class="item">
-                                    <!--商品金額-->
-                                    <div class="d-flex gap-1 align-items-center">
-                                        <div class="text-muted">
-                                            {{totalCount}}件商品合計
-                                        </div>
-                                        <div class="fw-bold text-info fs-5">
-                                            TWD {{totalPrice}}
-                                        </div>
-                                    </div>
-                                    <!--點數-->
-                                    <div class="d-flex gap-1 align-items-center justify-content-end">
-                                        <div class="text-muted">
-                                            KKday Points
-                                        </div>
-                                        <div class="d-flex gap-2">
-                                            <span class="text-warning">
-                                                <i class="bi bi-exclamation-circle-fill"></i>
-                                            </span>
-                                            <div class="fw-bold text-warning">
-                                                XX
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--下訂btn-->
-                                <div class="item btn">
-                                    <div class="d-flex justify-content-end gap-3">
-                                        <button type="button" class="btn btn-info" @@click="send">
-                                            前往結帳
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
+                    <div class="col-2">
+                        <a :href="'/ProductView/product/'+ item.id ">
+                            {{item.title}}
+                        </a>
+                    </div>
+                    <div class="col-2">{{item.goTouristTime}}</div>
+                    <div class="col-2">數量x{{item.qty}}</div>
+                    <div class="col-2">
+                        <span class="fw-bold text-info ">
+                            TWD {{item.price}}
+                        </span>
+                    </div>
+                    <div class="col-1">
+                        <span>
+                            <a href="javascript:;">
+                                <i class="bi bi-heart"></i>
+                            </a>
+                        </span>
+                        <span>
+                            <a href="javascript:;">
+                                <i class="bi bi-trash3"></i>
+                            </a>
+                        </span>
                     </div>
                 </div>
             </div>
-        
+            <hr class="text-muted">
+
+            <div class=" board-footer">
+                <!--購物車勾選-->
+                <div class=" board-action my-3 ml-3">
+                    <div class="d-flex gap-1 align-items-center">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+                            <label class="form-check-label text-muted" for="flexCheckChecked">
+                                <a class="text-muted" href="javascript:;">
+                                    全選(x)
+                                </a>
+                            </label>
+                        </div>
+                        <span class="text-muted">|</span>
+                        <div class="text-muted">
+                            <a href="javascript:;" class="text-muted">
+                                刪除已選項目
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!--購物車金額計算&下單-->
+                <div class=" board-cta d-flex justify-content-end">
+                    <div class="cart-total">
+                        <div class="d-flex justify-content-end">
+                            <!--總金額與點數-->
+                            <div class="item">
+                                <!--商品金額-->
+                                <div class="d-flex gap-1 align-items-center">
+                                    <div class="text-muted">
+                                        {{totalCount}}件商品合計
+                                    </div>
+                                    <div class="fw-bold text-info fs-5">
+                                        TWD {{totalPrice}}
+                                    </div>
+                                </div>
+                                <!--點數-->
+                                <div class="d-flex gap-1 align-items-center justify-content-end">
+                                    <div class="text-muted">
+                                        KKday Points
+                                    </div>
+                                    <div class="d-flex gap-2">
+                                        <span class="text-warning">
+                                            <i class="bi bi-exclamation-circle-fill"></i>
+                                        </span>
+                                        <div class="fw-bold text-warning">
+                                            XX
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--下訂btn-->
+                            <div class="item btn">
+                                <div class="d-flex justify-content-end gap-3">
+                                    <button type="button" class="btn btn-info" @@click="send">
+                                        前往結帳
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
     </div>
-
-    <!--空的購物車-->
-    
-
-    <!--有東西的購物車-->
-    
-
-
-
 
 
 </div>
