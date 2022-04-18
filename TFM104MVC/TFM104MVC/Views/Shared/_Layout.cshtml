@@ -99,7 +99,7 @@
                         <a onclick="location.href='@Url.Action("Index", "Login")'">
                             <img src="https://fakeimg.pl/50/" class="rounded-circle img-fluid">
                             <span class="offcanvas-title " id="offcanvasUser">
-                                <span>登入會員名</span>
+                                <span> @User.Identity.Name</span>
                                 <i class="bi bi-gear"></i>
                             </span>
                         </a>
@@ -140,7 +140,7 @@
                     </a>
                 </div>
                 <div class="list-group-item list-group-item-action">
-                    <a href="javascript:void(0);">
+                    <a href="" v-on:click.prevent="logout">
                         <p class="text-center">
                             登出
                         </p>
@@ -548,6 +548,24 @@
     })
 </script>
 
+<!--登出那一段-->
+<script>
+    var FUserLogin = new Vue({
+        el: "#offcanvasFUserLogin",
+        methods: {
+            logout: function () {
+                axios.post("/auth/logout").then(function (res) {
+                    if (res.status == 200) {
+                       location.reload();
+
+                    }
+                });
+            }
+        }
+    })
+
+</script>
+
 <!--發購物車API-->
 <script>
     var cartListVue = new Vue({
@@ -555,8 +573,8 @@
         data: {
             cartList: []
         },
-        mounted: 
-            function() {
+        mounted:
+            function () {
                 let self = this;
                 axios.get("/api/Cart/GetFullInfoCart")
                     .then(function (res) {
@@ -569,7 +587,7 @@
                     })
                     .catch(function (err) {
                         if (err.status == 404) {
-                        //    alert(err.data);
+                            //    alert(err.data);
                             console.log(err.data);
 
                         }
@@ -595,7 +613,6 @@
                         }
                     });
             },
-
         }
     })
 </script>

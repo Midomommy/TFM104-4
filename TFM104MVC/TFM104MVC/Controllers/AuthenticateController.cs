@@ -75,12 +75,15 @@ namespace TFM104MVC.Controllers
             {
                 new Claim(ClaimTypes.Email,loginPasswordCheck.Account),
                 new Claim("userId",loginPasswordCheck.Id.ToString()),
+                new Claim(ClaimTypes.Name,loginPasswordCheck.LastName),
                 new Claim(ClaimTypes.Role,loginPasswordCheck.RoleName)
             };
 
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
             await HttpContext.SignInAsync(claimsPrincipal);
+
+            
 
             return Ok("登入成功");
             //// 2.若正確 則創建JWT Token
@@ -110,6 +113,16 @@ namespace TFM104MVC.Controllers
             //var tokenStr = new JwtSecurityTokenHandler().WriteToken(token);
             //// 3.return 200 ok + jwt
             //return Ok(tokenStr);
+        }
+
+
+        [HttpPost("logout")]
+        [Authorize(AuthenticationSchemes = "Cookies")]
+        public IActionResult logoutAsync() {
+            HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+            return Ok("登出成功");
+
         }
 
 
