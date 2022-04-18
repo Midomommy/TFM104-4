@@ -30,32 +30,10 @@ namespace TFM104MVC.Controllers
         [HttpPost]
         public IActionResult Booking([FromForm]List<string> productId)
         {
+            List<string> pidList= new List<string>();
+            ViewBag.pidList = productId;
 
-            //把商品id從session拿出來
-            //var pid= HttpContext.Session.GetString("pid");
-        
-            //System.Console.WriteLine(pid); //確定有拿到 我好棒
-
-            //var userId = HttpContext.User.FindFirstValue("userId");
-
-            //var productFromRepo = await  _productRepository.GetProductAsync(Guid.Parse(pid));
-
-            //var orderItem = new LineItem()
-            //{
-            //    ProductId = productFromRepo.Id,
-            //    DiscountPersent = productFromRepo.DiscountPersent,
-            //    OriginalPrice = productFromRepo.OriginalPrice,
-            //    Product = productFromRepo,
-            //};
-
-            //var order = new Order()
-            //{
-            //    UserId = int.Parse(userId),
-            //    CreateDateUTC = DateTime.UtcNow,
-            //    State = OrderStateEnum.Pending,
-            //    OrderItems = (ICollection<LineItem>)orderItem
-            //};
-
+            //Console.WriteLine(ViewBag.pidList);
 
             return View();
 
