@@ -138,14 +138,14 @@ namespace TFM104MVC.Controllers
 
         [HttpPost("checkout")]
         //[Authorize(AuthenticationSchemes = "Cookies")]
-        public async Task<IActionResult> CheckOut([FromQuery] Guid[] productId,[FromBody]CartCheck cartCheck)
+        public IActionResult CheckOut()
         {
             //取得使用者userId
             var userId = HttpContext.User.FindFirstValue("userId");
             int UserID = int.Parse(userId);
 
             //取得參數傳進來的特定商品
-            List<Product> products = await _productRepository.GetProductsByIds(productId);
+            //List<Product> products = await _productRepository.GetProductsByIds(productId);
 
             //創造訂單詳情
             
