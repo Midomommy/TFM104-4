@@ -28,7 +28,7 @@ namespace TFM104MVC.Controllers
             _mapper = mapper;
         }
         [HttpPost("addcart")]
-        [Authorize(AuthenticationSchemes = "Cookies")]
+        //[Authorize(AuthenticationSchemes = "Cookies")]
         public IActionResult AddCart([FromBody] AddCartItemDto addCartItemDto)
         {
             //判斷Session內有沒有購物車
@@ -60,7 +60,7 @@ namespace TFM104MVC.Controllers
             }
         }
         [HttpPost("removecart")]
-        [Authorize(AuthenticationSchemes ="Cookies")]
+        //[Authorize(AuthenticationSchemes ="Cookies")]
         public IActionResult RemoveCart([FromBody] RemoveCartItemDto removeCartItemDto)
         {
             //向Session取得內容
@@ -100,7 +100,7 @@ namespace TFM104MVC.Controllers
         //}
 
         [HttpGet("GetFullInfoCart")]
-        [Authorize(AuthenticationSchemes = "Cookies")]
+        //[Authorize(AuthenticationSchemes = "Cookies")]
         public async Task<IActionResult> GetFullInfoCartAsync()
         {
             var cart = SessionHelper.GetObjectFromJson<List<AddCartItemDto>>(HttpContext.Session, "cart");
@@ -137,7 +137,7 @@ namespace TFM104MVC.Controllers
 
 
         [HttpPost("checkout")]
-        [Authorize(AuthenticationSchemes = "Cookies")]
+        //[Authorize(AuthenticationSchemes = "Cookies")]
         public async Task<IActionResult> CheckOut([FromQuery] Guid[] productId,[FromBody]CartCheck cartCheck)
         {
             //取得使用者userId
