@@ -33,7 +33,7 @@ namespace TFM104MVC.Controllers
             List<string> pidList= new List<string>();
             ViewBag.pidList = productId;
 
-            Console.WriteLine(ViewBag.pidList);
+            //Console.WriteLine(ViewBag.pidList);
 
             return View();
 
