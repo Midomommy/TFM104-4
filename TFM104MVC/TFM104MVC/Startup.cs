@@ -41,7 +41,7 @@ namespace TFM104MVC
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(opt =>
                 {
-                    opt.LoginPath = "/Shared/_Layout";
+                    opt.LoginPath = "/home/index";
                     //FBµn¤J
                 }).AddFacebook(opt =>
                 {
