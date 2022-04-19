@@ -64,24 +64,15 @@ namespace TFM104MVC.Controllers
                     Account = email,
                     Password = "zzzzzzzz",
                     LastName = lastName,
-                    FirstName = firstName
+                    FirstName = firstName,
+                    RoleName = "Member"
                 };
 
                 _context.Users.Add(member);
                 _context.SaveChanges();
             };
 
-            //給cookie與session
-            //var claims = new[]
-            //{
-            //    new Claim(ClaimTypes.Email,loginPasswordCheck.Account),
-            //    new Claim("userId",loginPasswordCheck.Id.ToString()),
-            //    new Claim(ClaimTypes.Role,loginPasswordCheck.RoleName)
-            //};
-
-            //var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-            //var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
-            //await HttpContext.SignInAsync(claimsPrincipal);
+            var user = _context.Users.FirstOrDefault(x => x.Account == email);
 
             //return Ok("登入成功");
             //return Json(data);
@@ -90,7 +81,7 @@ namespace TFM104MVC.Controllers
 
 
 
-        
+
         /// <summary>
         /// FB登入(修)
         /// </summary>

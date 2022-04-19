@@ -21,9 +21,9 @@ namespace TFM104MVC.Controllers
     [ApiController]
     public class ProductsController : ControllerBase
     {
-        private IProductRepository _productRepository;
-        private readonly IMapper _mapper;
-        private readonly IWebHostEnvironment _environment;
+        private IProductRepository _productRepository;//調用倉儲
+        private readonly IMapper _mapper;//自動映射
+        private readonly IWebHostEnvironment _environment;//上傳圖片
         public ProductsController(IProductRepository productRepository, IMapper mapper, IWebHostEnvironment webHostEnvironment)
         {
             _productRepository = productRepository;

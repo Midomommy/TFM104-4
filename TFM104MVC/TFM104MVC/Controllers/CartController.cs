@@ -28,7 +28,7 @@ namespace TFM104MVC.Controllers
             _mapper = mapper;
         }
         [HttpPost("addcart")]
-        [Authorize(AuthenticationSchemes = "Cookies")]
+        //[Authorize(AuthenticationSchemes = "Cookies")]
         public IActionResult AddCart([FromBody] AddCartItemDto addCartItemDto)
         {
             //判斷Session內有沒有購物車
@@ -60,7 +60,7 @@ namespace TFM104MVC.Controllers
             }
         }
         [HttpPost("removecart")]
-        [Authorize(AuthenticationSchemes ="Cookies")]
+        //[Authorize(AuthenticationSchemes ="Cookies")]
         public IActionResult RemoveCart([FromBody] RemoveCartItemDto removeCartItemDto)
         {
             //向Session取得內容
@@ -100,7 +100,7 @@ namespace TFM104MVC.Controllers
         //}
 
         [HttpGet("GetFullInfoCart")]
-        [Authorize(AuthenticationSchemes = "Cookies")]
+        //[Authorize(AuthenticationSchemes = "Cookies")]
         public async Task<IActionResult> GetFullInfoCartAsync()
         {
             var cart = SessionHelper.GetObjectFromJson<List<AddCartItemDto>>(HttpContext.Session, "cart");
@@ -137,15 +137,15 @@ namespace TFM104MVC.Controllers
 
 
         [HttpPost("checkout")]
-        [Authorize(AuthenticationSchemes = "Cookies")]
-        public async Task<IActionResult> CheckOut([FromQuery] Guid[] productId,[FromBody]CartCheck cartCheck)
+        //[Authorize(AuthenticationSchemes = "Cookies")]
+        public IActionResult CheckOut()
         {
             //取得使用者userId
             var userId = HttpContext.User.FindFirstValue("userId");
             int UserID = int.Parse(userId);
 
             //取得參數傳進來的特定商品
-            List<Product> products = await _productRepository.GetProductsByIds(productId);
+            //List<Product> products = await _productRepository.GetProductsByIds(productId);
 
             //創造訂單詳情
             
