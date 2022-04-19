@@ -535,15 +535,17 @@
                 let self = this;
                 axios.get("/api/Cart/GetFullInfoCart")
                     .then(function (res) {
-                        for (let i in item) {
-                            console.log(item[i]);
-                            console.log(res.data[i]);
-                            if (res.data[i].id == item[i]) {
-                                //self.checkOutList = res.data;
-                                self.checkOutList.push(res.data[i]);
-                                //self.checkOutList[self.checkOutList.length] = res.data[i];
+                            for (let i in item) {
+                                for (let z = 0; z < res.data.length; z++) {
+                                    console.log(item[i]);
+                                    console.log(res.data[i]);
+                                    if (res.data[z].id == item[i]) {
+                                        //self.checkOutList = res.data;
+                                        self.checkOutList.push(res.data[z]);
+                                        //self.checkOutList[self.checkOutList.length] = res.data[i];
+                                    }
+                                }
                             }
-                        }
                     })
                     .catch(function (err) {
                         if (err.status == 404) {
