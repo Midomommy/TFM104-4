@@ -18,7 +18,6 @@
                         <div>
                             <div class="editor-logo"
                                  style="background-image: url(https://images.plurk.com/7xffWFcSGWCxhksYH53PN5.png);">
-                                <!--缺相機icon-->
                             </div>
                         </div>
 
@@ -155,39 +154,39 @@
                         </div>
                         <!--原始舊訂單-->
                         <!--<div class="card-items mb-4">
-    <div class="card col" style="height: 220px;" id="card-ts">
-        <div class="row g-0">
-            <div class="col-md-4">
-                <a href="">
-                    <img src="https://picsum.photos/250/200?ramdom=10"
-                         style="margin-left: 10px; margin-top: 10px;" class="img-fluid rounded">
-                </a>
-            </div>
-            <div class="col-md-8">
-                <div class="card-body">
-                    <h5 class="card-title">ProductName</h5>
-                    <p class="card-text">
-                        This is a wider card with supporting text below as a
-                        natural
-                        lead-in to
-                        additional content.
-                        This content is a little bit longer.
-                    </p>
-                    <p class="card-text">
-                        <small class="text-muted">Last updated 3 mins ago</small>
-                    </p>-->
+                        <div class="card col" style="height: 220px;" id="card-ts">
+                            <div class="row g-0">
+                                <div class="col-md-4">
+                                    <a href="">
+                                        <img src="https://picsum.photos/250/200?ramdom=10"
+                                             style="margin-left: 10px; margin-top: 10px;" class="img-fluid rounded">
+                                    </a>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="card-body">
+                                        <h5 class="card-title">ProductName</h5>
+                                        <p class="card-text">
+                                            This is a wider card with supporting text below as a
+                                            natural
+                                            lead-in to
+                                            additional content.
+                                            This content is a little bit longer.
+                                        </p>
+                                        <p class="card-text">
+                                            <small class="text-muted">Last updated 3 mins ago</small>
+                                        </p>-->
                         <!--修改訂單=>跳修改訂單頁面-->
                         <!--<a href="/orderEdit.html" class="btn" role="button" data-bs-toggle="button">
-                            <p>修改訂單</p>
-                        </a>
-                        <a href="#" class="btn" role="button" data-bs-toggle="button">
-                            <p>查看明細</p>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>-->
+                                                <p>修改訂單</p>
+                                            </a>
+                                            <a href="#" class="btn" role="button" data-bs-toggle="button">
+                                                <p>查看明細</p>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>-->
                     </div>
                 </div>
             </div>
@@ -221,3 +220,15 @@
             }).scroll();
         });
     </script>*@
+
+<script>
+    var ordermanage = new Vue({
+        el: 'manageVue',
+        data: {
+            product: [],
+            productpicture: [],
+            price: [],
+            discount: [],
+        }
+    })
+</script>

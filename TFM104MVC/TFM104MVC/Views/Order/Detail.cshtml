@@ -14,18 +14,18 @@
             <div class="card shadow">
                 <img src="https://picsum.photos/400/300?ramdom=10" class="card-img-top">
                 <div class="card-body">
-                    <h5 class="card-title">商品名稱 台北東北角 黃金海岸 鼻頭角、三貂角燈塔一日遊</h5>
+                    <h5 class="card-title" id="product">{{product.title}}</h5>
                     <p class="card-date">使用日期</p>
-                    <p class="card-date" id="date-time">2022-03-25</p>
+                    <p class="card-date" id="date-time">{{gotourist.time}}</p>
                     <p class="discount">數量</p>
-                    <p class="discount-ct">成人1人</p>
+                    <p class="discount-ct">{{discount}}人</p>
                 </div>
                 <div class="card shadow">
                     <div class="card-body">
                         <div class="card-price">
                             <p class="price-title">實際付款金額</p>
                             <p class="price-td">TWD</p>
-                            <p class="price-detail">1,000</p>
+                            <p class="price-detail">{{product.price}}</p>
                         </div>
                     </div>
                 </div>
@@ -43,16 +43,16 @@
                                 <p>聯絡客服</p>
                             </a>
                         </div>
-                        <h4>訂單編號</h4>
-                        <p>訂購人姓名：</p>
+                        <h4>訂單編號{{order.id}}</h4>
+                        <p>訂購人姓名：{{user.name}}</p>
                         <div>
                             <a href="javascript:void(0);" class="btn" id="btn_2" role="button" data-bs-toggle="button">
                                 <p>給予評價</p>
                             </a>
                         </div>
-                        <p>電子郵件：</p>
-                        <p>連絡電話：</p>
-                        <p>訂購日期：</p>
+                        <p>電子郵件：{{user.id}}</p>
+                        <p>連絡電話：{{user.phone}}</p>
+                        <p>訂購日期：{{order.date}}</p>
                     </div>
                 </div>
             </div>
@@ -85,3 +85,15 @@
             }).scroll();
         });
     </script>*@
+
+
+<script>
+    var getUrlString = location.pathname;
+    //var pid = getUrlString.replace("", "");
+    var apporder = new Vue({
+        el: '#detailVue',
+        data: {
+            order: [],
+        }
+    })
+</script>
