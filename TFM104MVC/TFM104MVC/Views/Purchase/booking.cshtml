@@ -48,7 +48,7 @@
                                             </label>
                                         </div>
                                         <div>
-                                            <input type="text" name="FirstName" placeholder="例：子庭" class="form-control">
+                                            <input type="text" name="FirstName" placeholder="例：子庭" class="form-control" v-model="orderInformation.UserInformation">
                                         </div>
                                     </div>
                                     <div class="col">
@@ -100,7 +100,7 @@
 
                     <!--其他資訊-->
                     <span class="fs-5 fw-bold">其他資訊</span>
-                    <template v-for="(item, index) in checkOutList">
+                    <template v-for="(item, index) in orderInformation.checkOutList">
                         <div class="board mb-5">
                             <!--商品單項標題-->
                             <div class="board-title d-flex gap-3">
@@ -343,7 +343,7 @@
                             <!--商品明細-->
                             <div class="container">
                                 <!--商品單項-->
-                                <div class="mb-3" v-for="(item, index) in checkOutList">
+                                <div class="mb-3" v-for="(item, index) in orderInformation.checkOutList">
                                     <div class="mb-3">
                                         <div class="row g-0">
                                             <div class="col-3">
@@ -515,17 +515,20 @@
     var app16booking = new Vue({
         el: "#booking",
         data: {
-            checkOutList: [],
+            orderInformation: {
+                checkOutList: [],
+                UserInformation: ""
+            }
         },
         mounted: function () {
             this.getUserCheckOutCart();
         },
         computed: {
             totalPrice: function () {
-                return this.checkOutList.map(x => x.price * x.qty).reduce((now, next) => now + next, 0);
+                return this.orderInformation.checkOutList.map(x => x.price * x.qty).reduce((now, next) => now + next, 0);
             },
             totalCount: function () {
-                return this.checkOutList.length;
+                return this.orderInformation.checkOutList.length;
             },
             ponits: function () {
                 return Math.floor(this.totalPrice * 0.1);
@@ -544,7 +547,7 @@
                                 //console.log(res.data[i]);
                                 if (res.data[z].id == item[i]) {
                                     //self.checkOutList = res.data;
-                                    self.checkOutList.push(res.data[z]);
+                                    self.orderInformation.checkOutList.push(res.data[z]);
                                     //self.checkOutList[self.checkOutList.length] = res.data[i];
                                 }
                             }

@@ -78,7 +78,8 @@
                                     <!--登入的畫面：會員頭像-->
                                     <li class="nav-item" data-bs-toggle="modal" data-bs-target="#Userlogin">
                                         <a id="memberLogin" class="btn" data-bs-toggle="offcanvas" href="#offcanvasFUserLogin" role="button" aria-controls="offcanvasFUserLogin">
-                                            <img src="https://fakeimg.pl/35/" class="rounded-circle img-fluid">
+                                            <i class="bi bi-person-circle fs-5"></i>
+                                            @*<img src="/pic/login_member.png" class="rounded-circle img-fluid" style="width:25x;height:25px;">*@
                                         </a>
                                     </li>
                                 }
@@ -97,7 +98,8 @@
                 <div class="list-group-item list-group-item-action d-flex justify-content-between">
                     <div class="">
                         <a onclick="location.href='@Url.Action("Index", "Login")'">
-                            <img src="https://fakeimg.pl/50/" class="rounded-circle img-fluid">
+                            @*<img src="https://fakeimg.pl/50/" class="rounded-circle img-fluid">*@
+                            <i class="bi bi-person-circle fs-4"></i>
                             <span class="offcanvas-title " id="offcanvasUser">
                                 <span> @User.Identity.Name</span>
                                 <i class="bi bi-gear"></i>
