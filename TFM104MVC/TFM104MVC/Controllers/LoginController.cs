@@ -12,6 +12,7 @@ using TFM104MVC.Database;
 using TFM104MVC.Models.Entity;
 using TFM104MVC.Extensions;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TFM104MVC.Controllers
 {
@@ -43,6 +44,7 @@ namespace TFM104MVC.Controllers
         //}
 
         //會員管理頁
+        [Authorize(AuthenticationSchemes = "Cookies")]
         public IActionResult Index()
         {
             return View();

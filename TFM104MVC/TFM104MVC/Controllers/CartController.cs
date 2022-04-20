@@ -136,13 +136,13 @@ namespace TFM104MVC.Controllers
 
         [HttpPost("checkout")]
         //[Authorize(AuthenticationSchemes = "Cookies")]
+
         public async Task<IActionResult> CheckOut([FromBody] OrderInformation orderInformation)
         {
             //取得使用者userId
             var userId = HttpContext.User.FindFirstValue("userId");
             int UserID = int.Parse(userId);
 
-            
             var dict = from li in orderInformation.CheckOutList
                        select new { li.Id, li.Qty };
 

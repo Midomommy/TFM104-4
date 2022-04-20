@@ -29,6 +29,7 @@ namespace TFM104MVC.Controllers
         }
 
         [HttpPost]
+        [Authorize(AuthenticationSchemes = "Cookies")]
         public IActionResult Booking([FromForm]List<string> productId)
         {
             List<string> pidList= new List<string>();
@@ -39,6 +40,8 @@ namespace TFM104MVC.Controllers
             return View();
 
         }
+
+        [Authorize(AuthenticationSchemes = "Cookies")]
         public IActionResult Cart()
         {
             return View();
