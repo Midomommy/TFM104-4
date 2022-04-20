@@ -124,7 +124,7 @@ namespace TFM104MVC.Controllers
                 
                 foreach(var i in productdto)
                 {
-                    i.Title = i.Title.Substring(0, 15);
+                    i.Title = i.Title.Substring(0, 20);
                     i.qty = cart.First(c => c.ProductId == i.Id).Quantity;
                     i.Description = i.Description.Substring(0, 10);
                 }
