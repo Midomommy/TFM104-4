@@ -58,10 +58,9 @@ namespace TFM104MVC.Controllers
         public async Task SpgatewayPayBillAsync(string ordernumber, int amount, string PayMethod)
         {
             string version = "2.0";
-            ordernumber = "111";
-            amount = 500;
+            //ordernumber = "111";
+            //amount = 500;
             
-
             TradeInfo tradeInfo = new TradeInfo()
             {
                 // * 商店代號
