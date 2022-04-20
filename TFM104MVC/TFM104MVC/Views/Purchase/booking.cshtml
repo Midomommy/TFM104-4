@@ -16,7 +16,7 @@
         </div>
         <!--訂購頁本體-->
         <main class="mb-5">
-            <form action="/Bank/SpgatewayPayBill" method="post">
+            @*<form action="/Bank/SpgatewayPayBill" method="post">*@
                 <div class="container">
                     <!--訂購人資料-->
                     <div class="board mb-5">
@@ -477,7 +477,7 @@
                                 <!--下訂-->
                                 <div class="item btn">
                                     <div class="d-flex justify-content-end gap-3">
-                                        <button class="btn btn-info" type="submit">確認付款</button>
+                                        <button class="btn btn-info" v-on:click="addOrder">確認付款</button>
                                     </div>
                                 </div>
                             </div>
@@ -485,7 +485,7 @@
                     </div>
 
                 </div>
-            </form>
+            @*</form>*@
         </main>
     </div>
 </section>
@@ -518,7 +518,8 @@
             orderInformation: {
                 checkOutList: [],
                 UserInformation: ""
-            }
+            },
+            err:""
         },
         mounted: function () {
             this.getUserCheckOutCart();
@@ -535,7 +536,19 @@
             }
         },
         methods: {
-            addorder: function () {
+            addOrder: function () {
+                let self = this;
+                axios.post("/api/Cart/Checkout", self.orderInformation)
+                    .then(function (res) {
+                        if (res.status == 204) {
+                            alert("訂單已成功送出");
+                        };
+                    })
+                    .catch(function (err) {
+                        if (err.status == 404) {
+                            alert(err.data);
+                        }
+                    });
             },
             getUserCheckOutCart: function () {
                 let self = this;
