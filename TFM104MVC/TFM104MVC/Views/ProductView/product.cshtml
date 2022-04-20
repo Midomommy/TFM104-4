@@ -92,7 +92,7 @@
                                     <span class="text-warning">
                                         <i class="bi bi-star-fill"></i>
                                     </span>
-                                    <p><small class="text-muted">(星星評價數)</small></p>
+                                    <p><small class="text-muted">{{customerRating}}</small></p>
                                 </div>
                                 <span class="divider">|</span>
                                 <!--熱門程度-->
@@ -302,7 +302,7 @@
                     <div class="d-flex gap-3 mb-3">
                         <!--評價星數-->
                         <div class="d-flex gap-1">
-                            <span class="fs-5 fw-bold">4.7</span>
+                            <span class="fs-5 fw-bold">{{customerRating}}</span>
                             <span class="text-warning fs-5">
                                 <i class="bi bi-star-fill"></i>
                             </span>
@@ -524,7 +524,7 @@
                                             <!--評價-->
                                             <div class="product-star d-flex">
                                                 <span class="text-warning"><i class="bi bi-star-fill"></i></span>
-                                                <p><small class="text-muted">(星星評價數)</small></p>
+                                                <p><small class="text-muted">{{item.customerRating}}</small></p>
                                             </div>
                                             <span class="divider">|</span>
                                             <!--熱門程度-->
@@ -538,14 +538,14 @@
                                         <!--日期-->
                                         <div class="product-info d-flex gap-1">
                                             <span class="text-muted"><i class="bi bi-calendar"></i></span>
-                                            <p><small class="text-muted">最早可預訂日期：{{item.goTouristTime}}</small></p>
+                                            <p><small class="text-muted">出發日期：{{item.goTouristTime}}</small></p>
                                         </div>
                                         <!--產品資訊：評價&熱門程度&價格-->
                                         <div class="product-footer d-flex gap-1 ">
                                             <!--價格-->
                                             <div class="product-price gap-3">
                                                 <div>
-                                                    <p class="fw-bolder">TWD{{item.price}} </p>
+                                                    <p class="fw-bolder">TWD    {{item.price}} </p>
                                                 </div>
                                             </div>
                                         </div>
@@ -687,7 +687,6 @@
     var getUrlString = location.pathname; //抓網頁路徑部分(/ProductView/product/XXXXX)
     var pid = getUrlString.replace("/ProductView/product/", "");//字元處理 移除"/ProductView/product/" 字串
 
-
     var app242 = new Vue({
         el: '#productVue',
         data: {
@@ -705,10 +704,8 @@
                 "OutsideIsland": "宜花東"
             },
             chregion: "",
-
+            customerRating:"",
             a: 1
-
-
 
         },
         computed: {
@@ -722,7 +719,7 @@
             var self = this;
             axios.get("/api/products/" + pid).then(function (res) {
                 self.product = res.data;
-
+                self.customerRating =res.data.customerRating;
                 self.pic = res.data.productPictures;
                 //self.local = res.data.region;
                 self.chregion = app242.sectionObject[res.data.region];

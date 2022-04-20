@@ -230,7 +230,7 @@
                         <div class="col-md-4">
                             <a v-bind:href=" '/ProductView/product/'+ item.id " target="_blank" rel="noopener">
                                 <img v-bind:src="item.productPictures[0].url"
-                                     class="w-100 img-fluid rounded-start product-pic" alt="...">
+                                     class="w-100 img-fluid rounded-start product-pic">
                             </a>
                         </div>
                         <div class="col-md-8">
@@ -263,7 +263,7 @@
                                         <!--日期-->
                                         <div class="d-flex gap-1">
                                             <span class="text-muted"><i class="bi bi-calendar"></i></span>
-                                            <p><small class="text-muted">最早可預訂日期：{{item.goTouristTime}}</small></p>
+                                            <p><small class="text-muted">出發日期：{{item.goTouristTime}}</small></p>
                                         </div>
                                     </div>
                                 </a>
@@ -372,8 +372,6 @@
             goTraveltime: "",
             pageLeftBtn: true,
 
-
-
             countOfPage: 10,// 幾個一頁
             currPage: 1,//初始頁
             sectionObject: {
@@ -390,8 +388,6 @@
 
         },
         computed: {
-
-
             pageStart: function () {
                 return (this.currPage - 1) * this.countOfPage;
             },
@@ -403,7 +399,6 @@
 
         mounted: function () {
             var self = this;
-
 
             axios.get("/api/products?" + keyword).then(function (res) {
                 for (let i of res.data) {
@@ -504,11 +499,6 @@
                 return value
             }
         },
-
-
-
-
-
 
         //methods: {
         //    regionClick: function () {
