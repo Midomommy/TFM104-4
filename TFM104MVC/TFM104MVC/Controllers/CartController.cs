@@ -144,7 +144,7 @@ namespace TFM104MVC.Controllers
 
             
             var dict = from li in orderInformation.CheckOutList
-                       select new { li.ProductId, li.Quantity };
+                       select new { li.Id, li.Qty };
 
             //創造訂單詳情集合
             List<Orderdetail> orderdetails = new List<Orderdetail>();
@@ -152,11 +152,11 @@ namespace TFM104MVC.Controllers
             //將dict迴圈取出 製作新的訂單詳情 最後存入我們創造的訂單詳情集合
             foreach (var items in dict)
             {
-                var product = await _productRepository.GetProductAsync(items.ProductId);
+                var product = await _productRepository.GetProductAsync(items.Id);
                 Orderdetail orderdetail = new Orderdetail()
                 {
-                    ProductId = items.ProductId,
-                    Quantity = items.Quantity,
+                    ProductId = items.Id,
+                    Quantity = items.Qty,
                     UnitPrice = product.OriginalPrice,
                     DiscountPersent = product.DiscountPersent
 
