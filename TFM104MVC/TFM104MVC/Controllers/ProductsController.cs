@@ -1,4 +1,4 @@
-﻿ using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -52,7 +52,7 @@ namespace TFM104MVC.Controllers
                     ratingValue = int.Parse(match.Groups[2].Value);
                 }
             }
-            var productsFromRepo = await _productRepository.GetProductsAsync(parameters.Keyword, operatorType, ratingValue, parameters.Region, parameters.Traveldays, parameters.Triptype,parameters.PageSize,parameters.PageNumber,parameters.OrderBy,parameters.OrderByDesc,parameters.GoTouristTime);
+            var productsFromRepo = await _productRepository.GetProductsAsync(parameters.Keyword, operatorType, ratingValue, parameters.Region, parameters.Traveldays, parameters.Triptype, parameters.PageSize, parameters.PageNumber, parameters.OrderBy, parameters.OrderByDesc, parameters.GoTouristTime);
 
 
             if (productsFromRepo == null || productsFromRepo.Count() <= 0)
@@ -95,36 +95,45 @@ namespace TFM104MVC.Controllers
         }
 
         [HttpPost] // api/products
-        [Authorize(Roles ="Admin,Firm")]
-
+        //[Authorize(Roles ="Admin,Firm")]
+        //[AllowAnonymous]
         public async Task<IActionResult> CreateProduct([FromForm] ProductCreationDto productCreationDto)
         {
-            string rootRoot = _environment.ContentRootPath + @"\wwwroot\ProductPictures\";
+            string rootRoot = _environment.WebRootPath + "/ProductPictures/";
             var productModel = _mapper.Map<Product>(productCreationDto);// 此時Id已被profile檔案投影出一個新的Guid Id
+            //var picsize = productCreationDto.Pic.Count;
+
             var files = productCreationDto.Pic;
-            foreach(var file in files)
+            if (files != null)
             {
-                ProductPicture productPicture = new ProductPicture();
-                if (file.Length > 0)
+                foreach (var file in files)
                 {
-                    var stream = System.IO.File.Create(rootRoot + DateTime.Now.Ticks.ToString()+file.FileName);
-                    file.CopyTo(stream);
-                    productPicture.Url = rootRoot + DateTime.Now.Ticks.ToString() + file.FileName;
+                    ProductPicture productPicture = new ProductPicture();
+                    if (file.Length > 0)
+                    {
+                        var stream = System.IO.File.Create(rootRoot + DateTime.Now.Ticks.ToString() + file.FileName);
+                        file.CopyTo(stream);
+                        productPicture.Url = "/ProductPictures/" + DateTime.Now.Ticks.ToString() + file.FileName;
+                    }
+                    productModel.ProductPictures.Add(productPicture);
                 }
-                productModel.ProductPictures.Add(productPicture);
+            }
+            else
+            {
+                return NotFound("上傳必須要有照片");
             }
             _productRepository.AddProduct(productModel); //這時候只是被寫入數據上下文當中 還沒真正與資料庫互動
             await _productRepository.SaveAsync();
             var productToReturn = _mapper.Map<ProductDto>(productModel);
-            return CreatedAtRoute("GetProductById", new { productId = productToReturn.Id },productToReturn);
+            return CreatedAtRoute("GetProductById", new { productId = productToReturn.Id }, productToReturn);
         }
 
         [HttpPut("{productId}")]
-        [Authorize(Roles = "Admin,Firm")]
-
+        //   [Authorize(Roles = "Admin,Firm")]
+        [AllowAnonymous]
         public async Task<IActionResult> UpdateProduct(
-            [FromRoute]Guid productId,
-            [FromBody]ProductUpdateDto productUpdateDto
+            [FromRoute] Guid productId,
+            [FromBody] ProductUpdateDto productUpdateDto
             )
         {
             if (!(await _productRepository.ProductExistAsync(productId)))
@@ -144,7 +153,7 @@ namespace TFM104MVC.Controllers
 
         [HttpPatch("{productId}")]
         public async Task<IActionResult> PartiallyUpdateProfuct(
-            [FromRoute]Guid productId,
+            [FromRoute] Guid productId,
             [FromBody] JsonPatchDocument<ProductUpdateDto> patchDocument)
         {
 
@@ -160,7 +169,7 @@ namespace TFM104MVC.Controllers
             //先去profile文件新增映射關係
             var productToPatch = _mapper.Map<ProductUpdateDto>(productFromRepo);
             //參數對應成功後 把數據打上補丁 使用JsonPatchDocument內建method 代表這個補丁成功打給了productToPatch
-            patchDocument.ApplyTo(productToPatch,ModelState);
+            patchDocument.ApplyTo(productToPatch, ModelState);
             if (!TryValidateModel(productToPatch))
             {
                 return ValidationProblem(ModelState);
@@ -173,9 +182,9 @@ namespace TFM104MVC.Controllers
         }
         [HttpDelete("{productId}")]
         [Authorize(Roles = "Admin,Firm")]
-        public async Task<IActionResult> DeleteProduct([FromRoute]Guid productId)
+        public async Task<IActionResult> DeleteProduct([FromRoute] Guid productId)
         {
-            if (!( await _productRepository.ProductExistAsync(productId)))
+            if (!(await _productRepository.ProductExistAsync(productId)))
             {
                 return NotFound("沒有此商品");
             }
