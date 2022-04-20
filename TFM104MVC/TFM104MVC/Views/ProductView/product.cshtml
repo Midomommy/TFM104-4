@@ -784,13 +784,9 @@
 
             purchaseNow: function () {
                 let self = this;
-                axios.post("/api/Cart/addcart", {
+                axios.post("/api/purchase/booking", {
                     productId: pid,
                     quantity: self.index
-                }).then(function (res) {
-                    if (res.status == 200) {
-                        cartListVue.getCurrentUserCart();
-                    }
                 }).then(function () {
                     window.location.href = "/purchase/booking";
                 }).catch(function (err) {
