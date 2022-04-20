@@ -215,7 +215,7 @@ namespace TFM104MVC.Services
 
         public async Task<List<Product>> GetProductsByIds(Guid[] productId)
         {
-            return await _context.Products.Include(x=>x.ProductPictures).Where(x => productId.Contains(x.Id)).ToListAsync();
+            return await _context.Products.Where(x => productId.Contains(x.Id)).ToListAsync();
         }
     }
 }
