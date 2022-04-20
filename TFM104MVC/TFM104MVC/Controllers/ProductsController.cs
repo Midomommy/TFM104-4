@@ -95,8 +95,9 @@ namespace TFM104MVC.Controllers
         }
 
         [HttpPost] // api/products
-        //[Authorize(Roles ="Admin,Firm")]
-        //[AllowAnonymous]
+
+        [Authorize(Roles ="Admin,Firm")]
+
         public async Task<IActionResult> CreateProduct([FromForm] ProductCreationDto productCreationDto)
         {
             string rootRoot = _environment.WebRootPath + "/ProductPictures/";

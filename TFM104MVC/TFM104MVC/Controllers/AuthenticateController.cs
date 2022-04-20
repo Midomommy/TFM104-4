@@ -75,7 +75,6 @@ namespace TFM104MVC.Controllers
             {
                 new Claim(ClaimTypes.Email,loginPasswordCheck.Account),
                 new Claim("userId",loginPasswordCheck.Id.ToString()),
-                new Claim(ClaimTypes.Name,loginPasswordCheck.LastName),
                 new Claim(ClaimTypes.Role,loginPasswordCheck.RoleName)
             };
 

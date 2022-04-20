@@ -16,8 +16,8 @@
                         <h1 class="title">探索全台景點行程</h1>
                         <h5 class="sub-title">最棒最有趣的台灣旅遊體驗</h5>
                         <nav class="navbar mb-5" style="justify-content: center;align-items: center;">
-                            <form class="d-flex" style="justify-content: center;align-items: center;">
-                                <input class="form-control me-2" type="search" placeholder="輸入目的地、景點、體驗行程或活動名稱..." style="width: 350px;" aria-label="Search">
+                            <form class="d-flex" action="/ProductView/productlist" style="justify-content: center;align-items: center;">
+                                <input name="keyword" class="form-control me-2"  class="form-control me-2" type="search" placeholder="輸入目的地、景點、體驗行程或活動名稱..." style="width: 350px;" aria-label="Search">
                                 <button class="btn btn-primary" type="submit" style="background-color: darkturquoise;border-color: darkturquoise;">Search</button>
                             </form>
                         </nav>
@@ -666,21 +666,29 @@
             },
         },
         mounted: function () {
-            var self = this;
-
-            axios.get("/api/products")
-                .then(function (res) {
-                    self.productlist = res.data;
-                    self.pic = res.data.productPictures;
-                    for (let i of res.data) {
-                        i.region = self.sectionObject[i.region];
-                    }
-                }).catch(function (err) {
-                    if (err.status == 404) {
-                        alert(err.data);
-                    }
-                }),
-
+            this.getNewProductList();
+            this.getOutIslandList();
+            this.getEastProductList();
+            this.getSouthProductList();
+        },
+        methods: {
+            getNewProductList: function () {
+                let self = this;
+                axios.get("/api/products")
+                    .then(function (res) {
+                        self.productlist = res.data;
+                        self.pic = res.data.productPictures;
+                        for (let i of res.data) {
+                            i.region = self.sectionObject[i.region];
+                        }
+                    }).catch(function (err) {
+                        if (err.status == 404) {
+                            alert(err.data);
+                        }
+                    });
+            },
+            getOutIslandList: function () {
+                let self = this;
                 axios.get("/api/products?Region=" + 6)
                     .then(function (res) {
                         self.productlistOutIsland = res.data;
@@ -690,19 +698,23 @@
 
                     }).catch(function (error) {
                         self.error = error.data;
-                    }),
+                    });
+            },
+            getEastProductList: function () {
+                let self = this;
+                axios.get("/api/products?Region=" + 5)
+                    .then(function (res) {
+                        self.productlistEast = res.data;
+                        for (let i of res.data) {
+                            i.region = self.sectionObject[i.region];
+                        };
 
-            axios.get("/api/products?Region=" + 5)
-                .then(function (res) {
-                    self.productlistEast = res.data;
-                    for (let i of res.data) {
-                        i.region = self.sectionObject[i.region];
-                    };
-
-                }).catch(function (error) {
-                    self.error = error.data;
-                }),
-
+                    }).catch(function (error) {
+                        self.error = error.data;
+                    });
+            },
+            getSouthProductList: function () {
+                let self = this;
                 axios.get("/api/products?Region=" + 4)
                     .then(function (res) {
                         self.productlistSouth = res.data;
@@ -712,7 +724,8 @@
 
                     }).catch(function (error) {
                         self.error = error.data;
-                    })
+                    });
+            }
         },
         filters: {
             ellipsis(value) {

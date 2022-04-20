@@ -16,7 +16,7 @@
         </div>
         <!--訂購頁本體-->
         <main class="mb-5">
-            <form action="/Bank/SpgatewayPayBill" method="post">
+            @*<form action="/Bank/SpgatewayPayBill" method="post">*@
                 <div class="container">
                     <!--訂購人資料-->
                     <div class="board mb-5">
@@ -48,7 +48,7 @@
                                             </label>
                                         </div>
                                         <div>
-                                            <input type="text" name="FirstName" placeholder="例：子庭" class="form-control">
+                                            <input type="text" name="FirstName" placeholder="例：子庭" class="form-control" v-model="orderInformation.UserInformation">
                                         </div>
                                     </div>
                                     <div class="col">
@@ -100,7 +100,7 @@
 
                     <!--其他資訊-->
                     <span class="fs-5 fw-bold">其他資訊</span>
-                    <template v-for="(item, index) in checkOutList">
+                    <template v-for="(item, index) in orderInformation.checkOutList">
                         <div class="board mb-5">
                             <!--商品單項標題-->
                             <div class="board-title d-flex gap-3">
@@ -343,7 +343,7 @@
                             <!--商品明細-->
                             <div class="container">
                                 <!--商品單項-->
-                                <div class="mb-3" v-for="(item, index) in checkOutList">
+                                <div class="mb-3" v-for="(item, index) in orderInformation.checkOutList">
                                     <div class="mb-3">
                                         <div class="row g-0">
                                             <div class="col-3">
@@ -369,7 +369,7 @@
                                                             商品數量*{{item.qty}}
                                                         </span>
                                                         <span class="text-muted">
-                                                            TWD XXX
+                                                            TWD {{item.qty * item.price}}
                                                         </span>
                                                     </div>
                                                     <hr class="text-muted">
@@ -379,7 +379,7 @@
                                                             總金額
                                                         </span>
                                                         <span class="">
-                                                            TWD
+                                                            TWD {{item.qty * item.price}}
                                                         </span>
                                                     </div>
                                                 </div>
@@ -400,27 +400,27 @@
                                             </div>
                                             <div class="col-9">
                                                 <div class="card-body">-->
-                                                    <!--商品標題-->
-                                                    <!--<div class="d-flex">
-                                                        <span class="card-title mb-3 fs-6 fw-bold">商品標題｜商品標題內容敘述</span>
-                                                    </div>-->
-                                                    <!--日期-->
-                                                    <!--<div class="d-flex gap-1">
-                                                        <span class="text-muted"><i class="bi bi-calendar"></i></span>
-                                                        <p><small class="text-muted">2022-05-06</small></p>
-                                                    </div>-->
-                                                    <!--商品數量-->
-                                                    <!--<div class="d-flex justify-content-between">
-                                                        <span class="text-muted">
-                                                            商品數量*?
-                                                        </span>
-                                                        <span class="text-muted">
-                                                            TWD XXX
-                                                        </span>
-                                                    </div>
-                                                    <hr class="text-muted">-->
-                                                    <!--總金額-->
-                                                    <!--<div class="d-flex justify-content-between">
+                                <!--商品標題-->
+                                <!--<div class="d-flex">
+                                    <span class="card-title mb-3 fs-6 fw-bold">商品標題｜商品標題內容敘述</span>
+                                </div>-->
+                                <!--日期-->
+                                <!--<div class="d-flex gap-1">
+                                    <span class="text-muted"><i class="bi bi-calendar"></i></span>
+                                    <p><small class="text-muted">2022-05-06</small></p>
+                                </div>-->
+                                <!--商品數量-->
+                                <!--<div class="d-flex justify-content-between">
+                                    <span class="text-muted">
+                                        商品數量*?
+                                    </span>
+                                    <span class="text-muted">
+                                        TWD XXX
+                                    </span>
+                                </div>
+                                <hr class="text-muted">-->
+                                <!--總金額-->
+                                <!--<div class="d-flex justify-content-between">
                                                         <span class="">
                                                             總金額
                                                         </span>
@@ -437,7 +437,7 @@
                                 <!--支付金額-->
                                 <div class="d-flex justify-content-between">
                                     <p class="fw-bold">支付金額</p>
-                                    <span class="fw-bold text-info fs-5">TWD </span>
+                                    <span class="fw-bold text-info fs-5">TWD {{totalPrice}}</span>
                                 </div>
                                 <hr class="text-muted">
                                 <!--訂單回饋 -->
@@ -446,7 +446,7 @@
                                     <div class="d-flex text-warning">
                                         <span>
                                             <i class="bi bi-exclamation-circle-fill"></i>
-                                            xx
+                                            {{ponits}}
                                         </span>
                                     </div>
                                 </div>
@@ -461,15 +461,15 @@
                                 <!--總金額與點數-->
                                 <div class="item">
                                     <div class="d-flex gap-1 align-items-center">
-                                        <small class="text-muted">x件商品合計</small>
-                                        <span class="fw-bold text-info">TWD xxxx</span>
+                                        <small class="text-muted">{{totalCount}}件商品合計</small>
+                                        <span class="fw-bold text-info">TWD {{totalPrice}}</span>
                                     </div>
                                     <div class="d-flex gap-1 align-items-center justify-content-end">
                                         <small class="text-muted">訂單完成後回饋</small>
                                         <div class="d-flex text-warning">
                                             <span>
                                                 <i class="bi bi-exclamation-circle-fill"></i>
-                                                xx
+                                                {{ponits}}
                                             </span>
                                         </div>
                                     </div>
@@ -477,7 +477,7 @@
                                 <!--下訂-->
                                 <div class="item btn">
                                     <div class="d-flex justify-content-end gap-3">
-                                        <button class="btn btn-info" type="submit">確認付款</button>
+                                        <button class="btn btn-info" v-on:click="addOrder">確認付款</button>
                                     </div>
                                 </div>
                             </div>
@@ -485,7 +485,7 @@
                     </div>
 
                 </div>
-            </form>
+            @*</form>*@
         </main>
     </div>
 </section>
@@ -501,7 +501,7 @@
     //string[] item = { };
     foreach (var i in pidList)
     {
-        Console.WriteLine(i);
+        //Console.WriteLine(i);
         <script>
             //console.log(a);
             /*var itemList[] = a;*/
@@ -515,37 +515,56 @@
     var app16booking = new Vue({
         el: "#booking",
         data: {
-            checkOutList: [],
+            orderInformation: {
+                checkOutList: [],
+                UserInformation: ""
+            },
+            err:""
         },
         mounted: function () {
             this.getUserCheckOutCart();
         },
-        //computed: {
-        //    totalPrice: function () {
-        //            return this.cartList.map(x => x.price).reduce((now, next) => now + next, 0);
-        //    },
-        //    totalCount: function () {
-        //        //    return this.cartList.length;
-        //    }
-        //},
+        computed: {
+            totalPrice: function () {
+                return this.orderInformation.checkOutList.map(x => x.price * x.qty).reduce((now, next) => now + next, 0);
+            },
+            totalCount: function () {
+                return this.orderInformation.checkOutList.length;
+            },
+            ponits: function () {
+                return Math.floor(this.totalPrice * 0.1);
+            }
+        },
         methods: {
-            addorder: function () {
+            addOrder: function () {
+                let self = this;
+                axios.post("/api/Cart/Checkout", self.orderInformation)
+                    .then(function (res) {
+                        if (res.status == 204) {
+                            alert("訂單已成功送出");
+                        };
+                    })
+                    .catch(function (err) {
+                        if (err.status == 404) {
+                            alert(err.data);
+                        }
+                    });
             },
             getUserCheckOutCart: function () {
                 let self = this;
                 axios.get("/api/Cart/GetFullInfoCart")
                     .then(function (res) {
-                            for (let i in item) {
-                                for (let z = 0; z < res.data.length; z++) {
-                                    console.log(item[i]);
-                                    console.log(res.data[i]);
-                                    if (res.data[z].id == item[i]) {
-                                        //self.checkOutList = res.data;
-                                        self.checkOutList.push(res.data[z]);
-                                        //self.checkOutList[self.checkOutList.length] = res.data[i];
-                                    }
+                        for (let i in item) {
+                            for (let z = 0; z < res.data.length; z++) {
+                                //console.log(item[i]);
+                                //console.log(res.data[i]);
+                                if (res.data[z].id == item[i]) {
+                                    //self.checkOutList = res.data;
+                                    self.orderInformation.checkOutList.push(res.data[z]);
+                                    //self.checkOutList[self.checkOutList.length] = res.data[i];
                                 }
                             }
+                        }
                     })
                     .catch(function (err) {
                         if (err.status == 404) {

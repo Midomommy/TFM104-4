@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -28,6 +29,7 @@ namespace TFM104MVC.Controllers
         }
 
         [HttpPost]
+        [Authorize(AuthenticationSchemes = "Cookies")]
         public IActionResult Booking([FromForm]List<string> productId)
         {
             List<string> pidList= new List<string>();
@@ -38,6 +40,16 @@ namespace TFM104MVC.Controllers
             return View();
 
         }
+
+        [Authorize(AuthenticationSchemes ="Cookies")]
+        public IActionResult BookingNow([FromQuery] string productId,int quantity)
+        {
+            Console.WriteLine(productId);
+            Console.WriteLine(quantity);
+            return View();
+        }
+
+        [Authorize(AuthenticationSchemes = "Cookies")]
         public IActionResult Cart()
         {
             return View();
