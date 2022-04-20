@@ -178,8 +178,29 @@ namespace TFM104MVC.Controllers
             await _productRepository.AddOrder(order);
             await _productRepository.SaveAsync();
 
+<<<<<<< Updated upstream
 
 
+=======
+            //向Session取得內容
+            List<AddCartItemDto> cart = SessionHelper.GetObjectFromJson<List<AddCartItemDto>>(HttpContext.Session, "cart");
+
+            //查詢要刪除的商品在List裡面的哪一個位置
+            foreach (var i in orderInformation.CheckOutList) 
+            {
+                int index = cart.FindIndex(x => x.ProductId == i.Id);
+                cart.RemoveAt(index);
+
+                if (cart.Count() < 1)
+                {
+                    SessionHelper.Remove(HttpContext.Session, "cart");
+                }
+                else //如果還有商品就重新設定Session內容 把更新後的內容設定上去
+                {
+                    SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
+                }
+            }
+>>>>>>> Stashed changes
             return NoContent();
 
         }
