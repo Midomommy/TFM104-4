@@ -200,7 +200,7 @@
 
                     <div class="m-3">
                         <div class="d-grid gap-2">
-                            <button class="btn btn-primary" type="button" onclick="location.href='@Url.Action("Booking", "Purchase")'">立即下訂</button>
+                            <button class="btn btn-primary" type="button" v-on:click="purchaseNow">立即下訂</button>
                         </div>
                     </div>
 
@@ -658,7 +658,7 @@
 
                         </div>
                         <div>
-                            <button type="button" class="btn btn-info" onclick="location.href='/Purchase/Booking' ">立即訂購</button>
+                            <button type="button" class="btn btn-info" v-on:click="purchaseNow">立即訂購</button>
                         </div>
                         <div class="align-middle">
                             <div>
@@ -783,15 +783,8 @@
             },
 
             purchaseNow: function () {
-                let self = this;
-                axios.post("/api/purchase/booking", {
-                    productId: pid,
-                    quantity: self.index
-                }).then(function () {
-                    window.location.href = "/purchase/booking";
-                }).catch(function (err) {
-                    console.log(err.data);
-                });
+                var directPurchase = '/Purchase/BookingNow?productId=' + pid + '&quantity=' + this.index;
+               window.location.href = directPurchase;
             }
         },
 
@@ -816,6 +809,12 @@
 
         }
     });
+</script>
+<script>
+    //var directPurchase = '/Purchase/BookingNow?productId=' + '2' + '&quantity=' + 10;
+    //function jump() {
+    //    window.location.href = directPurchase;
+    //}
 </script>
 
 

@@ -41,6 +41,14 @@ namespace TFM104MVC.Controllers
 
         }
 
+        [Authorize(AuthenticationSchemes ="Cookies")]
+        public IActionResult BookingNow([FromQuery] string productId,int quantity)
+        {
+            Console.WriteLine(productId);
+            Console.WriteLine(quantity);
+            return View();
+        }
+
         [Authorize(AuthenticationSchemes = "Cookies")]
         public IActionResult Cart()
         {

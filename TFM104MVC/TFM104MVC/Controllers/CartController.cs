@@ -124,7 +124,7 @@ namespace TFM104MVC.Controllers
                 
                 foreach(var i in productdto)
                 {
-                    i.Title = i.Title.Substring(0, 20);
+                    i.Title = i.Title.Substring(0, 10);
                     i.qty = cart.First(c => c.ProductId == i.Id).Quantity;
                     i.Description = i.Description.Substring(0, 10);
                 }
@@ -178,10 +178,7 @@ namespace TFM104MVC.Controllers
             await _productRepository.AddOrder(order);
             await _productRepository.SaveAsync();
 
-<<<<<<< Updated upstream
 
-
-=======
             //向Session取得內容
             List<AddCartItemDto> cart = SessionHelper.GetObjectFromJson<List<AddCartItemDto>>(HttpContext.Session, "cart");
 
@@ -200,7 +197,6 @@ namespace TFM104MVC.Controllers
                     SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
                 }
             }
->>>>>>> Stashed changes
             return NoContent();
 
         }

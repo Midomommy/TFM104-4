@@ -29,15 +29,15 @@ namespace TFM104MVC.Controllers
             _mapper = mapper;
         }
 
-        [HttpPost("addorder/{productId}")]
+        [HttpPost("addorder")]
         [Authorize(AuthenticationSchemes ="Cookies")]
-        public async Task<IActionResult> AddOrder([FromRoute] Guid productId,[FromBody] ProductCheck productCheck)
+        public async Task<IActionResult> AddOrder([FromBody] ProductCheck productCheck)
         {
             //1.先取出使用者Id
             var userId = _httpContextAccessor.HttpContext.User.FindFirstValue("userId");
             int UserId = int.Parse(userId);
             //使用參數傳進來的ProductId 取得特定商品資料
-            var productFromRepo = await _productRepository.GetProductWithNoPicturesAsync(productId);
+            var productFromRepo = await _productRepository.GetProductWithNoPicturesAsync(productCheck.ProductId);
 
             var orderdetail = new Orderdetail()
             {
