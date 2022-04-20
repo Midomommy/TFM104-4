@@ -280,7 +280,7 @@
                             <!--加入購物車or下訂-->
                             <div class="d-flex justify-content-end gap-3">
                                 <button type="button" class="btn btn-primary" v-on:click="addcart">加入購物車</button>
-                                <button type="button" class="btn btn-info" onclick="location.href='@Url.Action("Booking", "Purchase")'">立即訂購</button>
+                                <button type="button" class="btn btn-info" v-on:click="purchaseNow">立即訂購</button>
                             </div>
                         </div>
                     </div>
@@ -777,6 +777,22 @@
                         cartListVue.getCurrentUserCart();
                         alert("加入購物車成功");
                     }
+                }).catch(function (err) {
+                    console.log(err.data);
+                });
+            },
+
+            purchaseNow: function () {
+                let self = this;
+                axios.post("/api/Cart/addcart", {
+                    productId: pid,
+                    quantity: self.index
+                }).then(function (res) {
+                    if (res.status == 200) {
+                        cartListVue.getCurrentUserCart();
+                    }
+                }).then(function () {
+                    window.location.href = "/purchase/booking";
                 }).catch(function (err) {
                     console.log(err.data);
                 });
