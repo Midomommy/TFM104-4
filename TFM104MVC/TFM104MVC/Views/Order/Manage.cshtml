@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="/css/orderManage.css" type="text/css">
 
 
-<section class="page-wrap">
+<section class="page-wrap" id="orderManageVue">
     <div class="container">
         <div class="row">
             <!--左會員資訊欄-->
@@ -87,7 +87,7 @@
                     </div>
                     <div class="container">
                         <!--第一筆訂單-->
-                        <div class="card-items mb-4">
+                        <div class="card-items mb-4" v-for="item in orders">
                             @*<div class="card col" style="height: 220px;" id="card-ts">*@
                             <div class="card  my-1">
                                 <div class="row">
@@ -98,13 +98,13 @@
                                         </a>
                                     </div>
                                     <div class="col-9 col-md-8">
-                                        <div class="card-body">
-                                            <h5 class="card-title">ProductName</h5>
+                                        <div class="card-body"  v-for="item1 in item.orderdetails">
+                                            <h5 class="card-title">{{item1.discountPersent}}</h5>
                                             <p class="card-text">
-                                                <small class="text-muted">訂單編號</small>
+                                                <small class="text-muted">訂單編號 # {{item1.product.description}}</small>
                                             </p>
                                             <p class="card-text">
-                                                訂單價格
+                                                訂單價格TWD {{}}
                                             </p>
 
                                             <!--修改訂單=>跳修改訂單頁面-->
@@ -120,9 +120,9 @@
                             </div>
                         </div>
                         <!--第二筆訂單-->
-                        <div class="card-items mb-4">
+                        <!--<div class="card-items mb-4">-->
                             @*<div class="card col" style="height: 220px;" id="card-ts">*@
-                            <div class="card  my-1">
+                            <!--<div class="card  my-1">
                                 <div class="row">
                                     <div class="col-3 col-md-4">
                                         <a href="javascript:void(0);">
@@ -138,10 +138,10 @@
                                             </p>
                                             <p class="card-text">
                                                 訂單價格
-                                            </p>
+                                            </p>-->
 
                                             <!--修改訂單=>跳修改訂單頁面-->
-                                            <a onclick="location.href='@Url.Action("Edit", "Order")'" class="btn" role="button" data-bs-toggle="button">
+                                            <!--<a onclick="location.href='@Url.Action("Edit", "Order")'" class="btn" role="button" data-bs-toggle="button">
                                                 <p class="text-light">修改訂單</p>
                                             </a>
                                             <a onclick="location.href='@Url.Action("Detail", "Order")'" class="btn" role="button" data-bs-toggle="button">
@@ -151,7 +151,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div>-->
                         <!--原始舊訂單-->
                         <!--<div class="card-items mb-4">
                         <div class="card col" style="height: 220px;" id="card-ts">
@@ -223,12 +223,33 @@
 
 <script>
     var ordermanage = new Vue({
-        el: 'manageVue',
+        el: '#orderManageVue',
         data: {
-            product: [],
-            productpicture: [],
-            price: [],
-            discount: [],
+            orders: [],
+            
+        },
+        mounted: function () {
+            this.getOrder();
+        },
+        computed:  {
+            orderPrice: function () {
+                return this.orders.orderdetail.unitPrice * this.orders.orderdetails.quantity * this.orders.orderdetails.discountPersent
+            }
+        },
+        methods: {
+            getOrder: function () {
+                let self = this;
+                axios.get("/api/Orders").then(function (res) {
+                    self.orders = res.data;
+                    console.log(self.orders);
+
+                })
+                    .catch(function (err) {
+                        if (err.status == 404) {
+                            alert(err.data);
+                        }
+                    })
+            }
         }
     })
 </script>

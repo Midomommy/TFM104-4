@@ -64,6 +64,11 @@ namespace TFM104MVC.Controllers
             await _productRepository.AddOrder(order);
             await _productRepository.SaveAsync();
 
+            //取得訂單編號以及訂單總金額
+            var orderId = order.Id;
+            Console.WriteLine(orderId);
+            var amt = orderdetail;
+
             return NoContent(); 
         }
 
