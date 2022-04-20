@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -10,7 +9,6 @@ using System.Threading.Tasks;
 using TFM104MVC.Dtos;
 using TFM104MVC.Helpers;
 using TFM104MVC.Models.Entity;
-using TFM104MVC.Models.Session;
 using TFM104MVC.Services;
 
 namespace TFM104MVC.Controllers
@@ -138,32 +136,47 @@ namespace TFM104MVC.Controllers
 
         [HttpPost("checkout")]
         //[Authorize(AuthenticationSchemes = "Cookies")]
-        public IActionResult CheckOut()
+        public async Task<IActionResult> CheckOut([FromBody] OrderInformation orderInformation)
         {
             //取得使用者userId
             var userId = HttpContext.User.FindFirstValue("userId");
             int UserID = int.Parse(userId);
 
-            //取得參數傳進來的特定商品
-            //List<Product> products = await _productRepository.GetProductsByIds(productId);
-
-            //創造訂單詳情
             
-            //創建訂單
-            //var orderDto = new OrderDto()
-            //{
-            //    UserId = UserID,
-            //    Name = cartCheck.Name,
-            //    OrderStatus = Models.Enum.OrderStatus.NotPaid,
-            //    Discount = null,
-            //    Date = DateTime.UtcNow,
-            //    Orderdetails = cartToOrderDetail
-            //};
+            var dict = from li in orderInformation.CheckOutList
+                       select new { li.ProductId, li.Quantity };
 
-            //var order = _mapper.Map<Order>(orderDto);
+            //創造訂單詳情集合
+            List<Orderdetail> orderdetails = new List<Orderdetail>();
 
-            //await _productRepository.AddOrder(order);
-            //await _productRepository.SaveAsync();
+            //將dict迴圈取出 製作新的訂單詳情 最後存入我們創造的訂單詳情集合
+            foreach (var items in dict)
+            {
+                var product = await _productRepository.GetProductAsync(items.ProductId);
+                Orderdetail orderdetail = new Orderdetail()
+                {
+                    ProductId = items.ProductId,
+                    Quantity = items.Quantity,
+                    UnitPrice = product.OriginalPrice,
+                    DiscountPersent = product.DiscountPersent
+
+                };
+                orderdetails.Add(orderdetail);
+            }
+
+            //創造訂單
+            Order order = new Order()
+            {
+                Name = orderInformation.UserInformation,
+                OrderStatus = Models.Enum.OrderStatus.NotPaid,
+                Date = DateTime.UtcNow,
+                Discount = null,
+                UserId = UserID,
+                Orderdetails = orderdetails
+            };
+
+            await _productRepository.AddOrder(order);
+            await _productRepository.SaveAsync();
 
             return NoContent();
 
