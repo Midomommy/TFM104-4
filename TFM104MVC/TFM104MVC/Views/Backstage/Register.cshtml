@@ -25,7 +25,12 @@
           integrity="sha384–5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 
     <!--vue-->
-    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    @*<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>*@
+    <!--vue-->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <!--axios-->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/axios/0.9.1/axios.js' integrity='sha512-Kg0CewqPNO/ziOJuCq5eyl3P/V6OLz/Lb1I2m+yKS3lHZcGVFN/KOew18rWP+kTsL7haYdaqGjwHQCZrN0heLQ==' crossorigin='anonymous'></script>
+
     <!--我硬幹ㄉcss-->
     <link rel="stylesheet" href="/css/BackLayout.css" type="text/css">
     <link rel="stylesheet" href="/css/BackRegister.css" type="text/css">
@@ -46,124 +51,127 @@
     <header>
         <div class="container">
             <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
-                <div class="container" >
+                <div class="container">
                     <div style="margin-right: 3em;">
                         <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><img src="/pic/kkday_logo_final.svg"></a>
                     </div>
                     <div class="navbar-brand" style="">
                         <a class="navbar-brand" asp-area="" asp-controller="Backstage" asp-action="Login" style="color:#26bec9;font-size:16px;">
                             登入商家後台
-                            </a>
+                        </a>
                     </div>
                 </div>
             </nav>
         </div>
     </header>
     <!--公司基本資料-->
-    <div class="container section">
-        <div class="page-title">
-            @*<h2><strong>立即成為商家</strong></h2>*@
-            <span class="fs-3 fw-bold">立即成為商家</span>
+    <div id="firmregister">
+        <div class="container section">
+            <div class="page-title">
+                @*<h2><strong>立即成為商家</strong></h2>*@
+                <span class="fs-3 fw-bold">立即成為商家</span>
+            </div>
+            <div class="board row">
+                <div class="col-md-12">
+                    <h3>公司基本資料</h3>
+                </div>
+                <div class="basic">
+                    <h7><strong>基本資料</strong></h7>
+                </div>
+                <div class="col-md-5">
+                    <div class="company-title">
+                        <label>
+                            法定公司名稱
+                            <p class="title-danger">*</p>
+                        </label>
+                        <input type="text" class="textbox" placeholder="請填寫您的公司全名，例如XX有限公司" v-model="firmregisterInformation.firms.name">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="company-id">
+                        <label>
+                            統一編號
+                            <p class="title-danger">*</p>
+                        </label>
+                        <input type="text" class="textbox" v-model="firmregisterInformation.firms.taxId">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="company-id">
+                        <label>
+                            公司電話
+                            <p class="title-danger">*</p>
+                        </label>
+                        <input type="text" class="textbox" v-model="firmregisterInformation.phone">
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="board row">
-            <div class="col-md-12">
-                <h3>公司基本資料</h3>
-            </div>
-            <div class="basic">
-                <h7><strong>基本資料</strong></h7>
-            </div>
-            <div class="col-md-5">
-                <div class="company-title">
-                    <label>
-                        法定公司名稱
-                        <p class="title-danger">*</p>
-                    </label>
-                    <input type="text" class="textbox" placeholder="請填寫您的公司全名，例如XX有限公司">
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="company-id">
-                    <label>
-                        統一編號
-                        <p class="title-danger">*</p>
-                    </label>
-                    <input type="text" class="textbox">
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="company-id">
-                    <label>
-                        公司電話
-                        <p class="title-danger">*</p>
-                    </label>
-                    <input type="text" class="textbox">
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <!--主要聯絡人資料-->
-    <div class="container section">
-        <div class="page-title">
-        </div>
-        <div class="board row">
-            <div class="col-md-12">
-                <h3>主要聯絡人資料</h3>
+        <!--主要聯絡人資料-->
+        <div class="container section">
+            <div class="page-title">
             </div>
-            <div class="basic">
-                <h7><strong>聯絡人資訊</strong></h7>
-            </div>
-            <div class="company-id">
-                <label>
-                    主要聯絡人
-                    <p class="title-danger">*</p>
-                </label>
-                <div class="tbx_o">
-                    <div class="tbx col-sm-3">
-                        <input type="text" class="textbox" placeholder="姓" name="firstname">
-                    </div>
-                    <div class="col-sm-2" style="margin-left: 20px;">
-                        <input type="text" class="textbox" placeholder="名" name="lasrname">
+            <div class="board row">
+                <div class="col-md-12">
+                    <h3>主要聯絡人資料</h3>
+                </div>
+                <div class="basic">
+                    <h7><strong>聯絡人資訊</strong></h7>
+                </div>
+                <div class="company-id">
+                    <label>
+                        主要聯絡人
+                        <p class="title-danger">*</p>
+                    </label>
+                    <div class="tbx_o">
+                        <div class="tbx col-sm-3">
+                            <input type="text" class="textbox" placeholder="姓" name="firstname" v-model="firmregisterInformation.firstName">
+                        </div>
+                        <div class="col-sm-2" style="margin-left: 20px;">
+                            <input type="text" class="textbox" placeholder="名" name="lasrname"v-model="firmregisterInformation.lastName">
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="contain-email">
-                <label>
-                    聯絡人電子信箱
-                    <p class="title-danger">*</p>
-                </label>
-                <div class="tbx_o">
+                <div class="contain-email">
+                    <label>
+                        聯絡人電子信箱
+                        <p class="title-danger">*</p>
+                    </label>
+                    <div class="tbx_o">
+                        <div class="tbx col-sm-4">
+                            <input type="text" class="textbox" placeholder="請輸入常用電子信箱" name="email" v-model="firmregisterInformation.account">
+                        </div>
+                        <button type="button" class="btn btn-secondary btn-lg">驗證E-mail</button>
+                    </div>
+                </div>
+                <div class="contain-password">
+                    <label>
+                        密碼
+                        <span class="title-danger">*</span>
+                    </label>
                     <div class="tbx col-sm-4">
-                        <input type="text" class="textbox" placeholder="請輸入常用電子信箱" name="email">
+                        <input type="password" class="textbox" name="password" v-model="firmregisterInformation.password">
                     </div>
-                    <button type="button" class="btn btn-secondary btn-lg">驗證E-mail</button>
                 </div>
-            </div>
-            <div class="contain-password">
-                <label>
-                    密碼
-                    <p class="title-danger">*</p>
-                </label>
-                <div class="tbx col-sm-4">
-                    <input type="text" class="textbox" name="password">
+                <div class="d-flex justify-content-center">
+                    <button id="applyBtn" class="btn btn-primary" type="submit" v-on:click="addRegister">送出申請</button>
                 </div>
-            </div>
-            <div class="d-flex justify-content-center">
-                <button id="applyBtn" class="btn btn-primary">送出申請</button>
 
             </div>
-
         </div>
     </div>
 
-    <!--合作條款 暫時隱藏-->
-    @*    <div class="container">
+    <!--合作條款 暫時隱藏
+
+      <div class="container">
         <div class="page-title">
         </div>
         <div class="board row">
         <div class="col-md-12">
         <h3>合作條款</h3>
         </div>
+
         <div>
         <div class="form-group">
         <label>閱讀後請點選同意並送出，即完成申請</label>
@@ -478,8 +486,51 @@
         <<button id="applyBtn" class="btn btn-primary">送出申請</button>
         </div>
         </div>
-        </div>*@
-
-
+        </div>-->
 </body>
 </html>
+
+<!--發註冊API-->
+<script>
+    var com = new Vue({
+        el: "#firmregister",
+        data: {
+            firmregisterInformation: {
+                account: "",
+                password: "",
+                lastName: "",
+                firstName: "",
+                phone: "",
+                roleName: "Firm",
+                firms: {
+                    name: "",
+                    taxId: ""
+                }
+            }
+        },
+            methods: {
+                addRegister: function () {
+                    let self = this;
+                    axios.post("/auth/register", self.firmregisterInformation)
+                        .then(
+                            function (res) {
+                                if (res.status == 200) {
+                                    alert("恭喜註冊成功，請再次登入，並至您的信箱接收帳號激活驗證信");
+                                    axios.post("/auth/login", self.registerInformation).then(function (res) { window.location.href = "/home/index"; }).catch();
+                                };
+                            }
+                        )
+                        .catch(function (error) {
+                            if (error.status == 404) {
+                                alert(error.data);
+                            }
+                            if (error.status == 422) {
+                                for (var i of Object.keys(error.data.errors)) {
+                                    alert(error.data.errors[i][0]);
+                                }
+                            }
+                        });
+                }
+            }
+        });
+</script>
