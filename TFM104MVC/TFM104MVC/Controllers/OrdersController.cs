@@ -67,9 +67,13 @@ namespace TFM104MVC.Controllers
             //取得訂單編號以及訂單總金額
             var orderId = order.Id;
             Console.WriteLine(orderId);
-            var amt = orderdetail;
+            //var =await _productRepository.GetOrderdetailByOrderId(orderId);
 
-            return NoContent(); 
+            var amt = orderdetail.Quantity * orderdetail.UnitPrice * (decimal)orderdetail.DiscountPersent;
+            var amount = (int)amt;
+            string ordernumber = orderId.ToString();
+
+            return RedirectToAction("SpgatewayPayBill","Bank", new { ordernumber= ordernumber, amount=amount, PayMethod= "creditcard" });
         }
 
         [HttpGet]

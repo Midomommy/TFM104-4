@@ -54,7 +54,7 @@ namespace TFM104MVC.Controllers
         /// 
 
         //金流只在意付款方式、價格、訂單編號
-        [HttpPost]
+        //[HttpPost]
         public async Task SpgatewayPayBillAsync(string ordernumber, int amount, string PayMethod)
         {
             string version = "2.0";
