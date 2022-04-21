@@ -96,7 +96,7 @@
                                 <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="bottom" title="帳戶資料">
                                     <a class="btn" data-bs-toggle="offcanvas" href="#offcanvasUser" role="button"
                                        aria-controls="offcanvasUser">
-                                        <img src="https://fakeimg.pl/35/" class="rounded-circle img-fluid">
+                                        <i class="bi bi-person-circle fs-4"></i>
                                     </a>
                                 </li>
                             </ul>
@@ -112,8 +112,8 @@
                 <div class="list-group-item list-group-item-action d-flex justify-content-between">
                     <div class="">
                         <a asp-area="" asp-controller="Backstage" asp-action="Admin">
-                            <img src="https://fakeimg.pl/50/" class="rounded-circle img-fluid">
-                            <span class="offcanvas-title " id="offcanvasUser">登入會員名</span>
+                            <i class="bi bi-person-circle fs-4"></i>
+                            <span class="offcanvas-title " id="offcanvasUser">@User.Identity.Name</span>
                             <i class="bi bi-gear"></i>
                         </a>
                     </div>
