@@ -12,6 +12,8 @@ namespace TFM104MVC.Controllers
         //後台登入頁
         public IActionResult Login()
         {
+            ViewData["Title"] = "後台登入";
+            ViewData["PageTitle"] = "測試文章頁面";
             return PartialView();
         }
 

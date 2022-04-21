@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="/css/orderDetail.css" type="text/css">
 
 
-<div class="container mt-3 mb-5">
+<div class="container mt-3 mb-5" id="orderDetailVue">
     <div class="row">
 
         <!--左功能列表-->
@@ -91,9 +91,32 @@
     var getUrlString = location.pathname;
     //var pid = getUrlString.replace("", "");
     var apporder = new Vue({
-        el: '#detailVue',
+        el: '#orderDetailVue',
         data: {
-            order: [],
+            orderDetails: [],
+        },
+        mounted: function () {
+            this.getOrder();
+        },
+        computed: {
+            orderPrice: function () {
+                return this.orders.orderdetail.unitPrice * this.orders.orderdetails.quantity * this.orders.orderdetails.discountPersent
+            }
+        },
+        methods: {
+            getOrder: function () {
+                let self = this;
+                axios.get("/api/Orders").then(function (res) {
+                    self.orders = res.data;
+                    console.log(self.orders);
+
+                })
+                    .catch(function (err) {
+                        if (err.status == 404) {
+                            alert(err.data);
+                        }
+                    })
+            },
         }
     })
 </script>

@@ -67,14 +67,18 @@ namespace TFM104MVC.Controllers
             //取得訂單編號以及訂單總金額
             var orderId = order.Id;
             Console.WriteLine(orderId);
-            var amt = orderdetail;
+            //var =await _productRepository.GetOrderdetailByOrderId(orderId);
 
-            return NoContent(); 
+            var amt = orderdetail.Quantity * orderdetail.UnitPrice * (decimal)orderdetail.DiscountPersent;
+            var amount = (int)amt;
+            string ordernumber = orderId.ToString();
+
+            return RedirectToAction("SpgatewayPayBill","Bank", new { ordernumber= ordernumber, amount=amount, PayMethod= "creditcard" });
         }
 
         [HttpGet]
         [Authorize(AuthenticationSchemes ="Cookies")]
-        public async Task<IActionResult> GetOrders()
+        public async Task<IActionResult> GetOrders() //會員讀取訂單功能
         {
             //1.先取出使用者Id
             var userId = _httpContextAccessor.HttpContext.User.FindFirstValue("userId");
@@ -92,12 +96,12 @@ namespace TFM104MVC.Controllers
             return Ok(orderForShowDto);
         }
 
-        [HttpGet("{orderId}")]
-        [Authorize(AuthenticationSchemes = "Cookies")]
-        public async Task<IActionResult> GetOrderdetailByOrderId([FromRoute] int orderId)
+        [HttpGet("{orderId}/{productId}")] // /api/orders/xxx
+        [Authorize(AuthenticationSchemes = "Cookies")] //會員讀取單一訂單明細功能
+        public async Task<IActionResult> GetOrderdetailByOrderId([FromRoute] int orderId,Guid productId)
         {
             //透過訂單Id 叫出特定訂單詳情(包含訂單 訂單詳情 商品 商品照片)
-            var orderdetail = await _productRepository.GetOrderdetailByOrderId(orderId);
+            var orderdetail = await _productRepository.GetOrderdetailByProductIdAndOrderId(productId,orderId);
             if (orderdetail == null)
             {
                 return NotFound("沒有此訂單詳情");
@@ -107,5 +111,56 @@ namespace TFM104MVC.Controllers
             return Ok(orderdetailForShow);
 
         }
+
+        [HttpGet("manage")]
+        [Authorize(Roles ="Firm,Admin")]
+        public async Task<IActionResult> GetAllOrders() //管理者與廠商 讀取訂單 功能
+        {
+            var allOrders = await _productRepository.GetAllOrders(); //只撈出未付款和已付款的訂單 不撈出已取消的訂單
+            if(allOrders == null || allOrders.Count() == 0)
+            {
+                return NotFound("目前平台沒有訂單");
+            }
+
+
+            var orderForShowDto = _mapper.Map<List<OrderForShowDto>>(allOrders);
+            return Ok(orderForShowDto);
+        }
+
+
+        [HttpGet("manage/{orderId}")]
+        [Authorize(Roles ="Firm,Admin")] //管理者與廠商 讀取單一訂單 功能
+        public async Task<IActionResult> GetOrderById([FromRoute]int orderId)
+        {
+            var order = await _productRepository.GetOrderById(orderId);
+            if(order == null)
+            {
+                return NotFound("查無此訂單編號");
+            }
+
+            var orderForShowDto = _mapper.Map<OrderForShowDto>(order);
+
+            return Ok(orderForShowDto);
+        }
+
+        [HttpPost("{orderId}")]
+        [Authorize(Roles ="Firm,Admin")] //管理者與廠商 軟刪除特定訂單 功能
+        public async Task<IActionResult> SoftDeleteOrder([FromRoute] int orderId)
+        {
+            var order = await _productRepository.GetOrderById(orderId);
+            if (order == null)
+            {
+                return NotFound("查無此訂單編號");
+            }
+
+            order.OrderStatus = Models.Enum.OrderStatus.Canceled;
+
+            await _productRepository.SaveAsync();
+
+            return NoContent();
+
+        }
+        
+
     }
 }

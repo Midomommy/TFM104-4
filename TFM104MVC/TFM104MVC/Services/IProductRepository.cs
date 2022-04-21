@@ -29,9 +29,12 @@ namespace TFM104MVC.Services
 
         Task AddOrder(Order order);
         Task<IEnumerable<Order>> GetOrders(int userId);
-        Task<Order> GetOrderdetailByOrderId(int orderId);
+        Task<Orderdetail> GetOrderdetailByProductIdAndOrderId(Guid productId,int orderId);
 
         string GetProductTitle(Guid id);
         Task<List<Product>> GetProductsByIds(Guid[] productId);
+
+        Task<IEnumerable<Order>> GetAllOrders(); //管理者 廠商 取得所有客戶的訂單
+        Task<Order> GetOrderById(int orderId);
     }
 }

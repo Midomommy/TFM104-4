@@ -21,7 +21,8 @@
                             </div>
                         </div>
 
-                        <h4 class="break-word">XXXXX</h4>
+                        <h4 class="break-word" v-if="">@User.Identity.Name</h4>
+                        <h4 class="break-word" v-else>Guest</h4>
                         <div class="account-group">
                             <div class="account gap-2">
                                 <img src="https://imgur.com/MAqZ1Pb.png" style="width: 24px;height: 24px;" class="channel-icon">
@@ -90,25 +91,25 @@
                         <div class="card-items mb-4" v-for="item in orders">
                             @*<div class="card col" style="height: 220px;" id="card-ts">*@
                             <div class="card  my-1">
-                                <div class="row">
+                                <div class="row" v-for="item1 in item.orderdetails">
                                     <div class="col-3 col-md-4">
-                                        <a href="javascript:void(0);">
-                                            <img src="https://picsum.photos/250/200?ramdom=10"
+                                        <a v-bind:href=" '/ProductView/product/'+ item.id ">
+                                            <img :src="item1.product.productPictures[0].url"
                                                  style="margin-left: 10px; margin-top: 10px; margin-bottom: 10px;" class="img-fluid rounded">
                                         </a>
                                     </div>
                                     <div class="col-9 col-md-8">
-                                        <div class="card-body"  v-for="item1 in item.orderdetails">
-                                            <h5 class="card-title">{{item1.discountPersent}}</h5>
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{item1.product.title}}</h5>
                                             <p class="card-text">
-                                                <small class="text-muted">訂單編號 # {{item1.product.description}}</small>
+                                                <small class="text-muted">訂單編號 # {{item1.orderId}}</small>
                                             </p>
                                             <p class="card-text">
-                                                訂單價格TWD {{}}
+                                                訂單價格TWD {{item1.unitPrice * item1.discountPersent * item1.quantity}}
                                             </p>
 
                                             <!--修改訂單=>跳修改訂單頁面-->
-                                            <a onclick="location.href='@Url.Action("Edit", "Order")'" class="btn" role="button" data-bs-toggle="button">
+                                            <a v-bind:href=" '/ProductView/product/'+ item1.product.id " onclick="goOrderDetail" class="btn" role="button" data-bs-toggle="button">
                                                 <p class="text-light">修改訂單</p>
                                             </a>
                                             <a onclick="location.href='@Url.Action("Detail", "Order")'" class="btn" role="button" data-bs-toggle="button">
@@ -121,27 +122,26 @@
                         </div>
                         <!--第二筆訂單-->
                         <!--<div class="card-items mb-4">-->
-                            @*<div class="card col" style="height: 220px;" id="card-ts">*@
-                            <!--<div class="card  my-1">
-                                <div class="row">
-                                    <div class="col-3 col-md-4">
-                                        <a href="javascript:void(0);">
-                                            <img src="https://picsum.photos/250/200?ramdom=10"
-                                                 style="margin-left: 10px; margin-top: 10px; margin-bottom: 10px;" class="img-fluid rounded">
-                                        </a>
-                                    </div>
-                                    <div class="col-9 col-md-8">
-                                        <div class="card-body">
-                                            <h5 class="card-title">ProductName</h5>
-                                            <p class="card-text">
-                                                <small class="text-muted">訂單編號</small>
-                                            </p>
-                                            <p class="card-text">
-                                                訂單價格
-                                            </p>-->
-
-                                            <!--修改訂單=>跳修改訂單頁面-->
-                                            <!--<a onclick="location.href='@Url.Action("Edit", "Order")'" class="btn" role="button" data-bs-toggle="button">
+                        @*<div class="card col" style="height: 220px;" id="card-ts">*@
+                        <!--<div class="card  my-1">
+                            <div class="row">
+                                <div class="col-3 col-md-4">
+                                    <a href="javascript:void(0);">
+                                        <img src="https://picsum.photos/250/200?ramdom=10"
+                                             style="margin-left: 10px; margin-top: 10px; margin-bottom: 10px;" class="img-fluid rounded">
+                                    </a>
+                                </div>
+                                <div class="col-9 col-md-8">
+                                    <div class="card-body">
+                                        <h5 class="card-title">ProductName</h5>
+                                        <p class="card-text">
+                                            <small class="text-muted">訂單編號</small>
+                                        </p>
+                                        <p class="card-text">
+                                            訂單價格
+                                        </p>-->
+                        <!--修改訂單=>跳修改訂單頁面-->
+                        <!--<a onclick="location.href='@Url.Action("Edit", "Order")'" class="btn" role="button" data-bs-toggle="button">
                                                 <p class="text-light">修改訂單</p>
                                             </a>
                                             <a onclick="location.href='@Url.Action("Detail", "Order")'" class="btn" role="button" data-bs-toggle="button">
@@ -226,12 +226,11 @@
         el: '#orderManageVue',
         data: {
             orders: [],
-            
         },
         mounted: function () {
             this.getOrder();
         },
-        computed:  {
+        computed: {
             orderPrice: function () {
                 return this.orders.orderdetail.unitPrice * this.orders.orderdetails.quantity * this.orders.orderdetails.discountPersent
             }
@@ -242,13 +241,16 @@
                 axios.get("/api/Orders").then(function (res) {
                     self.orders = res.data;
                     console.log(self.orders);
-
                 })
                     .catch(function (err) {
                         if (err.status == 404) {
                             alert(err.data);
                         }
                     })
+            },
+            goOrderDetail: function () {
+                var orderDetails = '/Order/Detail/' + orderid + '&quantity=' + this.index;
+                window.location.href = orderDetails;
             }
         }
     })

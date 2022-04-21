@@ -74,7 +74,9 @@ namespace TFM104MVC.Controllers
             var claims = new[]
             {
                 new Claim(ClaimTypes.Email,loginPasswordCheck.Account),
+                new Claim("email",loginPasswordCheck.Account),
                 new Claim("userId",loginPasswordCheck.Id.ToString()),
+                new Claim(ClaimTypes.Name,loginPasswordCheck.LastName),
                 new Claim(ClaimTypes.Role,loginPasswordCheck.RoleName)
             };
 
@@ -139,7 +141,9 @@ namespace TFM104MVC.Controllers
 
             userModel.Password = hashStr;
             userModel.Salt = salt;
-
+            userModel.LastName = "Guest";
+            //string userName = User.Identity.Name;
+            //userName = "Guest";
 
             var accountCheck = _authenticateRepository.AccountCheck(userForCreationDto.Account);
             if(accountCheck != null)
@@ -214,13 +218,30 @@ namespace TFM104MVC.Controllers
             user.FirstName = userForUpdate.FirstName;
             user.LastName = userForUpdate.LastName;
             user.Phone = userForUpdate.Phone;
-            user.Members.Gender = userForUpdate.Member.Gender;
-            user.Members.Birthday = Convert.ToDateTime(userForUpdate.Member.Birthday);
+            user.Members.Gender = userForUpdate.Members.Gender;
+            user.Members.Birthday = Convert.ToDateTime(userForUpdate.Members.Birthday);
 
             //儲存
             _authenticateRepository.Save();
             return NoContent();
         }
+
+        [HttpGet("getUser")]
+        public IActionResult GetUserById()
+        {
+            var userId = _httpContextAccessor.HttpContext.User.FindFirstValue("userId");
+            var Id = int.Parse(userId);
+            var userFromRepo = _authenticateRepository.FindUser(Id);
+            if (userFromRepo == null)
+            {
+                Console.WriteLine($"找不到編號為{Id}的使用者");
+                return NotFound($"找不到編號為{Id}的使用者");
+            }
+            var userDto = _mapper.Map<UserMemberDto>(userFromRepo);
+            return Ok(userDto);
+        }
+
+
     }
 
 }

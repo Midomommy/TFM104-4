@@ -19,7 +19,8 @@
                             </div>
                         </div>
 
-                        <h4 class="break-word">XXXXX</h4>
+                        <h4 class="break-word">@User.Identity.Name</h4>
+                        <p>@User.Claims.Where(x => x.Type == "email").FirstOrDefault().Value</p>
                         <div class="account-group">
                             <div class="account gap-2">
                                 <img src="https://imgur.com/MAqZ1Pb.png" style="width: 24px;height: 24px;" class="channel-icon">
@@ -79,7 +80,7 @@
 
 
             <!--右資訊欄-->
-            <div class="col-md-9">
+            <div class="col-md-9" id="EditData">
                 <div class="board">
                     <div class="page-head">
                         <h3>帳號設定</h3>
@@ -92,7 +93,7 @@
                                     <span class="text-danger">*</span>
                                 </label>
                                 <div class="form-group">
-                                    <input placeholder="姓" name="lastName" autocomplete="given-name" type="text" class="form-control">
+                                    <input placeholder="@User.Identity.Name" name="lastName" autocomplete="given-name" type="text" class="form-control" v-model="memberData.lastName">
                                 </div>
                             </div>
                         </div>
@@ -103,17 +104,17 @@
                                     <span class="text-danger">*</span>
                                 </label>
                                 <div class="form-group">
-                                    <input placeholder="名" name="firstName" autocomplete="family-name" type="text" class="form-control">
+                                    <input placeholder="名" name="firstName" autocomplete="family-name" type="text" class="form-control" v-model="memberData.firstName">
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>性別</label>
-                                <select type="text" class="form-control">
-                                    <option value="o" selected="selected"> -請選擇- </option>
-                                    <option value="m">男性</option>
-                                    <option value="m">女性</option>
+                                <select type="text" class="form-control" v-model="memberData.members.gender">
+                                    <option selected="selected" disabled> -請選擇- </option>
+                                    <option v-bind:value="true">男性</option>
+                                    <option v-bind:value="false">女性</option>
                                 </select>
                             </div>
                         </div>
@@ -124,9 +125,9 @@
                                 <label>出生日期</label>
                                 <div class="input-group">
                                     @*<input placeholder="YYYY-MM-DD" type="text" class="form-control.has-datepicker">*@
-                                    <input type="datetime-local" id="birtday" name="birthday"
-                                           value="2022-05-06T19:30" min="1918-06-07T00:00" max="2300-06-14T00:00"
-                                           placeholder="YYYY-MM-DD">
+                                    <input type="date" id="birtday" name="birthday"
+                                           value="1918-06-07" min="1918-06-07T00:00" max="2300-06-14T00:00"
+                                            v-model="memberData.members.birthday">
 
                                     <span class="input-group-addon">
                                         <i class="bi bi-calendar2-week"></i>
@@ -162,7 +163,7 @@
                                             <option value="886">Taiwan (+886)</option>
                                         </select>
                                     </div>
-                                    <input type="tel" name="tel" class="form-control" style="padding-left: 90px;">
+                                    <input type="tel" name="tel" class="form-control" style="padding-left: 90px;" v-model="memberData.phone">
                                 </div>
                             </div>
                         </div>
@@ -175,12 +176,12 @@
                                     <span class="text-danger">*</span>
                                 </label>
                                 <div class="form-group">
-                                    <input placeholder="聯絡 E-mail" name="email" autocomplete="email" type="email" class="form-control" disabled>
+                                    <input placeholder="聯絡 E-mail" name="email" autocomplete="email" type="email" class="form-control" v-model="memberData.account" readonly>
                                 </div>
                             </div>
                         </div>
                         <div class="text-right">
-                            <a class="btn btn-primary btn-save" style=" color: #fff;">儲存</a>
+                            <a class="btn btn-primary btn-save" v-on:click="updateMember" style=" color: #fff;">儲存</a>
                         </div>
                     </div>
                 </div>
@@ -190,7 +191,50 @@
 </section>
 
 
-
+<!--發修改資料api-->
+<script>
+    var MemberData = new Vue({
+        el: '#EditData',
+        data: {
+            memberData: {
+                account:"",
+                lastName: "",
+                firstName: "",
+                phone: "",
+                members: {
+                    birthday: "",
+                    gender:false
+                }
+            },
+            userData:[]
+        },
+        mounted: function() {
+            this.getUserData();
+        },
+        methods: {
+            updateMember: function () {
+                let self = this;
+                axios.post("/auth/UpdateUserDetail", self.memberData)
+                    .then(
+                        function (res) {
+                            console.log("成功送出資料");
+                            alert("您已成功更新資料");
+                        }
+                ).then(function () {
+                    self.getUserData();
+                });
+            },
+            getUserData: function () {
+                let self = this;
+                axios.get("/auth/getUser").then(
+                    function (res) {
+                        self.memberData = res.data;
+                    }
+                )
+            }
+        },  
+    })
+</script>
 
 <!--回頂部btn 暫時隱藏-->
 

@@ -14,6 +14,10 @@ namespace TFM104MVC.Profiles
         public UserProfile()
         {
             CreateMap<UserForCreationDto, User>();
+            CreateMap<User,UserMemberDto>();
+            CreateMap<Member, MemberDto>()
+                .ForMember(des => des.Birthday, opt => opt.MapFrom(src => src.Birthday.HasValue ? src.Birthday.Value.ToString("yyyy-MM-dd") : "")) ;
+
         }
     }
 }
