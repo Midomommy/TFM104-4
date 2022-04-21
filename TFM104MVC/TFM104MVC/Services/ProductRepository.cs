@@ -226,7 +226,7 @@ namespace TFM104MVC.Services
 
         public async Task<Order> GetOrderById(int orderId)
         {
-            return await _context.Orders.Include(x => x.Orderdetails).ThenInclude(x => x.Product).ThenInclude(x => x.ProductPictures).FirstOrDefaultAsync(x => x.Id == orderId);
+            return await _context.Orders.FirstOrDefaultAsync(x => x.Id == orderId);
         }
     }
 }

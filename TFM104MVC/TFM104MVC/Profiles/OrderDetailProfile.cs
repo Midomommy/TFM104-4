@@ -13,11 +13,11 @@ namespace TFM104MVC.Profiles
     {
         public OrderDetailProfile()
         {
-            CreateMap<CartItem, Orderdetail>()
-                .ForMember(dest => dest.UnitPrice, opt => opt.MapFrom(src => src.OriginalPrice));
-            CreateMap<CartItem, CartItemDto>();
-            CreateMap<CartItemDto, Orderdetail>()
-                .ForMember(dest => dest.UnitPrice, opt => opt.MapFrom(src => src.OriginalPrice));
+            //CreateMap<CartItem, Orderdetail>()
+            //    .ForMember(dest => dest.UnitPrice, opt => opt.MapFrom(src => src.OriginalPrice));
+            //CreateMap<CartItem, CartItemDto>();
+            //CreateMap<CartItemDto, Orderdetail>()
+            //    .ForMember(dest => dest.UnitPrice, opt => opt.MapFrom(src => src.OriginalPrice));
             CreateMap<Orderdetail, OrderdetailDto>();
         }
     }

@@ -18,7 +18,7 @@ namespace TFM104MVC.Dtos
 
         public string OrderStatus { set; get; } //訂單狀態
 
-        public virtual ICollection<OrderdetailDto> Orderdetails { get; set; }
+        public ICollection<OrderdetailDto> Orderdetails { get; set; }
 
         public int UserId { get; set; } //使用者編號
     }

@@ -25,7 +25,7 @@ namespace TFM104MVC.Models.Entity
         //外來鍵商品id
         //[ForeignKey("Product")]
         public Guid ProductId { get; set; }
-        public virtual Product Product { get; set; }
+        public Product Product { get; set; }
 
         //[Key]
         //[Column(Order = 2)]

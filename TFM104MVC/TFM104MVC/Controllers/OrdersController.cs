@@ -106,7 +106,7 @@ namespace TFM104MVC.Controllers
             {
                 return NotFound("沒有此訂單詳情");
             }
-            var orderdetailForShow = _mapper.Map<OrderForShowDto>(orderdetail);
+            var orderdetailForShow = _mapper.Map<OrderdetailDto>(orderdetail);
 
             return Ok(orderdetailForShow);
 
@@ -128,11 +128,11 @@ namespace TFM104MVC.Controllers
         }
 
 
-        [HttpGet("manage/{orderId}")]
-        [Authorize(Roles ="Firm,Admin")] //管理者與廠商 讀取單一訂單 功能
-        public async Task<IActionResult> GetOrderById([FromRoute]int orderId)
+        [HttpGet("manage/{orderId}")] //讀取單一訂單 功能
+        public async Task<IActionResult> GetOrderById([FromRoute]string orderId)
         {
-            var order = await _productRepository.GetOrderById(orderId);
+            int OrderId = int.Parse(orderId);
+            var order = await _productRepository.GetOrderById(OrderId);
             if(order == null)
             {
                 return NotFound("查無此訂單編號");

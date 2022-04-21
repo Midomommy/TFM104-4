@@ -12,18 +12,19 @@
         <!--左功能列表-->
         <div class="col-md-3">
             <div class="card shadow">
-                <img src="https://picsum.photos/400/300?ramdom=10" class="card-img-top">
+                <a v-bind:href="'/ProductView/product/'+ orderDetails.productId ">
+                <img :src="orderDetails.product.productPictures[0].url" class="card-img-top">
+                </a>
                 <div class="card-body">
-                    <h5 class="card-title" id="product">商品標題</h5>
-                    <p class="card-date" id="date-time">出發日期</p>
-                    <p class="discount">數量*</p>
+                    <h5 class="card-title" id="product">{{orderDetails.product.title}}</h5>
+                    <p class="card-date" id="date-time">出發日期：{{orderDetails.product.goTouristTime}}</p>
+                    <p class="discount">數量*{{orderDetails.quantity}}</p>
                 </div>
                 <div class="card shadow">
                     <div class="card-body">
                         <div class="card-price">
                             <p class="price-title">實際付款金額</p>
-                            <p class="price-td">TWD</p>
-                            <p class="price-detail">xxxx</p>
+                            <p class="price-td">TWD {{orderDetails.product.price}}</p>
                         </div>
                     </div>
                 </div>
@@ -41,16 +42,16 @@
                                 <p>聯絡客服</p>
                             </a>
                         </div>
-                        <h4>訂單編號</h4>
-                        <p>訂購人姓名：</p>
+                        <h4>訂單編號 #{{orderDetails.orderId}}</h4>
+                        <p>訂購人姓名：{{orderInfo.name}}</p>
                         <div>
                             <a href="javascript:void(0);" class="btn" id="btn_2" role="button" data-bs-toggle="button">
                                 <p>給予評價</p>
                             </a>
                         </div>
-                        <p>電子郵件：</p>
-                        <p>連絡電話：</p>
-                        <p>訂購日期：</p>
+                        <p>電子郵件：{{orderInfo.email}}</p>
+                        <p>連絡電話：{{orderInfo.phone}}</p>
+                        <p>訂購日期：{{orderInfo.buyDate}}</p>
                     </div>
                 </div>
             </div>
@@ -90,13 +91,16 @@
     console.log(url);
     var orderPid = url.replace("/Order/Detail/", ""); //字元處理 移除"/Order/Detail/" 字串
     console.log(orderPid);
+    var orderId = orderPid.split("/")[0];
 
     var apporder = new Vue({
         el: '#orderDetailVue',
         data: {
             orderDetails: [],
+            orderInfo:[]
         },
         mounted: function () {
+            this.getOrderInfo();
             this.getOrderDetails();
         },
         computed: {
@@ -117,6 +121,13 @@
                         }
                     })
             },
+            getOrderInfo: function () {
+                let self = this;
+                axios.get("/api/Orders/manage/" + orderId)
+                    .then(function (res) {
+                        self.orderInfo = res.data;
+                    })
+            }
         }
     })
 </script>
