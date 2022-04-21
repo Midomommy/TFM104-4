@@ -516,7 +516,7 @@
                             function (res) {
                                 if (res.status == 200) {
                                     alert("恭喜註冊成功，請再次登入，並至您的信箱接收帳號激活驗證信");
-                                    axios.post("/auth/login", self.registerInformation).then(function (res) { window.location.href = "/home/index"; }).catch();
+                                    axios.post("/auth/login", self.firmregisterInformation).then(function (res) { window.location.href = "/backstage/home"; }).catch();
                                 };
                             }
                         )
