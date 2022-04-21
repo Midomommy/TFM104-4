@@ -204,9 +204,9 @@ namespace TFM104MVC.Services
             return await _context.Orders.Include(x => x.Orderdetails).ThenInclude(x=>x.Product).ThenInclude(x=>x.ProductPictures).Where(x => x.UserId == userId).ToListAsync();
         }
 
-        public async Task<Order> GetOrderdetailByOrderId(int orderId)
+        public async Task<Orderdetail> GetOrderdetailByProductIdAndOrderId(Guid productId,int orderId)
         {
-            return await _context.Orders.Include(x => x.Orderdetails).ThenInclude(x=>x.Product).ThenInclude(x=>x.ProductPictures).Where(x => x.Id == orderId).FirstOrDefaultAsync();
+            return await _context.Orderdetails.Include(x => x.Product).ThenInclude(x => x.ProductPictures).Where(x => x.ProductId == productId && x.OrderId == orderId).FirstOrDefaultAsync();
         }
 
         public string GetProductTitle(Guid id)
@@ -217,6 +217,16 @@ namespace TFM104MVC.Services
         public async Task<List<Product>> GetProductsByIds(Guid[] productId)
         {
             return await _context.Products.Include(x=>x.ProductPictures).Where(x => productId.Contains(x.Id)).ToListAsync();
+        }
+
+        public async Task<IEnumerable<Order>> GetAllOrders()
+        {
+            return await _context.Orders.Include(x => x.Orderdetails).ThenInclude(x => x.Product).ThenInclude(x => x.ProductPictures).Where(x=>x.OrderStatus == OrderStatus.NotPaid || x.OrderStatus == OrderStatus.Paid).ToListAsync();
+        }
+
+        public async Task<Order> GetOrderById(int orderId)
+        {
+            return await _context.Orders.Include(x => x.Orderdetails).ThenInclude(x => x.Product).ThenInclude(x => x.ProductPictures).FirstOrDefaultAsync(x => x.Id == orderId);
         }
     }
 }
