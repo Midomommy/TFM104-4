@@ -47,10 +47,6 @@ namespace TFM104MVC.Controllers
             Console.WriteLine(productId);
             Console.WriteLine(quantity);
 
-
-
-
-
             return View();
         }
 

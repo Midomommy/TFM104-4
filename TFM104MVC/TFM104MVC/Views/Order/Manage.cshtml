@@ -93,7 +93,7 @@
                             <div class="card  my-1">
                                 <div class="row" v-for="item1 in item.orderdetails">
                                     <div class="col-3 col-md-4">
-                                        <a href="javascript:void(0);">
+                                        <a v-bind:href=" '/ProductView/product/'+ item.id ">
                                             <img :src="item1.product.productPictures[0].url"
                                                  style="margin-left: 10px; margin-top: 10px; margin-bottom: 10px;" class="img-fluid rounded">
                                         </a>
@@ -109,7 +109,7 @@
                                             </p>
 
                                             <!--修改訂單=>跳修改訂單頁面-->
-                                            <a onclick="location.href='@Url.Action("Edit", "Order")'" class="btn" role="button" data-bs-toggle="button">
+                                            <a v-bind:href=" '/ProductView/product/'+ item1.product.id " onclick="goOrderDetail" class="btn" role="button" data-bs-toggle="button">
                                                 <p class="text-light">修改訂單</p>
                                             </a>
                                             <a onclick="location.href='@Url.Action("Detail", "Order")'" class="btn" role="button" data-bs-toggle="button">
@@ -241,7 +241,6 @@
                 axios.get("/api/Orders").then(function (res) {
                     self.orders = res.data;
                     console.log(self.orders);
-
                 })
                     .catch(function (err) {
                         if (err.status == 404) {
@@ -249,6 +248,10 @@
                         }
                     })
             },
+            goOrderDetail: function () {
+                var orderDetails = '/Order/Detail/' + orderid + '&quantity=' + this.index;
+                window.location.href = orderDetails;
+            }
         }
     })
 </script>

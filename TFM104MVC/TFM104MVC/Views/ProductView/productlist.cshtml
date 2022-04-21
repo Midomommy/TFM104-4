@@ -144,7 +144,7 @@
 
             <div class="collapse mb-5" id="datepicker">
                 <div class="card card-body">
-                    <input type="datetime-local" id="goTravel-time" name="goTravel-time" 
+                    <input type="date" id="goTravel-time" name="goTravel-time" 
                         v-on:change="regionClick"  v-model="goTraveltime" value="2022-05-06T19:30" min="2021-06-07T00:00" max="2025-06-14T00:00" />
                 </div>
             </div>
@@ -403,7 +403,7 @@
             axios.get("/api/products?" + keyword).then(function (res) {
                 for (let i of res.data) {
                     i.region = self.sectionObject[i.region];
-                    i.goTouristTime = "" + i.goTouristTime;
+                //    i.goTouristTime = "" +i.goTouristTime;
                 }
                 self.productList = res.data;
                 self.productTotal = res.data.length;

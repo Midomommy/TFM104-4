@@ -50,7 +50,7 @@
                                         </label>
                                     </div>
                                     <div>
-                                        <input type="text" name="FirstName" placeholder="例：子庭" class="form-control" v-model="buyNowOrderInfo.name">
+                                        <input type="text" name="FirstName" placeholder="例：子庭" class="form-control" v-model="firstName">
                                     </div>
                                 </div>
                                 <div class="col">
@@ -63,7 +63,7 @@
                                         </label>
                                     </div>
                                     <div>
-                                        <input type="text" name="LastName" placeholder="例：蘇" class="form-control">
+                                        <input type="text" name="LastName" placeholder="例：蘇" class="form-control"  v-model="lastName">
                                     </div>
                                 </div>
                             </div>
@@ -78,7 +78,7 @@
                                     </label>
                                 </div>
                                 <div>
-                                    <input class="form-control" name="Phone" type="tel" placeholder="請輸入聯絡電話">
+                                    <input class="form-control" name="Phone" type="tel" placeholder="請輸入聯絡電話"  v-model="buyNowOrderInfo.phone">
                                 </div>
                             </div>
                             <!--電子郵件信箱-->
@@ -92,7 +92,7 @@
                                     </label>
                                 </div>
                                 <div>
-                                    <input class="form-control" name="Email" type="email" placeholder="請輸入常用電子郵件信箱">
+                                    <input class="form-control" name="Email" type="email" placeholder="請輸入常用電子郵件信箱"  v-model="buyNowOrderInfo.email">
                                 </div>
                             </div>
                         </div>
@@ -478,11 +478,15 @@
             buyNowOrderInfo: {
                 productId: pid,
                 quantity: qty,
-                name: ""
+                name: "",
+                email: "",
+                phone:""
             },
             productData: {},
             error: "",
-            payMethod:"",
+            payMethod: "",
+            lastName: "",
+            firstName:""
         },
         beforeMount: function () {
             let self = this;
@@ -496,20 +500,23 @@
         computed: {
             points: function () {
                 return Math.floor( this.productData.price * this.buyNowOrderInfo.quantity * 0.1);
+            },
+            name: function () {
+                return this.buyNowOrderInfo.name = this.lastName + this.firstName;
             }
         },
         methods: {
             addOrder: function () {
                 let self = this;
-                axios.post("/api/Orders/addorder", self.buyNowOrderInfo)
-                    .then(function (res) {
-                        if (res.status == 204) {
-                            alert("訂購成功");
-                            window.location.href = "/Order/Manage";
-                        }
-                    }).catch(function (err) {
-                        console.log(err.data);
-                    });
+                axios.post("/api/Orders/addorder", self.buyNowOrderInfo);
+                    //.then(function (res) {
+                    //    //if (res.status == 204) {
+                    //    //    //alert("訂購成功");
+                    //    //    //window.location.href = "/Order/Manage";
+                    //    //}
+                    //}).catch(function (err) {
+                    //    console.log(err.data);
+                    //});
                 //axios.post("/Bank/SpgatewayPayBill", {
                 //    ordernumber: "1",
                 //    amount: 400,
