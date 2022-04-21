@@ -12,7 +12,7 @@ namespace TFM104MVC.Controllers
         }
 
         [Authorize(AuthenticationSchemes = "Cookies")]
-        public IActionResult Detail([FromRoute]int orderid)
+        public IActionResult Detail([FromRoute]int orderid,)
         {
             return View();
         }

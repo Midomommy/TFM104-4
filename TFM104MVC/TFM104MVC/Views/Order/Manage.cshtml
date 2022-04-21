@@ -112,7 +112,7 @@
                                             <a v-bind:href=" '/ProductView/product/'+ item1.product.id " onclick="goOrderDetail" class="btn" role="button" data-bs-toggle="button">
                                                 <p class="text-light">修改訂單</p>
                                             </a>
-                                            <a onclick="location.href='@Url.Action("Detail", "Order")'" class="btn" role="button" data-bs-toggle="button">
+                                            <a v-on:click="goOrderDetail" class="btn" role="button" data-bs-toggle="button">
                                                 <p class="text-light">查看明細</p>
                                             </a>
                                         </div>
