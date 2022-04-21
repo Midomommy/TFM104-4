@@ -200,7 +200,8 @@ namespace TFM104MVC.Services
 
         public async Task<IEnumerable<Order>> GetOrders(int userId)
         {
-            return await _context.Orders.Include(x=>x.Orderdetails).Where(x => x.UserId == userId).ToListAsync();
+            //return await _context.Orders.Include(x=>x.Orderdetails).Where(x => x.UserId == userId).ToListAsync();
+            return await _context.Orders.Include(x => x.Orderdetails).ThenInclude(x=>x.Product).ThenInclude(x=>x.ProductPictures).Where(x => x.UserId == userId).ToListAsync();
         }
 
         public async Task<Order> GetOrderdetailByOrderId(int orderId)
