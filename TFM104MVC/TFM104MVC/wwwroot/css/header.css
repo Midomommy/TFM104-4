@@ -84,7 +84,21 @@ body {
     transition: .25s;
 }
 
+.product-list-click a, .product-list-click a:hover {
+    text-decoration: none;
+    color: #333;
+    cursor: pointer;
+    background-color: transparent;
+    transition: .25s;
+    text-align: center;
+}
+
 .list-group-item p {
     padding: 0;
     margin: 0;
+}
+
+
+.product-list-click {
+    padding-top:0.8rem;
 }

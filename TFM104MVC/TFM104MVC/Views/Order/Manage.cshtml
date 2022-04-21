@@ -21,8 +21,8 @@
                             </div>
                         </div>
 
-                        <h4 class="break-word" v-if="">@User.Identity.Name</h4>
-                        <h4 class="break-word" v-else>Guest</h4>
+                        <h4 class="break-word">@User.Identity.Name</h4>
+                        @*<h4 class="break-word" v-else>Guest</h4>*@
                         <div class="account-group">
                             <div class="account gap-2">
                                 <img src="https://imgur.com/MAqZ1Pb.png" style="width: 24px;height: 24px;" class="channel-icon">
@@ -93,7 +93,7 @@
                             <div class="card  my-1">
                                 <div class="row" v-for="item1 in item.orderdetails">
                                     <div class="col-3 col-md-4">
-                                        <a v-bind:href=" '/ProductView/product/'+ item.id ">
+                                        <a v-bind:href=" '/Order/Detail/'+ item.id +'/'+ item1.productId " >
                                             <img :src="item1.product.productPictures[0].url"
                                                  style="margin-left: 10px; margin-top: 10px; margin-bottom: 10px;" class="img-fluid rounded">
                                         </a>
@@ -107,12 +107,11 @@
                                             <p class="card-text">
                                                 訂單價格TWD {{item1.unitPrice * item1.discountPersent * item1.quantity}}
                                             </p>
-
                                             <!--修改訂單=>跳修改訂單頁面-->
-                                            <a v-bind:href=" '/ProductView/product/'+ item1.product.id " onclick="goOrderDetail" class="btn" role="button" data-bs-toggle="button">
+                                            <a onclick="location.href='@Url.Action("Edit", "Order")'" class="btn" role="button" data-bs-toggle="button">
                                                 <p class="text-light">修改訂單</p>
                                             </a>
-                                            <a v-on:click="goOrderDetail" class="btn" role="button" data-bs-toggle="button">
+                                            <a v-bind:href=" '/Order/Detail/'+ item.id +'/'+ item1.productId " class="btn">
                                                 <p class="text-light">查看明細</p>
                                             </a>
                                         </div>
@@ -226,6 +225,8 @@
         el: '#orderManageVue',
         data: {
             orders: [],
+            //goOrderId: "",
+            //goProductId:""
         },
         mounted: function () {
             this.getOrder();
@@ -248,10 +249,10 @@
                         }
                     })
             },
-            goOrderDetail: function () {
-                var orderDetails = '/Order/Detail/' + orderid + '&quantity=' + this.index;
-                window.location.href = orderDetails;
-            }
+            //goOrderDetail: function () {
+            //    var orderDetails = '/Order/Detail/' + this.goOrderId + "/" + this.goProductId;
+            //    window.location.href = orderDetails;
+            //}
         }
     })
 </script>

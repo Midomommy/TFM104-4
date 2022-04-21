@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace TFM104MVC.Controllers
 {
@@ -11,8 +12,9 @@ namespace TFM104MVC.Controllers
             return View();
         }
 
+        [Route("order/detail/{orderId}/{productId}")]
         [Authorize(AuthenticationSchemes = "Cookies")]
-        public IActionResult Detail([FromRoute]int orderid)
+        public IActionResult Detail([FromRoute]int orderId,Guid productId)
         {
             return View();
         }

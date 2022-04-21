@@ -14,18 +14,16 @@
             <div class="card shadow">
                 <img src="https://picsum.photos/400/300?ramdom=10" class="card-img-top">
                 <div class="card-body">
-                    <h5 class="card-title" id="product">{{product.title}}</h5>
-                    <p class="card-date">使用日期</p>
-                    <p class="card-date" id="date-time">{{gotourist.time}}</p>
-                    <p class="discount">數量</p>
-                    <p class="discount-ct">{{discount}}人</p>
+                    <h5 class="card-title" id="product">商品標題</h5>
+                    <p class="card-date" id="date-time">出發日期</p>
+                    <p class="discount">數量*</p>
                 </div>
                 <div class="card shadow">
                     <div class="card-body">
                         <div class="card-price">
                             <p class="price-title">實際付款金額</p>
                             <p class="price-td">TWD</p>
-                            <p class="price-detail">{{product.price}}</p>
+                            <p class="price-detail">xxxx</p>
                         </div>
                     </div>
                 </div>
@@ -43,16 +41,16 @@
                                 <p>聯絡客服</p>
                             </a>
                         </div>
-                        <h4>訂單編號{{order.id}}</h4>
-                        <p>訂購人姓名：{{user.name}}</p>
+                        <h4>訂單編號</h4>
+                        <p>訂購人姓名：</p>
                         <div>
                             <a href="javascript:void(0);" class="btn" id="btn_2" role="button" data-bs-toggle="button">
                                 <p>給予評價</p>
                             </a>
                         </div>
-                        <p>電子郵件：{{user.id}}</p>
-                        <p>連絡電話：{{user.phone}}</p>
-                        <p>訂購日期：{{order.date}}</p>
+                        <p>電子郵件：</p>
+                        <p>連絡電話：</p>
+                        <p>訂購日期：</p>
                     </div>
                 </div>
             </div>
@@ -88,15 +86,18 @@
 
 
 <script>
-    var getUrlString = location.pathname;
-    //var pid = getUrlString.replace("", "");
+    var url = location.pathname;
+    console.log(url);
+    var orderPid = url.replace("/Order/Detail/", ""); //字元處理 移除"/Order/Detail/" 字串
+    console.log(orderPid);
+
     var apporder = new Vue({
         el: '#orderDetailVue',
         data: {
             orderDetails: [],
         },
         mounted: function () {
-            this.getOrder();
+            this.getOrderDetails();
         },
         computed: {
             orderPrice: function () {
@@ -104,12 +105,11 @@
             }
         },
         methods: {
-            getOrder: function () {
+            getOrderDetails: function () {
                 let self = this;
-                axios.get("/api/Orders").then(function (res) {
-                    self.orders = res.data;
-                    console.log(self.orders);
-
+                axios.get("/api/Orders/" + orderPid).then(function (res) {
+                    self.orderDetails = res.data;
+                    console.log(self.orderDetails);
                 })
                     .catch(function (err) {
                         if (err.status == 404) {
