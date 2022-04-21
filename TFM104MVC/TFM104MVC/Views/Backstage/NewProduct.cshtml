@@ -185,6 +185,7 @@
                 travelDays: "",
                 tripType: "",
                 region: "",
+                description: "",
                 productPictures: [],
 
             },
@@ -244,8 +245,9 @@
                 //bodyFormData.append("pic", this.add.productPictures);
                 bodyFormData.append("goTouristTime", this.add.goTouristTime);
                 for (let index = 0; index < this.add.productPictures.length; index++) {
-                    bodyFormData.append("pic", this.add.productPictures[index]) ;
+                    bodyFormData.append("pic", this.add.productPictures[index]);
                 }
+                let self = this;
                 axios({
                     method: "post",
                     url: "/api/products",
@@ -254,12 +256,24 @@
                 }).then(function (response) {
                     if (response.status === 201) {
                         alert("成功拉");
+                        self.add.title = "";
+                        self.add.originalPrice = "";
+                        self.add.description = "";
+                        self.add.discountPersent = "";
+                        self.add.goTouristTime = "";
+                        self.add.travelDays = "";
+                        self.add.tripType = "";
+                        self.add.region = "";
+                        var obj = document.getElementById("inputGroupFile");
+                        obj.outerHTML = obj.outerHTML;
+
                     }
                     console.log(response.data)
 
                 })
                     .catch(function (error) {
-                        alert("1");
+                        alert(error.data);
+
                     });
             },
         }

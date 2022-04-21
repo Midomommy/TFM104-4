@@ -112,9 +112,10 @@ namespace TFM104MVC.Controllers
                     ProductPicture productPicture = new ProductPicture();
                     if (file.Length > 0)
                     {
-                        var stream = System.IO.File.Create(rootRoot + DateTime.Now.Ticks.ToString() + file.FileName);
+                        var ticks = Guid.NewGuid();
+                        var stream = System.IO.File.Create(rootRoot + ticks.ToString() + file.FileName);
                         file.CopyTo(stream);
-                        productPicture.Url = "/ProductPictures/" + DateTime.Now.Ticks.ToString() + file.FileName;
+                        productPicture.Url = "/ProductPictures/" + ticks.ToString() + file.FileName;
                     }
                     productModel.ProductPictures.Add(productPicture);
                 }
