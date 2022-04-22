@@ -20,6 +20,7 @@ using System.Text;
 using Newtonsoft.Json.Serialization;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using TFM104MVC.Database;
+using System.Net.Http;
 //using TFM104MVC.Helpers;
 
 namespace TFM104MVC
@@ -99,6 +100,7 @@ namespace TFM104MVC
             services.AddTransient<IAuthenticateRepository, AuthenticateRepository>();
             services.AddSingleton<ISender, EmailSender>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddHttpClient();
 
             // 將 Session 存在 ASP.NET Core 記憶體中
             services.AddDistributedMemoryCache();
