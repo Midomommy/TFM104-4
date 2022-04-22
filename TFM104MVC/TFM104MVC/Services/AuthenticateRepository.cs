@@ -41,5 +41,10 @@ namespace TFM104MVC.Services
         {
             return (_context.SaveChanges() >= 0);
         }
+
+        public User FindFirm(int userId)
+        {
+            return _context.Users.Include(x => x.Firms).FirstOrDefault(x => x.Id == userId);
+        }
     }
 }

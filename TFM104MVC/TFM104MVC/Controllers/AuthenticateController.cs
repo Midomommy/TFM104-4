@@ -24,7 +24,7 @@ namespace TFM104MVC.Controllers
 
     [ApiController]
     [Route("{auth}")]
-    public class AuthenticateController:ControllerBase
+    public class AuthenticateController : ControllerBase
     {
 
         private readonly IConfiguration _configuration;
@@ -33,7 +33,7 @@ namespace TFM104MVC.Controllers
         private readonly ISender _sender;
         private readonly IProductRepository _productRepository;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        public AuthenticateController(IConfiguration configuration,IAuthenticateRepository authenticateRepository,IMapper mapper,ISender sender,IProductRepository productRepository,IHttpContextAccessor httpContextAccessor)
+        public AuthenticateController(IConfiguration configuration, IAuthenticateRepository authenticateRepository, IMapper mapper, ISender sender, IProductRepository productRepository, IHttpContextAccessor httpContextAccessor)
 
         {
             _configuration = configuration;
@@ -47,7 +47,7 @@ namespace TFM104MVC.Controllers
 
         [AllowAnonymous]
         [HttpPost("login")]
-        public async Task<IActionResult> loginAsync([FromBody]LoginDto loginDto)
+        public async Task<IActionResult> loginAsync([FromBody] LoginDto loginDto)
         {
             // 1.驗證帳號與密碼正確與否
             //先驗證帳號 看有沒有此帳號存在 如果沒有 返回帳號密碼錯誤
@@ -55,7 +55,7 @@ namespace TFM104MVC.Controllers
             var loginUser = _authenticateRepository.AccountCheck(loginDto.Account);
 
             //var loginUser = _authenticateRepository.CheckUser(loginDto.Account, loginDto.Password);
-            if(loginUser == null)
+            if (loginUser == null)
             {
                 return NotFound("帳號或密碼錯誤");
             }
@@ -64,8 +64,8 @@ namespace TFM104MVC.Controllers
             byte[] hashBytes = new SHA256Managed().ComputeHash(passwordAndSaltBytes);
             string hashStr = Convert.ToBase64String(hashBytes);
             //驗證密碼
-            var loginPasswordCheck = _authenticateRepository.CheckUser(loginDto.Account,hashStr);
-            if(loginPasswordCheck == null)
+            var loginPasswordCheck = _authenticateRepository.CheckUser(loginDto.Account, hashStr);
+            if (loginPasswordCheck == null)
             {
                 return NotFound("帳號密碼錯誤");
             }
@@ -84,7 +84,7 @@ namespace TFM104MVC.Controllers
             var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
             await HttpContext.SignInAsync(claimsPrincipal);
 
-            
+
 
             return Ok("登入成功");
             //// 2.若正確 則創建JWT Token
@@ -119,7 +119,8 @@ namespace TFM104MVC.Controllers
 
         [HttpPost("logout")]
         [Authorize(AuthenticationSchemes = "Cookies")]
-        public IActionResult logoutAsync() {
+        public IActionResult logoutAsync()
+        {
             HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
             return Ok("登出成功");
@@ -142,11 +143,24 @@ namespace TFM104MVC.Controllers
             userModel.Password = hashStr;
             userModel.Salt = salt;
             userModel.LastName = "Guest";
+
+            //var userName = userModel.LastName;
+            //var member = userModel.RoleName;
+
+            //if (userModel.RoleName == member)
+            //{
+            //    userName = "Guest";
+            //}
+            //else
+            //{
+            //    userName = "管理者";
+            //}
+
             //string userName = User.Identity.Name;
             //userName = "Guest";
 
             var accountCheck = _authenticateRepository.AccountCheck(userForCreationDto.Account);
-            if(accountCheck != null)
+            if (accountCheck != null)
             {
                 return NotFound("帳號重複 請更換帳號名稱");
             }
@@ -156,7 +170,7 @@ namespace TFM104MVC.Controllers
             string Url = "https://localhost:5001/auth/open?account=" + userForCreationDto.Account; //之後改成發布後的網址
             string messageUrl = $"<a href='{Url}'>我是開通帳號小精靈~~</a>";
             string subject = "註冊驗證信";
-            string message = "恭喜註冊成功，請點擊以下文字開通您的帳號" +"<br>" + messageUrl;
+            string message = "恭喜註冊成功，請點擊以下文字開通您的帳號" + "<br>" + messageUrl;
             _sender.Sender(userModel.Account, subject, message);
 
             await _productRepository.SaveAsync();
@@ -170,7 +184,7 @@ namespace TFM104MVC.Controllers
         {
             var userFromRepo = _authenticateRepository.AccountCheck(account);
 
-            if(userFromRepo == null)
+            if (userFromRepo == null)
             {
                 throw new ArgumentNullException();
             }
@@ -186,7 +200,7 @@ namespace TFM104MVC.Controllers
         public IActionResult UpdatePassword([FromBody] LoginDto updatePasswordDto)
         {
             var userExist = _authenticateRepository.AccountCheck(updatePasswordDto.Account);
-            if(userExist == null)
+            if (userExist == null)
             {
                 return NotFound("無此使用者帳號");
             }
@@ -241,6 +255,20 @@ namespace TFM104MVC.Controllers
             return Ok(userDto);
         }
 
+        [HttpGet("getFirm")]
+        public IActionResult GetFirmById()
+        {
+            var userId = _httpContextAccessor.HttpContext.User.FindFirstValue("userId");
+            var Id = int.Parse(userId);
+            var userFromRepo = _authenticateRepository.FindFirm(Id);
+            if (userFromRepo == null)
+            {
+                Console.WriteLine($"找不到編號為{Id}的使用者");
+                return NotFound($"找不到編號為{Id}的使用者");
+            }
+            var userDto = _mapper.Map<UserFirmDto>(userFromRepo);
+            return Ok(userDto);
+        }
 
     }
 

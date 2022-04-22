@@ -18,5 +18,8 @@ namespace TFM104MVC.Services
         bool Save();
 
         User FindUser(int userId);
+
+        User FindFirm(int userId);
+
     }
 }
