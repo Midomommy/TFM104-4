@@ -281,7 +281,7 @@
                         <div class="text-center fw-bold">使用社交平台帳戶登入</div>
                         <div class="text-center">立即登入，隨時收到獨家優惠</div>
 
-                        <div class="d-flex flex-row justify-content-center">
+                        <div class="d-flex flex-row justify-content-center" id="oauth">
                             <div class="">
                                 <!-- fb -->
                                 <button class="login-provider-button-circle" style="background-color: rgb(24,119,242);" onclick="location.href='/Login/fblogin'">
@@ -291,7 +291,7 @@
                             </div>
                             <div class="">
                                 <!-- line -->
-                                <button class="login-provider-button-circle" style="background-color: rgb(0,195,0);">
+                                <button class="login-provider-button-circle" style="background-color: rgb(0,195,0);" v-on:click="addLineLogin">
                                     <img width="24" height="24" src="/pic/line_nobg.svg" class="rounded-circle" alt="...">
                                 </button>
 
@@ -655,4 +655,23 @@
         }
     })
 </script>
-
+<script>
+    var useOauth = new Vue({
+        el: "#oauth",
+        data: {
+            oauth:[]
+        },
+        methods: {
+            addLineLogin: function () {
+                var self = this;
+                axios.post("/Login/LineLogin")
+                    .then(
+                        function (res) {
+                            var url = res.data;
+                            window.location.href = url;
+                        }
+                    )
+            }
+        }
+    })
+</script>

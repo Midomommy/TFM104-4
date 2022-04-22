@@ -6,10 +6,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Net.Http;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
@@ -26,7 +28,6 @@ namespace TFM104MVC.Controllers
     [Route("{auth}")]
     public class AuthenticateController : ControllerBase
     {
-
         private readonly IConfiguration _configuration;
         private readonly IAuthenticateRepository _authenticateRepository;
         private readonly IMapper _mapper;
@@ -34,7 +35,6 @@ namespace TFM104MVC.Controllers
         private readonly IProductRepository _productRepository;
         private readonly IHttpContextAccessor _httpContextAccessor;
         public AuthenticateController(IConfiguration configuration, IAuthenticateRepository authenticateRepository, IMapper mapper, ISender sender, IProductRepository productRepository, IHttpContextAccessor httpContextAccessor)
-
         {
             _configuration = configuration;
             _authenticateRepository = authenticateRepository;
@@ -42,7 +42,6 @@ namespace TFM104MVC.Controllers
             _sender = sender;
             _productRepository = productRepository;
             _httpContextAccessor = httpContextAccessor;
-
         }
 
         [AllowAnonymous]
@@ -269,7 +268,5 @@ namespace TFM104MVC.Controllers
             var userDto = _mapper.Map<UserFirmDto>(userFromRepo);
             return Ok(userDto);
         }
-
     }
-
 }
