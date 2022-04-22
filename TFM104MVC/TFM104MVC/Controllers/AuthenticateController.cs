@@ -147,7 +147,7 @@ namespace TFM104MVC.Controllers
             //var userName = userModel.LastName;
             //var member = userModel.RoleName;
 
-            //if (userModel.RoleName == member)
+            //if (userModel.RoleName == Member)
             //{
             //    userName = "Guest";
             //}

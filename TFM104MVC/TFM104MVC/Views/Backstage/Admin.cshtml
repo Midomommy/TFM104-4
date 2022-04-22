@@ -29,7 +29,7 @@
             </div>
             <div>
                 <input type="email" class="form-control" id="emailFormControlInput"
-                       placeholder="name@example.com" readonly>
+                       placeholder="name@example.com" v-model="adminData.account" readonly>
             </div>
         </div>
         <!--使用者姓-->
@@ -144,7 +144,7 @@
     var AppAdmin = new Vue({
         el: '#EditAdmin',
         data: {
-            firmData: {
+            adminData: {
                 account:"",
                 passWord:"",
                 lastName: "",
@@ -154,8 +154,7 @@
                     taxId: "",
                     name:""
                 }
-            },
-            adminData:[]
+            }
         },
         mounted: function() {
             this.getAdminData();
