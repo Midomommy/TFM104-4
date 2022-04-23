@@ -141,20 +141,13 @@ namespace TFM104MVC.Controllers
 
             userModel.Password = hashStr;
             userModel.Salt = salt;
-            userModel.LastName = "Guest";
+            var userName = userModel.LastName;
 
-            //var userName = userModel.LastName;
-            //var member = userModel.RoleName;
-
-            //if (userModel.RoleName == Member)
-            //{
-            //    userName = "Guest";
-            //}
-            //else
-            //{
-            //    userName = "管理者";
-            //}
-
+            if (userModel.RoleName == "Member")
+            {
+                userName = "Guest";
+            }
+           
             //string userName = User.Identity.Name;
             //userName = "Guest";
 
@@ -268,5 +261,68 @@ namespace TFM104MVC.Controllers
             var userDto = _mapper.Map<UserFirmDto>(userFromRepo);
             return Ok(userDto);
         }
+
+        [HttpPost("UpdateFirmDetail")]
+        [Authorize(AuthenticationSchemes = "Cookies")]
+        public IActionResult UpdateFirmDetail([FromBody] UserFirmDto firmForUpdate)
+        {
+            //取出使用者Id
+            var userId = _httpContextAccessor.HttpContext.User.FindFirstValue("userId");
+            int UserId = int.Parse(userId);
+            //取出這個使用者資料表
+            var user = _authenticateRepository.FindFirm(UserId);
+
+            //開始修改
+            user.FirstName = firmForUpdate.FirstName;
+            user.LastName = firmForUpdate.LastName;
+            user.Phone = firmForUpdate.Phone;
+            user.Firms.TaxId = firmForUpdate.Firms.TaxId;
+            user.Firms.Name = firmForUpdate.Firms.Name;
+
+            //儲存
+            _authenticateRepository.Save();
+            return NoContent();
+        }
+
+        [HttpPost("ConfirmPassword")]
+        [Authorize(AuthenticationSchemes = "Cookies")]
+        public IActionResult ConfirmPassword([FromQuery] string passwordNow)
+        {
+            var userId = _httpContextAccessor.HttpContext.User.FindFirstValue("userId");
+            var Id = int.Parse(userId);
+            var user = _authenticateRepository.FindTheOnlyUser(Id);
+            string userSalt = user.Salt;
+            byte[] userPasswordByte = Encoding.UTF8.GetBytes(passwordNow + userSalt);
+            byte[] userSHA256Password = new SHA256Managed().ComputeHash(userPasswordByte);
+            string userSHA256PasswordStr = Convert.ToBase64String(userSHA256Password);
+
+            if (user.Password != userSHA256PasswordStr)
+            {
+                return NotFound("密碼錯誤");
+            }
+
+            return NoContent();
+        }
+
+        [HttpPost("UpdateFirmPassword")]
+        [Authorize(AuthenticationSchemes = "Cookies")]
+        public IActionResult UpdateFirmPassword([FromQuery]string passwordNew)
+        {
+            var userId = _httpContextAccessor.HttpContext.User.FindFirstValue("userId");
+            var Id = int.Parse(userId);
+            var user = _authenticateRepository.FindTheOnlyUser(Id);
+            string userSalt = user.Salt;
+
+            string newPassword = passwordNew;
+            byte[] newPasswordWithOldSalt = Encoding.UTF8.GetBytes(newPassword + userSalt);
+            byte[] hashByte = new SHA256Managed().ComputeHash(newPasswordWithOldSalt);
+            string hashStr = Convert.ToBase64String(hashByte);
+            user.Password = hashStr;
+
+            _authenticateRepository.Save();
+
+            return Ok("更新密碼完成，請妥善保管您的密碼");
+        }
+
     }
 }

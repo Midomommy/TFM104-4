@@ -118,8 +118,8 @@
                         </a>
                     </div>
                 </div>
-                <div class="list-group-item list-group-item-action">
-                    <a href="#">
+                <div id="logout" class="list-group-item list-group-item-action">
+                    <a href="" v-on:click.prevent="logout">
                         <p class="text-center">
                             登出
                         </p>
@@ -196,6 +196,21 @@
         })
     </script>
 
+    <script>
+        var Firm = new Vue({
+            el: "#logout",
+            methods: {
+                logout: function () {
+                    axios.post("/auth/logout").then(function (res) {
+                        if (res.status == 200) {
+                            window.location.href ="/Backstage/Login" ;
+                        }
+                    });
+                }
+            }
+        })
+
+    </script>
 </body>
 
 </html>

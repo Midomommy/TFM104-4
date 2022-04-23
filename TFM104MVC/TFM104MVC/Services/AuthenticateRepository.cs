@@ -27,14 +27,14 @@ namespace TFM104MVC.Services
             _context.Users.Add(user);
         }
 
-        public User CheckUser(string account,string password)
+        public User CheckUser(string account, string password)
         {
-            return _context.Users.FirstOrDefault(x=>x.Account == account && x.Password == password);
+            return _context.Users.FirstOrDefault(x => x.Account == account && x.Password == password);
         }
 
         public User FindUser(int userId)
         {
-            return _context.Users.Include(x=>x.Members).FirstOrDefault(x => x.Id == userId);
+            return _context.Users.Include(x => x.Members).FirstOrDefault(x => x.Id == userId);
         }
 
         public bool Save()
@@ -45,6 +45,11 @@ namespace TFM104MVC.Services
         public User FindFirm(int userId)
         {
             return _context.Users.Include(x => x.Firms).FirstOrDefault(x => x.Id == userId);
+        }
+
+        public User FindTheOnlyUser(int userId)
+        {
+            return _context.Users.FirstOrDefault(x => x.Id == userId);
         }
     }
 }
