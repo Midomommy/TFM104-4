@@ -128,7 +128,7 @@ namespace TFM104MVC.Controllers
         }
 
 
-        public async Task<IActionResult> UseLineLogin(string code, Guid state, string error, string error_description)
+        public async Task<IActionResult> UseLineLogin([FromQuery]string code, Guid state, string error, string error_description)
         {
             if (!string.IsNullOrEmpty(error) || _state != state || string.IsNullOrEmpty(code))
                 return RedirectToAction(nameof(Index));
@@ -137,7 +137,7 @@ namespace TFM104MVC.Controllers
             var posData = new Dictionary<string, string>()
             {
                 {"client_id",_client_id},
-                {"client_id",_client_serect},
+                {"client_serect",_client_serect},
                 {"code",code},
                 {"grant_type","authorization_code"},
                 {"redirect_uri",_redirect_uri}
