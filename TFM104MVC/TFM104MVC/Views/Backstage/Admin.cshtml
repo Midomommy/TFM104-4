@@ -53,7 +53,7 @@
             </div>
         </div>
         <div class="mb-3" style="margin-left: 5rem;">
-            <button type="submit" class="btn btn-primary">儲存設定</button>
+            <button v-on:click="updateAdmin" class="btn btn-primary">儲存設定</button>
         </div>
         <hr class="text-muted">
     </div>
@@ -69,7 +69,7 @@
             </div>
             <div>
                 <input type="password" class="form-control" id="NowPWFormControlInput"
-                       placeholder="當前密碼">
+                       placeholder="當前密碼" v-model="passwordNow" v-on:change="confirmPassword">
             </div>
         </div>
         <!--新密碼-->
@@ -79,7 +79,7 @@
             </div>
             <div>
                 <input type="password" class="form-control" id="NewPWFormControlInput"
-                       placeholder="新密碼">
+                       placeholder="新密碼" v-model="passwordNew">
             </div>
         </div>
         <!--確認新密碼-->
@@ -89,11 +89,11 @@
             </div>
             <div>
                 <input type="password" class="form-control" id="ConfirmNewPWFormControlInput"
-                       placeholder="確認新密碼">
+                      v-on:change="comparePassword" placeholder="確認新密碼" v-model="passwordNewConfirm">
             </div>
         </div>
         <div class="mb-3" style="margin-left: 6rem;">
-            <button type="submit" class="btn btn-primary">儲存設定</button>
+            <button v-on:click="updatePassword" class="btn btn-primary">儲存設定</button>
         </div>
         <hr class="text-muted">
     </div>
@@ -133,7 +133,7 @@
             </div>
         </div>
         <div class="mb-3" style="margin-left: 5rem;">
-            <button type="submit" class="btn btn-primary">儲存設定</button>
+            <a v-on:click="updateAdmin" class="btn btn-primary">儲存設定</a>
         </div>
         <hr class="text-muted">
     </div>
@@ -145,32 +145,40 @@
         el: '#EditAdmin',
         data: {
             adminData: {
-                account:"",
-                passWord:"",
+                account: "",
                 lastName: "",
                 firstName: "",
                 phone: "",
                 firms: {
                     taxId: "",
-                    name:""
+                    name: ""
                 }
-            }
+            },
+            passwordNow: "",
+            passwordNew: "",
+            passwordNewConfirm:""
+
         },
-        mounted: function() {
+        mounted: function () {
             this.getAdminData();
         },
         methods: {
             updateAdmin: function () {
                 let self = this;
-                axios.post("/auth/UpdateUserDetail", self.firmData)
+                axios.post("/auth/UpdateFirmDetail", self.adminData)
                     .then(
                         function (res) {
                             console.log("成功送出資料");
                             alert("您已成功更新資料");
                         }
-                ).then(function () {
-                    self.getAdminData();
-                });
+                    ).then(function () {
+                        self.getAdminData();
+                    }).catch(
+                        function (res) {
+                            console.log("送出資料失敗");
+                            alert("資料送出失敗");
+                        }
+                    );
             },
             getAdminData: function () {
                 let self = this;
@@ -180,6 +188,41 @@
                         self.adminData = res.data;
                     }
                 )
+            },
+            confirmPassword: function () {
+                let self = this;
+                axios.post("/auth/ConfirmPassword?passwordNow=" + self.passwordNow)
+                    .then(function (res) {
+                        if (res.status == 204) {
+                            console.log("當前密碼輸入正確");
+                        }
+                    }).catch(function (err) {
+                        if (err.status == 404) {
+                            alert("當前密碼輸入不正確");
+                        }
+                    })
+            },
+            updatePassword: function () {
+                let self = this;
+                axios.post("/auth/UpdateFirmPassword?passwordNew=" + self.passwordNew)
+                    .then(function (res) {
+                        if (res.status == 200) {
+                            alert("已成功更新密碼");
+                        }
+                    }).catch(function (err) {
+                        if (err.status == 404) {
+                            alert("當前密碼輸入不正確");
+                        }
+                    })
+            },
+            comparePassword: function () {
+                let self = this;
+                if (self.passwordNewConfirm !== self.passwordNew) {
+                    alert("兩者密碼輸入不相符");
+                    self.passwordNewConfirm = "";
+                    self.passwordNew="";
+                }
+                
             }
         },
     })

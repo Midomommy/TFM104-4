@@ -27,5 +27,8 @@ namespace TFM104MVC.Dtos
         public string RoleName { get; set; }
         //會員
         public  MemberDto Members { get; set; }
+
+        public FirmDto Firms { get; set; }
+
     }
 }
