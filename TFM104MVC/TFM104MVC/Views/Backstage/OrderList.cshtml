@@ -24,12 +24,18 @@
 </div>
 <div class="container g-3">
     <!--按鈕色rgb(100, 179, 244)-->
-    <div class="bd_board">
+    <div class="bd_board" id="firmOrder">
         <div class="page-title">
             <h2><strong>訂單管理</strong></h2>
         </div>
-        <div class="rel">
-            顯示<p class="rel_n">所有狀態▼</p>的訂單
+        <div class="rel mb-3">
+            顯示<button class="rel_n btn btn-outline-secondary dropdown-toggle" type="button"
+                            id="dropdownOrderButton" data-bs-toggle="dropdown" aria-expanded="false">所有狀態</button>的訂單
+            <ul class="dropdown-menu" aria-labelledby="dropdownOrderButton">
+                <li><a class="dropdown-item" href="#">已付款</a></li>
+                <li><a class="dropdown-item" href="#">未付款</a></li>
+                <li><a class="dropdown-item" href="#">已取消</a></li>
+            </ul>
         </div>
         <!-- 下拉選單 -->
         <div class="downlist">
@@ -53,7 +59,7 @@
         <!--textbox搜尋框-->
         <div class="buildtime">
             <label>訂單成立時間</label>
-            <input type="text" class="textbox" placeholder="所有">
+            <input type="date" value="2022-05-06T19:30">
         </div>
         <div class="input-group col-sm-2">
             <span class="input-group-text" id="basic-addon1">
@@ -76,12 +82,12 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
+                <tr v-for="item in orderList">
                     <th scope="row"><input type="checkbox" name="choice" class="checknum" onclick="setAll()" /></th>
-                    <td>#12345</td>
-                    <td>2021.04.18</td>
-                    <td>DD</td>
-                    <td>已付款</td>
+                    <td># {{item.id}}</td>
+                    <td>{{item.date}}</td>
+                    <td>{{item.name}}</td>
+                    <td>{{item.orderStatus}}</td>
                     <td>$999</td>
                 </tr>
                 <tr>
@@ -89,7 +95,7 @@
                     <td>#23456</td>
                     <td>2021.04.18</td>
                     <td>KK</td>
-                    <td>尚未付款</td>
+                    <td>未付款</td>
                     <td>$2030</td>
                 </tr>
                 <tr>
@@ -97,7 +103,7 @@
                     <td>#65432</td>
                     <td>2021.04.18</td>
                     <td>Otto</td>
-                    <td>已退款</td>
+                    <td>已取消</td>
                     <td>$9999</td>
                 </tr>
             </tbody>
@@ -149,4 +155,26 @@
                 }
 
             }
+</script>
+
+
+<script>
+    var appFirmOrder = new Vue({
+        el: '#firmOrder',
+        data: {
+            orderList:[]
+        },
+        mounted: function () {
+            this.getFirmOrders();
+        },
+        methods: {
+            getFirmOrders: function () {
+                let self = this;
+                axios.get("/api/orders/manage")
+                    .then(function (res) {
+                        self.orderList = res.data;
+                    })
+            }
+        }
+    })
 </script>

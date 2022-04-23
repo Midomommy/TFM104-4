@@ -26,7 +26,8 @@
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
     <!--axios-->
     <script src='https://cdnjs.cloudflare.com/ajax/libs/axios/0.9.1/axios.js' integrity='sha512-Kg0CewqPNO/ziOJuCq5eyl3P/V6OLz/Lb1I2m+yKS3lHZcGVFN/KOew18rWP+kTsL7haYdaqGjwHQCZrN0heLQ==' crossorigin='anonymous'></script>
-
+    <!--sweetAlert-->
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!--我硬幹ㄉcss-->
     <link rel="stylesheet" href="/css/header.css" type="text/css">
     <!--字體fonts-->
@@ -514,8 +515,19 @@
                     .then(
                         function (res) {
                             if (res.status == 200) {
-                                alert("恭喜註冊成功，請再次登入，並至您的信箱接收帳號激活驗證信");
-                                axios.post("/auth/login", self.registerInformation).then(function (res) { window.location.href = "/home/index"; }).catch();
+                                Swal.fire({
+                                    position: 'top-end',
+                                    icon: 'success',
+                                    title: '恭喜註冊成功',
+                                    showConfirmButton: false,
+                                    timer: 1500,
+                                    willClose: (toast) => {
+                                        axios.post("/auth/login", self.registerInformation).then(function (res) { window.location.href = "/home/index"; }).catch();
+                                    }
+                                });
+                                //alert("恭喜註冊成功，請再次登入，並至您的信箱接收帳號激活驗證信");
+                                //axios.post("/auth/login", self.registerInformation).then(function (res) { window.location.href = "/home/index"; }).catch();
+
                             };
                         }
                     )
@@ -551,8 +563,17 @@
                     .then(function (res) {
                         if (res.status == 200) {
                             localStorage.setItem('userExist', '123');
-                            location.reload();
-                            alert("登入成功");
+                            //alert("登入成功");
+                            Swal.fire({
+                                position: 'top-end',
+                                icon: 'success',
+                                title: '登入成功',
+                                showConfirmButton: false,
+                                timer: 1500,
+                                willClose: (toast) => {
+                                    location.reload();
+                                }
+                            });
                         }
                     })
                     .catch(function (err) {
@@ -659,7 +680,7 @@
     var useOauth = new Vue({
         el: "#oauth",
         data: {
-            oauth:[]
+            oauth: []
         },
         methods: {
             addLineLogin: function () {

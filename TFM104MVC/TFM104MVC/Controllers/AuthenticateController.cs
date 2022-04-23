@@ -141,11 +141,10 @@ namespace TFM104MVC.Controllers
 
             userModel.Password = hashStr;
             userModel.Salt = salt;
-            var userName = userModel.LastName;
 
             if (userModel.RoleName == "Member")
             {
-                userName = "Guest";
+                userModel.LastName = "Guest";
             }
            
             //string userName = User.Identity.Name;
