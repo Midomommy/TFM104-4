@@ -25,8 +25,9 @@ namespace TFM104MVC.Controllers
         private AppDbContext _context;
         string _redirect_uri = "https://localhost:5001/Login/UseLineLogin";
         string _client_id = "1657070363";
+        string _state = "123"; 
         string _client_serect = "37f66dac4363ffef924d522a7a753de4";
-        Guid _state = Guid.NewGuid();
+        
         private readonly IHttpClientFactory _clientFactory;
         private readonly IAuthenticateRepository _authenticateRepository;
         public LoginController(AppDbContext appDbContext,IHttpClientFactory httpClientFactory, IAuthenticateRepository authenticateRepository)
@@ -128,19 +129,20 @@ namespace TFM104MVC.Controllers
         }
 
 
-        public async Task<IActionResult> UseLineLogin([FromQuery]string code, Guid state, string error, string error_description)
+        public async Task<IActionResult> UseLineLogin(string code, string state, string error, string error_description)
         {
             if (!string.IsNullOrEmpty(error) || _state != state || string.IsNullOrEmpty(code))
                 return RedirectToAction(nameof(Index));
 
-            var url = "https://api.line,me/oauth2/v2.1/token";
+            var url = "https://api.line.me/oauth2/v2.1/token";
             var posData = new Dictionary<string, string>()
             {
                 {"client_id",_client_id},
-                {"client_serect",_client_serect},
+                {"client_secret",_client_serect},
                 {"code",code},
                 {"grant_type","authorization_code"},
-                {"redirect_uri",_redirect_uri}
+                {"redirect_uri","https://" + HttpContext.Request.Host.ToString() + "/Login/UseLineLogin"},
+                { "Content-Type",":application/x-www-form-urlencoded"}
             };
 
             var contentPost = new FormUrlEncodedContent(posData);
@@ -168,13 +170,13 @@ namespace TFM104MVC.Controllers
                 responseContent = await response.Content.ReadAsStringAsync();
                 var user = JsonConvert.DeserializeObject<LINEUser>(responseContent);
 
-                var existUser = _authenticateRepository.AccountCheck(user.UserEmail);
+                var existUser = _authenticateRepository.AccountCheck(user.Id);
                 if (existUser == null)
                 {
                     var member = new User
                     {
-                        Account = user.UserEmail,
-                        Password = "zzzzzzzz",
+                        Account = user.Id,
+                        Password = "bbbbbb",
                         LastName = user.Name,
                         FirstName = "",
                         RoleName = "Member"
@@ -184,7 +186,7 @@ namespace TFM104MVC.Controllers
                     _authenticateRepository.Save();
                 };
             }
-            return View();
+            return Redirect("~/home/index");
         }
 
         public class LINELoginResource
