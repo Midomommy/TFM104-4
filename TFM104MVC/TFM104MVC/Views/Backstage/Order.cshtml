@@ -7,119 +7,154 @@
 
 <!--麵包屑-->
 @*<nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="#">後台面板</a></li>
-        <li class="breadcrumb-item"><a href="#">訂單管理</a></li>
-        <li class="breadcrumb-item active" aria-current="page">訂單 #1234</li>
-    </ol>
-</nav>*@
-<div class="breadcrumb d-flex align-items-center">
-    <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-                <a href="#">後台面板</a>
-            </li>
+            <li class="breadcrumb-item"><a href="#">後台面板</a></li>
             <li class="breadcrumb-item"><a href="#">訂單管理</a></li>
             <li class="breadcrumb-item active" aria-current="page">訂單 #1234</li>
         </ol>
-    </nav>
-</div>
-<div class="page-title">
-    <h2>訂單#1234</h2>
-    <h5>成立時間：2022-05-06 23:38</h5>
-</div>
-<div class="btn-group" role="group" aria-label="Basic mixed styles example">
-    <button type="button" class="btn btn-warning"><i class="bi bi-printer"></i>列印</button>
-    <button type="button" class="btn btn-success"><i class="bi bi-check-lg"></i>結案訂單</button>
-    <button type="button" class="btn btn-danger"><i class="bi bi-slash-circle"></i>取消訂單</button>
-</div>
-<!--訂單明細-->
-<div class="container row">
-    <div class="col-md-7">
-        <span class="tb-title"><i class="bi bi-list-ol"></i>訂單明細</span>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th scope="col">購買商品品項</th>
-                    <th scope="col">價格</th>
-                    <th scope="col">數量</th>
-                    <th scope="col">金額</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th scope="row">
-                        <a href="#" class="product-name">商品名稱</a>
-                        <div><a href="" class="discount-name">優惠券折扣項目</a></div>
-                    </th>
-                    <td>999</td>
-                    <td>1</td>
-                    <td>999</td>
-                </tr>
-                <tr style="font-size: 16px;">
-                    <th colspan="3">小計</th>
-                    <td>$999</td>
-                </tr>
-            </tbody>
-        </table>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th scope="col">折扣明細</th>
-                    <th scope="col">價格</th>
-                    <th scope="col">數量</th>
-                    <th scope="col">金額</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th scope="row" colspan="3"><a href="#" class="product-name">優惠券</a></th>
-                    <td>-60</td>
-                </tr>
-                <tr>
-                    <th colspan="3">折扣後</th>
-                    <td>939</td>
-                </tr>
-                <tr style="font-size: 16px;">
-                    <th colspan="3">總金額</th>
-                    <td>$939</td>
-                </tr>
-            </tbody>
-        </table>
+    </nav>*@
+
+<section id="firmOrderDetails">
+
+    <div class="breadcrumb d-flex align-items-center">
+        <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a onclick="location.href='@Url.Action("Home", "Backstage")'">後台面板</a>
+                </li>
+                <li class="breadcrumb-item"><a onclick="location.href='@Url.Action("OrderList", "Backstage")'">訂單管理</a></li>
+                <li class="breadcrumb-item active" aria-current="page">訂單 #1234</li>
+            </ol>
+        </nav>
     </div>
-    <!--貨款&購買人資訊-->
-    <div class="col-md-5">
-        <div class="pay-title">
-            <p style="font-size: 13px;">貨款</p>
-        </div>
-        <table class="pat-tab">
-            <tr>
-                <th class="col-2">付款方式</th>
-                <td class="col-1">信用卡</td>
-            </tr>
-            <tr>
-                <th class="col-2">付款狀態</th>
-                <td class="col-1">已付款</td>
-            </tr>
-        </table>
-        <div class="pay-detail">
-            <p style="font-size: 16px;">
-                <i class="bi bi-person-fill" style="color: orange;"></i>購買人資訊
-            </p>
-        </div>
-        <table class="pay-name">
-            <tr>
-                <th class="col-2">購買人姓名</th>
-                <td class="col-1">王大明</td>
-            </tr>
-            <tr>
-                <th class="col-2">聯絡信箱</th>
-                <td class="col-1">xxx@xxx.com</td>
-            </tr>
-            <tr>
-                <th class="col-2">連絡電話</th>
-                <td class="col-1">0987654321</td>
-            </tr>
-        </table>
+    <div class="page-title">
+        <h2>訂單#1234</h2>
+        <h5>成立時間：2022-05-06 23:38</h5>
     </div>
-</div>
+    <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+        <button type="button" class="btn btn-warning"><i class="bi bi-printer"></i>列印</button>
+        <button type="button" class="btn btn-success"><i class="bi bi-check-lg"></i>結案訂單</button>
+        <button type="button" class="btn btn-danger"><i class="bi bi-slash-circle"></i>取消訂單</button>
+    </div>
+    <!--訂單明細-->
+    <div class="container row">
+        <div class="col-md-7">
+            <span class="tb-title"><i class="bi bi-list-ol"></i>訂單明細</span>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">購買商品品項</th>
+                        <th scope="col">價格</th>
+                        <th scope="col">數量</th>
+                        <th scope="col">金額</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">
+                            <a href="#" class="product-name">{{orderDetail}}</a>
+                            <div><a href="" class="discount-name">優惠券折扣項目</a></div>
+                        </th>
+                        <td>999</td>
+                        <td>1</td>
+                        <td>999</td>
+                    </tr>
+                    <tr style="font-size: 16px;">
+                        <th colspan="3">小計</th>
+                        <td>$999</td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">折扣明細</th>
+                        <th scope="col">價格</th>
+                        <th scope="col">數量</th>
+                        <th scope="col">金額</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row" colspan="3"><a href="#" class="product-name">優惠券</a></th>
+                        <td>-60</td>
+                    </tr>
+                    <tr>
+                        <th colspan="3">折扣後</th>
+                        <td>939</td>
+                    </tr>
+                    <tr style="font-size: 16px;">
+                        <th colspan="3">總金額</th>
+                        <td>$939</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!--貨款&購買人資訊-->
+        <div class="col-md-5">
+            <div class="pay-title">
+                <p style="font-size: 13px;">貨款</p>
+            </div>
+            <table class="pat-tab">
+                <tr>
+                    <th class="col-2">付款方式</th>
+                    <td class="col-1">信用卡</td>
+                </tr>
+                <tr>
+                    <th class="col-2">付款狀態</th>
+                    <td class="col-1">已付款</td>
+                </tr>
+            </table>
+            <div class="pay-detail">
+                <p style="font-size: 16px;">
+                    <i class="bi bi-person-fill" style="color: orange;"></i>購買人資訊
+                </p>
+            </div>
+            <table class="pay-name">
+                <tr>
+                    <th class="col-2">購買人姓名</th>
+                    <td class="col-1">王大明</td>
+                </tr>
+                <tr>
+                    <th class="col-2">聯絡信箱</th>
+                    <td class="col-1">xxx@xxx.com</td>
+                </tr>
+                <tr>
+                    <th class="col-2">連絡電話</th>
+                    <td class="col-1">0987654321</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</section>
+
+<script>
+    var url = location.pathname;
+    console.log(url);
+    var orderId = url.replace("/Backstage/order/", ""); //字元處理 移除"/Backstage/order/" 字串
+
+    var appFirmOrder = new Vue({
+        el: "firmOrderDetails",
+        data: {
+            orderDetail:[]
+        },
+        mounted: function () {
+            this.getOrder();
+        },
+        methods: {
+            getOrder: function () {
+                let self = this;
+                axios.get("/api/Orders/manage/" + orderId).then(function (res) {
+                    self.orderDetail = res.data;
+                    console.log(self.orderDetail);
+                })
+                    .catch(function (err) {
+                        if (err.status == 404) {
+                            alertWrong(err.data);
+                        }
+                    })
+            }
+        }
+    })
+
+</script>

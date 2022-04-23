@@ -30,7 +30,9 @@
         </div>
         <div class="rel mb-3">
             顯示<button class="rel_n btn btn-outline-secondary dropdown-toggle" type="button"
-                            id="dropdownOrderButton" data-bs-toggle="dropdown" aria-expanded="false">所有狀態</button>的訂單
+                      id="dropdownOrderButton" data-bs-toggle="dropdown" aria-expanded="false">
+                所有狀態
+            </button>的訂單
             <ul class="dropdown-menu" aria-labelledby="dropdownOrderButton">
                 <li><a class="dropdown-item" href="#">已付款</a></li>
                 <li><a class="dropdown-item" href="#">未付款</a></li>
@@ -84,32 +86,36 @@
             <tbody>
                 <tr v-for="item in orderList">
                     <th scope="row"><input type="checkbox" name="choice" class="checknum" onclick="setAll()" /></th>
-                    <td># {{item.id}}</td>
+                    <td>
+                        <a v-bind:href=" '/Backstage/order/'+ item.id ">
+                            # {{item.id}}
+                        </a>
+                    </td>
                     <td>{{item.date}}</td>
                     <td>{{item.name}}</td>
                     <td>{{item.orderStatus}}</td>
-                    <td>$999</td>
+                    <td>{{item.orderdetails.discountPersent * item.orderdetails.quantity * item.orderdetails.unitPrice}}</td>
                 </tr>
-                <tr>
-                    <th scope="row"><input type="checkbox" name="choice" class="checknum" onclick="setAll()" /></th>
-                    <td>#23456</td>
-                    <td>2021.04.18</td>
-                    <td>KK</td>
-                    <td>未付款</td>
-                    <td>$2030</td>
-                </tr>
-                <tr>
-                    <th scope="row"><input type="checkbox" name="choice" class="checknum" onclick="setAll()" /></th>
-                    <td>#65432</td>
-                    <td>2021.04.18</td>
-                    <td>Otto</td>
-                    <td>已取消</td>
-                    <td>$9999</td>
-                </tr>
+                @*<tr>
+                        <th scope="row"><input type="checkbox" name="choice" class="checknum" onclick="setAll()" /></th>
+                        <td>#23456</td>
+                        <td>2021.04.18</td>
+                        <td>KK</td>
+                        <td>未付款</td>
+                        <td>$2030</td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><input type="checkbox" name="choice" class="checknum" onclick="setAll()" /></th>
+                        <td>#65432</td>
+                        <td>2021.04.18</td>
+                        <td>Otto</td>
+                        <td>已取消</td>
+                        <td>$9999</td>
+                    </tr>*@
             </tbody>
         </table>
         <div class="list-count">
-            找到<span id="list-count-d">3</span>筆訂單
+            找到<span id="list-count-d">{{totalOrder}}</span>筆訂單
         </div>
         <nav class="page-navigator" aria-label="Page navigation example">
             <ul class="pagination">
@@ -133,28 +139,28 @@
 
 <script type="text/javascript">
     //checkbox全選全不選
-            //點選全選，子複選框被選中
-            function demo() {
-                var allcheck = document.getElementById("allcheck");
-            var choice = document.getElementsByName("choice");
-            for (var i = 0; i < choice.length; i++) {
-                choice[i].checked = allcheck.checked;
-                }
-            }
+    //點選全選，子複選框被選中
+    function demo() {
+        var allcheck = document.getElementById("allcheck");
+        var choice = document.getElementsByName("choice");
+        for (var i = 0; i < choice.length; i++) {
+            choice[i].checked = allcheck.checked;
+        }
+    }
 
-            //點選子複選框,全選框 選中、取消
-            function setAll() {
-                if (!$(".checknum").checked) {
-                $("#allcheck").prop("checked", false); // 子複選框某個不選擇，全選也被取消
-                }
-            var choicelength = $("input[type='checkbox'][class='checknum']").length;
-            var choiceselect = $("input[type='checkbox'][class='checknum']:checked").length;
+    //點選子複選框,全選框 選中、取消
+    function setAll() {
+        if (!$(".checknum").checked) {
+            $("#allcheck").prop("checked", false); // 子複選框某個不選擇，全選也被取消
+        }
+        var choicelength = $("input[type='checkbox'][class='checknum']").length;
+        var choiceselect = $("input[type='checkbox'][class='checknum']:checked").length;
 
-            if (choicelength == choiceselect) {
-                $("#allcheck").prop("checked", true);   // 子複選框全部部被選擇，全選也被選擇；1.對於HTML元素我們自己自定義的DOM屬性，在處理時，使用attr方法；2.對於HTML元素本身就帶有的固有屬性，在處理時，使用prop方法。
-                }
+        if (choicelength == choiceselect) {
+            $("#allcheck").prop("checked", true);   // 子複選框全部部被選擇，全選也被選擇；1.對於HTML元素我們自己自定義的DOM屬性，在處理時，使用attr方法；2.對於HTML元素本身就帶有的固有屬性，在處理時，使用prop方法。
+        }
 
-            }
+    }
 </script>
 
 
@@ -162,7 +168,8 @@
     var appFirmOrder = new Vue({
         el: '#firmOrder',
         data: {
-            orderList:[]
+            orderList: [],
+            totalOrder: ""
         },
         mounted: function () {
             this.getFirmOrders();
@@ -173,6 +180,7 @@
                 axios.get("/api/orders/manage")
                     .then(function (res) {
                         self.orderList = res.data;
+                        self.totalOrder = res.data.length;
                     })
             }
         }

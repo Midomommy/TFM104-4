@@ -59,7 +59,8 @@ namespace TFM104MVC.Controllers
         }
 
         //單筆訂單
-        public IActionResult Order()
+        [Route("Backstage/order/{orderId}")]
+        public IActionResult Order([FromRoute] int orderId)
         {
             return View();
         }
