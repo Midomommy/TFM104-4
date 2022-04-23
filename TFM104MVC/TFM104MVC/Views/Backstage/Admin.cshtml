@@ -169,14 +169,14 @@
                     .then(
                         function (res) {
                             console.log("成功送出資料");
-                            alert("您已成功更新資料");
+                            alertSuccess("您已成功更新資料");
                         }
                     ).then(function () {
                         self.getAdminData();
                     }).catch(
                         function (res) {
                             console.log("送出資料失敗");
-                            alert("資料送出失敗");
+                            alertWrong("資料送出失敗");
                         }
                     );
             },
@@ -198,7 +198,7 @@
                         }
                     }).catch(function (err) {
                         if (err.status == 404) {
-                            alert("當前密碼輸入不正確");
+                            alertWrong("當前密碼輸入不正確");
                         }
                     })
             },
@@ -207,20 +207,22 @@
                 axios.post("/auth/UpdateFirmPassword?passwordNew=" + self.passwordNew)
                     .then(function (res) {
                         if (res.status == 200) {
-                            alert("已成功更新密碼");
+                            alertSuccess("已成功更新密碼");
                         }
                     }).catch(function (err) {
                         if (err.status == 404) {
-                            alert("當前密碼輸入不正確");
+                            alertWrong("當前密碼輸入不正確");
                         }
                     })
             },
             comparePassword: function () {
                 let self = this;
                 if (self.passwordNewConfirm !== self.passwordNew) {
-                    alert("兩者密碼輸入不相符");
+                    alertWrong("兩者密碼輸入不相符");
                     self.passwordNewConfirm = "";
-                    self.passwordNew="";
+                    self.passwordNew = "";
+                } else {
+                    alertSuccess("兩者密碼相同");
                 }
                 
             }

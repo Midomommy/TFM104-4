@@ -541,12 +541,12 @@
                 axios.post("/api/Cart/Checkout", self.orderInformation)
                     .then(function (res) {
                         if (res.status == 204) {
-                            alert("訂單已成功送出");
+                            alertSuccess("訂單已成功送出");
                         };
                     })
                     .catch(function (err) {
                         if (err.status == 404) {
-                            alert(err.data);
+                            alertWrong(err.data);
                         }
                     });
             },
@@ -568,7 +568,7 @@
                     })
                     .catch(function (err) {
                         if (err.status == 404) {
-                            alert(err.data);
+                            alertWrong(err.data);
                         }
                     });
             },

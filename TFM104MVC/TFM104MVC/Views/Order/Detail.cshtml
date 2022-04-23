@@ -117,7 +117,7 @@
                 })
                     .catch(function (err) {
                         if (err.status == 404) {
-                            alert(err.data);
+                            alertWrong  (err.data);
                         }
                     })
             },

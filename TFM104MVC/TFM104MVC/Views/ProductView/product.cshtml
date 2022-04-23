@@ -747,7 +747,7 @@
             })
                 .catch(function (err) {
                     if (err.status == 404) {
-                        alert(err.data);
+                        alertWrong(err.data);
                     }
                 })
         },
@@ -777,7 +777,7 @@
                 }).then(function (res) {
                     if (res.status == 200) {
                         cartListVue.getCurrentUserCart();
-                        alert("加入購物車成功");
+                        alertSuccess("加入購物車成功");
                     }
                 }).catch(function (err) {
                     console.log(err.data);

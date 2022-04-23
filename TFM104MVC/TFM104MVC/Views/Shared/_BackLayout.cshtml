@@ -204,13 +204,32 @@
                 logout: function () {
                     axios.post("/auth/logout").then(function (res) {
                         if (res.status == 200) {
-                            window.location.href ="/Backstage/Login" ;
+                            window.location.href = "/Backstage/Login";
                         }
                     });
                 }
             }
         })
 
+    </script>
+    <script>
+        function alertSuccess(inp) {
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: inp,
+                showConfirmButton: false,
+                timer: 1500,
+            });
+        }
+
+        function alertWrong(inp) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: inp,
+            })
+        }
     </script>
 </body>
 
