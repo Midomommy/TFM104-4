@@ -17,6 +17,7 @@ using System;
 using System.Net.Http;
 using Newtonsoft.Json;
 using TFM104MVC.Services;
+using System.Web;
 
 namespace TFM104MVC.Controllers
 {
@@ -157,36 +158,81 @@ namespace TFM104MVC.Controllers
 
             var lineLoginResource = JsonConvert.DeserializeObject<LINELoginResource>(responseContent);
 
-            // 因為Line API 可以同時取得ClientId Token 和 Access Token，所以這邊有兩種選擇
-            // 1. 使用JWT解析Id Token, Nuget > System.IdentityModel.Tokens.Jwt
-            // var userInfo = new JwtSecurityToken(lineLoginResource.IDToken).Payload;
-
-            // 2. https://developers.line.biz/en/reference/social-api/#profile
-            url = $"https://api.line.me/v2/profile";
-            client.DefaultRequestHeaders.Add("authorization", $"Bearer {lineLoginResource.AccessToken}");
-            response = await client.GetAsync(url);
-            if (response.IsSuccessStatusCode)
+            url = $"https://api.line.me/oauth2/v2.1/verify";
+            string Token = $"id_token={lineLoginResource.IDToken}&client_id={_client_id}";
+            var nvc = HttpUtility.ParseQueryString(Token);
+            var dictionaryToken = nvc.AllKeys.ToDictionary(k => k, k => nvc[k]);
+            var p2 = new FormUrlEncodedContent(dictionaryToken);
+            var responseUserInfo = await client.PostAsync(url, p2);
+            string responseContent1;
+            if (responseUserInfo.IsSuccessStatusCode)
             {
-                responseContent = await response.Content.ReadAsStringAsync();
-                var user = JsonConvert.DeserializeObject<LINEUser>(responseContent);
-
-                var existUser = _authenticateRepository.AccountCheck(user.Id);
+                responseContent1 = await responseUserInfo.Content.ReadAsStringAsync();
+                var lineLoginUserResource = JsonConvert.DeserializeObject<LINEUser>(responseContent1);
+                var existUser = _authenticateRepository.AccountCheck(lineLoginUserResource.UserEmail);
                 if (existUser == null)
                 {
                     var member = new User
                     {
-                        Account = user.Id,
+                        Account = lineLoginUserResource.UserEmail,
                         Password = "bbbbbb",
-                        LastName = user.Name,
+                        LastName = lineLoginUserResource.Name,
                         FirstName = "",
                         RoleName = "Member"
                     };
 
                     _authenticateRepository.AddUser(member);
                     _authenticateRepository.Save();
+                }
+
+                var claims = new[]
+                {
+                new Claim(ClaimTypes.Email,lineLoginUserResource.UserEmail),
+                new Claim("email",lineLoginUserResource.UserEmail),
+                new Claim("userId",existUser.Id.ToString()),
+                new Claim(ClaimTypes.Name,lineLoginUserResource.Name),
+                new Claim(ClaimTypes.Role,existUser.RoleName)
                 };
+
+                var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+                await HttpContext.SignInAsync(claimsPrincipal);
+
+
+                return Redirect("~/home/index");
             }
-            return Redirect("~/home/index");
+            else
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+
+            // 2. https://developers.line.biz/en/reference/social-api/#profile
+            //url = $"https://api.line.me/v2/profile";
+            //client.DefaultRequestHeaders.Add("authorization", $"Bearer {lineLoginResource.AccessToken}");
+            //response = await client.GetAsync(url);
+            //if (response.IsSuccessStatusCode)
+            //{
+            //    responseContent = await response.Content.ReadAsStringAsync();
+            //    var user = JsonConvert.DeserializeObject<LINEUser>(responseContent);
+
+            //    var existUser = _authenticateRepository.AccountCheck(user.Id);
+            //    if (existUser == null)
+            //    {
+            //        var member = new User
+            //        {
+            //            Account = user.Id,
+            //            Password = "bbbbbb",
+            //            LastName = user.Name,
+            //            FirstName = "",
+            //            RoleName = "Member"
+            //        };
+
+            //        _authenticateRepository.AddUser(member);
+            //        _authenticateRepository.Save();
+            //    };
+            //}
+            //return Redirect("~/home/index");
         }
 
         public class LINELoginResource
@@ -213,17 +259,12 @@ namespace TFM104MVC.Controllers
 
         public class LINEUser
         {
-            [JsonProperty("userId")]
-            public string Id { get; set; }
 
-            [JsonProperty("displayName")]
+            [JsonProperty("name")]
             public string Name { get; set; }
 
-            [JsonProperty("pictureUrl")]
+            [JsonProperty("picture")]
             public string PictureUrl { get; set; }
-
-            [JsonProperty("statusMessage")]
-            public string StatusMessage { get; set; }
 
             [JsonProperty("email")]
             public string UserEmail { get; set; }
