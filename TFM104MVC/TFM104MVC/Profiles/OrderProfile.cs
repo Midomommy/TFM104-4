@@ -15,7 +15,7 @@ namespace TFM104MVC.Profiles
             CreateMap<OrderDto, Order>();
             CreateMap<Order, OrderForShowDto>()
                 .ForMember(dest => dest.OrderStatus, opt => opt.MapFrom(src => src.OrderStatus.ToString()))
-                .ForMember(dest => dest.Date, opt => opt.MapFrom(src => src.Date.ToString("M")));
+                .ForMember(dest => dest.Date, opt => opt.MapFrom(src => src.Date.ToString()));
 
         }
     }

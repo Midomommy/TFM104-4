@@ -12,16 +12,18 @@
             <li class="breadcrumb-item active" aria-current="page">訂單管理</li>
         </ol>
     </nav>*@
+
 <div class="breadcrumb d-flex align-items-center">
     <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
-                <a href="#">後台面板</a>
+                <a onclick="location.href='@Url.Action("Home", "Backstage")'">後台面板</a>
             </li>
             <li class="breadcrumb-item active" aria-current="page">訂單管理</li>
         </ol>
     </nav>
 </div>
+
 <div class="container g-3">
     <!--按鈕色rgb(100, 179, 244)-->
     <div class="bd_board" id="firmOrder">
@@ -84,17 +86,20 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="item in orderList">
+                <tr v-for="(item,index) in orderList">
                     <th scope="row"><input type="checkbox" name="choice" class="checknum" onclick="setAll()" /></th>
                     <td>
-                        <a v-bind:href=" '/Backstage/order/'+ item.id ">
-                            # {{item.id}}
-                        </a>
+                        <span>
+                            #
+                            <a v-bind:href=" '/Backstage/order/'+ item.id ">
+                                {{item.id}}
+                            </a>
+                        </span>
                     </td>
                     <td>{{item.date}}</td>
                     <td>{{item.name}}</td>
                     <td>{{item.orderStatus}}</td>
-                    <td>{{item.orderdetails.discountPersent * item.orderdetails.quantity * item.orderdetails.unitPrice}}</td>
+                    <td>{{totalPrice(index)}}</td>
                 </tr>
                 @*<tr>
                         <th scope="row"><input type="checkbox" name="choice" class="checknum" onclick="setAll()" /></th>
@@ -169,7 +174,17 @@
         el: '#firmOrder',
         data: {
             orderList: [],
-            totalOrder: ""
+            totalOrderPrice: "",
+            paidStatus: {
+                "NotPaid": "未付款",
+                "Paid": "已付款",
+                "Canceled": "已取消"
+            }
+        },
+        computed: {
+            totalOrder: function () {
+                return this.orderList.length;
+            }
         },
         mounted: function () {
             this.getFirmOrders();
@@ -179,9 +194,20 @@
                 let self = this;
                 axios.get("/api/orders/manage")
                     .then(function (res) {
+                        for (let i of res.data) {
+                            i.orderStatus = self.paidStatus[i.orderStatus];
+                        }
                         self.orderList = res.data;
-                        self.totalOrder = res.data.length;
+
+                        //    self.totalOrder = res.data.length;
                     })
+            },
+            totalPrice: function (a) {
+                //先把每筆訂單的訂單明細取出來
+                var x = this.orderList[a].orderdetails;
+                //計算每筆訂單內所有訂單明細的總金額
+                var item = x.map(x => x.unitPrice * x.discountPersent * x.quantity).reduce((now, next) => now + next, 0);
+                return item;
             }
         }
     })

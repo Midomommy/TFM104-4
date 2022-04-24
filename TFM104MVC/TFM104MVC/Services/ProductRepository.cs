@@ -230,5 +230,10 @@ namespace TFM104MVC.Services
             //return  _context.Orders.Include(x => x.Orderdetails).ThenInclude(x =>).ThenInclude(x => x.ProductPictures).Where(x => x.Id == orderId);
 
         }
+
+        public async Task<List<Orderdetail>> GetOrderdetailTotalPrice(int orderId)
+        {
+            return await _context.Orderdetails.Where(x => x.OrderId == orderId).ToListAsync();
+        }
     }
 }

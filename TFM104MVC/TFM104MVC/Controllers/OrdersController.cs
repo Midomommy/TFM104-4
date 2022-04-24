@@ -122,7 +122,6 @@ namespace TFM104MVC.Controllers
                 return NotFound("目前平台沒有訂單");
             }
 
-
             var orderForShowDto = _mapper.Map<List<OrderForShowDto>>(allOrders);
             return Ok(orderForShowDto);
         }
@@ -161,6 +160,18 @@ namespace TFM104MVC.Controllers
 
         }
         
+        [HttpPost("gettotalprice/{orderId}")]
+        public async Task<IActionResult> GetOrderDetailsTotalPriceByOrderId([FromRoute] int orderId)
+        {
+            var order = await _productRepository.GetOrderdetailTotalPrice(orderId);
+            if (order == null)
+            {
+                return NotFound("查無此訂單編號");
+            }
+
+            var orderDetailsPriceDto = _mapper.Map<List<OrderdetailTotalPirceDto>>(order);
+            return Ok(orderDetailsPriceDto);
+        }
 
     }
 }

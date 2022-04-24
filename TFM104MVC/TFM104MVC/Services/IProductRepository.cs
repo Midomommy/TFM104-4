@@ -36,5 +36,6 @@ namespace TFM104MVC.Services
 
         Task<IEnumerable<Order>> GetAllOrders(); //管理者 廠商 取得所有客戶的訂單
         Task<Order> GetOrderById(int orderId);
+        Task<List<Orderdetail>> GetOrderdetailTotalPrice(int orderId);
     }
 }
