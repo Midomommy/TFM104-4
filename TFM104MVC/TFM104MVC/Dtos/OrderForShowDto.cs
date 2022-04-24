@@ -12,6 +12,10 @@ namespace TFM104MVC.Dtos
 
         public string Name { get; set; } //訂購人姓名
 
+        public string Phone { get; set; } //電話
+        
+        public string Email { get; set; } //信箱
+
         public string Date { get; set; } //購買日期
 
         public double? Discount { set; get; } //平台折扣

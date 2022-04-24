@@ -14,10 +14,10 @@ namespace TFM104MVC.Models.Entity
 
         [MaxLength(10)]
         public string Name { get; set; } //訂購人姓名
-
-        //public string Phone { get; set; } //電話
-
-        //public string Email { get; set; } //信箱
+        [MaxLength(20)]
+        public string Phone { get; set; } //電話
+        [MaxLength(30)]
+        public string Email { get; set; } //信箱
 
 
         [Required]

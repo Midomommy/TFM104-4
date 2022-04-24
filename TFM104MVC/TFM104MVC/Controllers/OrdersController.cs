@@ -142,7 +142,7 @@ namespace TFM104MVC.Controllers
             return Ok(orderForShowDto);
         }
 
-        [HttpPost("{orderId}")]
+        [HttpPost("cancel/{orderId}")]
         [Authorize(Roles ="Firm,Admin")] //管理者與廠商 軟刪除特定訂單 功能
         public async Task<IActionResult> SoftDeleteOrder([FromRoute] int orderId)
         {
@@ -157,7 +157,23 @@ namespace TFM104MVC.Controllers
             await _productRepository.SaveAsync();
 
             return NoContent();
+        }
 
+        [HttpPost("done/{orderId}")]
+        [Authorize(Roles ="Firm,Admin")]
+        public async Task<IActionResult> SoftChangeOrder([FromRoute]int orderId)
+        {
+            var order = await _productRepository.GetOrderById(orderId);
+            if (order == null)
+            {
+                return NotFound("查無此訂單編號");
+            }
+
+            order.OrderStatus = Models.Enum.OrderStatus.Done;
+
+            await _productRepository.SaveAsync();
+
+            return NoContent();
         }
         
         [HttpPost("gettotalprice/{orderId}")]
