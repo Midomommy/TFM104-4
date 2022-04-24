@@ -20,7 +20,7 @@
     <!--商品名稱-->
     <div class="row">
         <p class="fs-3 fw-bold" style="color: #3c5587;">
-            {{product.title}}
+            {{add.title}}
         </p>
     </div>
     <!--商品編輯icon群組-->
@@ -100,13 +100,13 @@
                 <div class="product-type">
                     <select class="form-select" aria-label="product-type" v-model="add.tripType">
                         <option selected disabled>商品分類</option>
-                        <option value="1">露營</option>
-                        <option value="2">水上活動</option>
-                        <option value="3">人文之旅</option>
-                        <option value="1">地方特色</option>
-                        <option value="2">溫泉之旅</option>
-                        <option value="3">戶外休閒</option>
-                        <option value="1">景點門票</option>
+                        <option value="0">露營</option>
+                        <option value="1">水上活動</option>
+                        <option value="2">人文之旅</option>
+                        <option value="3">地方特色</option>
+                        <option value="4">溫泉之旅</option>
+                        <option value="5">戶外休閒</option>
+                        <option value="6">景點門票</option>
                     </select>
                 </div>
                 <!-- 商品狀態 -->
@@ -122,28 +122,28 @@
                 <div class="region-type">
                     <select class="form-select" aria-label="region-type" v-model="add.region">
                         <option selected disabled>地區分類</option>
-                        <option value="1">北北基</option>
-                        <option value="2">桃竹苗</option>
-                        <option value="3">中彰投</option>
-                        <option value="1">雲嘉南</option>
-                        <option value="2">高屏</option>
-                        <option value="3">宜花東</option>
-                        <option value="3">離島地區</option>
+                        <option value="0">北北基</option>
+                        <option value="1">桃竹苗</option>
+                        <option value="2">中彰投</option>
+                        <option value="3">雲嘉南</option>
+                        <option value="4">高屏</option>
+                        <option value="5">宜花東</option>
+                        <option value="6">離島地區</option>
                     </select>
                 </div>
                 <!-- 旅遊天數 -->
                 <div class="travel-day">
                     <select class="form-select" aria-label="travel-day" v-model="add.travelDays">
                         <option selected disabled>旅遊天數</option>
-                        <option value="1">1天</option>
-                        <option value="2">2天</option>
-                        <option value="3">3天</option>
-                        <option value="1">4天</option>
-                        <option value="2">5天</option>
-                        <option value="3">6天</option>
-                        <option value="3">7天</option>
-                        <option value="3">8天</option>
-                        <option value="3">8天以上</option>
+                        <option value="0">1天</option>
+                        <option value="1">2天</option>
+                        <option value="2">3天</option>
+                        <option value="3">4天</option>
+                        <option value="4">5天</option>
+                        <option value="5">6天</option>
+                        <option value="6">7天</option>
+                        <option value="7">8天</option>
+                        <option value="8">8天以上</option>
                     </select>
                 </div>
 
@@ -210,11 +210,9 @@
     var getUrlString = location.pathname; //抓網頁路徑部分(/ProductView/product/XXXXX)
     var pid = getUrlString.replace("/Backstage/EditProduct/", "");//字元處理 移除"/ProductView/product/" 字串
 
-    var app242 = new Vue({
+    var editproductVue = new Vue({
         el: '#editproduct',
         data: {
-            product: [],
-
             add: {
                 title: "",
                 originalPrice: "",
@@ -225,9 +223,16 @@
                 region: "",
                 description: "",
                 productPictures: [],
-
             },
-
+            sectionObject: {
+                "North": "0",
+                "MiddleNorth": "1",
+                "Middle": "2",
+                "MiddleSouth": "3",
+                "South": "4",
+                "East": "5",
+                "OutsideIsland": "6"
+            },
         },
         computed: {
 
@@ -236,8 +241,20 @@
         mounted: function () {
             var self = this;
             axios.get("/api/products/" + pid).then(function (res) {
-                self.product = res.data;
-            });
+                //for (let i of res.data) {
+                //    i.region = self.sectionObject[i.region];
+                //}
+                /*  self.product = res.data;*/
+                self.add.title = res.data.title;
+                self.add.originalPrice = res.data.originalPrice;
+                self.add.discountPersent = res.data.discountPersent;
+                self.add.goTouristTime = res.data.goTouristTime;
+                self.add.travelDays = res.data.travelDays;
+                self.add.tripType = res.data.tripType;
+                self.add.region = res.data.region;
+                self.add.description = res.data.description;
+                self.add.productPictures = res.data.productPictures;
+            })
 
         },
         methods: {
