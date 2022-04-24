@@ -81,13 +81,13 @@
                 <label for="prdouctPriceFormControlInput" class="form-label fs-6 "
                        style="color: #3c5587;">商品價格(必填)</label>
                 <input type="text" class="form-control" id="prdouctPriceFormControlInput"
-                       placeholder="請輸入商品定價" model="add.originalPrice">
+                       placeholder="請輸入商品定價" v-model="add.originalPrice">
             </div>
             <div class="price-discount">
                 <label for="prdouctDiscountFormControlInput" class="form-label fs-6 "
                        style="color: #3c5587;">商品折扣</label>
                 <input type="text" class="form-control" id="prdouctDiscountFormControlInput"
-                       placeholder="請輸入商品折扣" model="add.discountPersent">
+                       placeholder="請輸入商品折扣" v-model="add.discountPersent">
             </div>
         </div>
         <!--商品選擇-->
@@ -266,21 +266,29 @@
                 }
             },
             save: function () {
-                var bodyFormData = new FormData();
-                bodyFormData.append("title", this.add.title);
-                bodyFormData.append("originalPrice", this.add.originalPrice);
-                bodyFormData.append("discountPersent", this.add.discountPersent);
-                bodyFormData.append("tripType", this.add.tripType);
-                bodyFormData.append("region", this.add.region);
-                bodyFormData.append("travelDays", this.add.travelDays);
-                bodyFormData.append("description", this.add.description);
-                bodyFormData.append("goTouristTime", this.add.goTouristTime);
-                axios({
-                    method: "put",
-                    url: "/api/products/" + pid,
-                    data: bodyFormData,
-                    headers: { 'Content-Type': 'application/json' }
-                })
+                //var bodyFormData = new FormData();
+                //bodyFormData.append("title", this.add.title);
+                //bodyFormData.append("originalPrice", this.add.originalPrice);
+                //bodyFormData.append("discountPersent", this.add.discountPersent);
+                //bodyFormData.append("tripType", this.add.tripType);
+                //bodyFormData.append("region", this.add.region);
+                //bodyFormData.append("travelDays", this.add.travelDays);
+                //bodyFormData.append("description", this.add.description);
+                //bodyFormData.append("goTouristTime", this.add.goTouristTime);
+                //axios({
+                //    method: "put",
+                //    url: "/api/products/" + pid,
+                //    data: bodyFormData,
+                //    headers: { 'Content-Type': 'application/json' }
+                //})
+                let self = this;
+                axios.put("/api/products/" + pid, self.add)
+                    .then(function (res) {
+                        if (res.status == 204) {
+                            alert("你已送出")
+                        }
+                    });
+
             }
 
         }
