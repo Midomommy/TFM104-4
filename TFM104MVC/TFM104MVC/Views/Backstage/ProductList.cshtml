@@ -17,7 +17,7 @@
     </div>
 </div>
 <!--商品列表本體-->
-<div class="product-list-body" style="margin-right: 3rem; margin-left: 3rem;">
+<div class="product-list-body" style="margin-right: 3rem; margin-left: 3rem;" id="GetProducts">
     <!-- 商品搜尋列 -->
     <div class="product-list-search-bar d-flex gap-3">
         <!-- 選擇上架狀態 -->
@@ -95,7 +95,35 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
+                <tr v-for="item in productList">
+                    <th scope="row">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                    </th>
+                    <td>{{item.id}}</td>
+                    <td>
+                        <img src="https://fakeimg.pl/50/">
+                    </td>
+                    <td>{{item.title}}</td>
+                    <td>{{item.originalPrice }}</td>
+                    <td>已上架</td>
+                    <td>
+                        <div class="d-flex gap-3">
+                            <!--編輯-->
+                            <a class="btn btn-success" v-bind:href=" '/Backstage/EditProduct/'+ item.id ">
+                                <i class="bi bi-pencil-square"></i>
+                            </a>
+                            <!--眼睛-->
+                            <a href="" class="btn btn-warning">
+                                <i class="bi bi-eye-slash"></i>
+                            </a>
+                            <!--垃圾桶-->
+                            <div href="" class="btn btn-danger" v-on:click.prevent="del(item.id)">
+                                <i class="bi bi-trash3"></i>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <!--<tr>
                     <th scope="row">
                         <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
                     </th>
@@ -107,17 +135,17 @@
                     <td>99999</td>
                     <td>已上架</td>
                     <td>
-                        <div class="d-flex gap-3">
-                            <!--編輯-->
-                            <a class="btn btn-success" href="">
-                                <i class="bi bi-pencil-square"></i>
-                            </a>
-                            <!--眼睛-->
-                            <a href="" class="btn btn-warning">
-                                <i class="bi bi-eye-slash"></i>
-                            </a>
-                            <!--垃圾桶-->
-                            <a href="" class="btn btn-danger">
+                        <div class="d-flex gap-3">-->
+                <!--編輯-->
+                <!--<a class="btn btn-success" href="">
+                    <i class="bi bi-pencil-square"></i>
+                </a>-->
+                <!--眼睛-->
+                <!--<a href="" class="btn btn-warning">
+                    <i class="bi bi-eye-slash"></i>
+                </a>-->
+                <!--垃圾桶-->
+                <!--<a href="" class="btn btn-danger">
                                 <i class="bi bi-trash3"></i>
                             </a>
                         </div>
@@ -135,51 +163,146 @@
                     <td>99999</td>
                     <td>已上架</td>
                     <td>
-                        <div class="d-flex gap-3">
-                            <!--編輯-->
-                            <a class="btn btn-success" href="">
-                                <i class="bi bi-pencil-square"></i>
-                            </a>
-                            <!--眼睛-->
-                            <a href="" class="btn btn-warning">
-                                <i class="bi bi-eye-slash"></i>
-                            </a>
-                            <!--垃圾桶-->
-                            <a href="" class="btn btn-danger">
+                        <div class="d-flex gap-3">-->
+                <!--編輯-->
+                <!--<a class="btn btn-success" href="">
+                    <i class="bi bi-pencil-square"></i>
+                </a>-->
+                <!--眼睛-->
+                <!--<a href="" class="btn btn-warning">
+                    <i class="bi bi-eye-slash"></i>
+                </a>-->
+                <!--垃圾桶-->
+                <!--<a href="" class="btn btn-danger">
                                 <i class="bi bi-trash3"></i>
                             </a>
                         </div>
                     </td>
-                </tr>
-                <tr>
-                    <th scope="row">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                    </th>
-                    <td>idxxx</td>
-                    <td>
-                        <img src="https://fakeimg.pl/50/">
-                    </td>
-                    <td>綠島5天4夜</td>
-                    <td>99999</td>
-                    <td>已上架</td>
-                    <td>
-                        <div class="d-flex gap-3">
-                            <!--編輯-->
-                            <a class="btn btn-success" href="">
-                                <i class="bi bi-pencil-square"></i>
-                            </a>
-                            <!--眼睛-->
-                            <a href="" class="btn btn-warning">
-                                <i class="bi bi-eye-slash"></i>
-                            </a>
-                            <!--垃圾桶-->
-                            <a href="" class="btn btn-danger">
-                                <i class="bi bi-trash3"></i>
-                            </a>
-                        </div>
-                    </td>
-                </tr>
+                </tr>-->
             </tbody>
         </table>
     </div>
 </div>
+<script>
+    var keyword = window.location.search.replace("?", "");
+    var keywordDecode = decodeURI(window.location.search.replace("?keyword=", ""));
+    var backstageProductList = new Vue({
+        el: '#GetProducts',
+
+        data: {
+            productList: [],
+            error: "",
+            regionValue: "", // 開[]為多選   ""為單選
+            TraveldaysValue: "",
+            TriptypeValue: "",
+            productTotal: '',
+            orderbyClick: '',
+            customerRating: '',
+            goTraveltime: "",
+            pageLeftBtn: true,
+
+            countOfPage: 10,// 幾個一頁
+            currPage: 1,//初始頁
+            sectionObject: {
+                "North": "北北基",
+                "MiddleNorth": "桃竹苗",
+                "Middle": "中彰投",
+                "MiddleSouth": "雲嘉南",
+                "South": "高屏",
+                "East": "宜花東",
+                "OutsideIsland": "離島地區"
+            },
+            chRegion: "",
+
+
+        },
+        computed: {
+            pageStart: function () {
+                return (this.currPage - 1) * this.countOfPage;
+            },
+            totalPage: function () {
+                return Math.ceil(this.productList.length / this.countOfPage);
+            },
+
+        },
+
+        mounted: function () {
+            var self = this;
+
+            axios.get("/api/products?" + keyword).then(function (res) {
+                for (let i of res.data) {
+                    i.region = self.sectionObject[i.region];
+                    //    i.goTouristTime = "" +i.goTouristTime;
+                }
+                self.productList = res.data;
+                self.productTotal = res.data.length;
+                //    self.chRegion = app1.sectionObject[res.data.region];
+            }).catch(function (error) {
+                self.error = error.data;
+                self.productList = "";
+                self.productTotal = "0";
+            })
+        },
+
+        methods: {
+            regionClick: function () {
+                var self = this;
+                var regionValue = self.regionValue;
+                var Traveldays = self.TraveldaysValue;
+                var Triptype = self.TriptypeValue
+                var orderbyClick = self.orderbyClick;
+                var customerRating = self.customerRating;
+                var goTraveltime = self.goTraveltime;
+                if (goTraveltime != "") { goTraveltime = decodeURI(goTraveltime.replace("T", "+").concat(":00.0000000")); }
+
+                axios.get("/api/products?Region=" + regionValue + "&Traveldays=" + Traveldays + "&Triptype=" + Triptype + "&Rating=lessThan" + customerRating + orderbyClick + "&GoTouristTime=" + decodeURI(goTraveltime) + "&" + keyword).then(function (res) {
+                    for (let i of res.data) {
+                        i.region = self.sectionObject[i.region];
+
+                    };
+                    console.log(customerRating);
+                    self.productList = res.data;
+                    self.error = "";
+                    self.currPage = "1";
+                    self.productTotal = res.data.length;
+
+                }).catch(function (error) {
+                    self.error = error.data;
+                    self.productList = "";
+                    self.productTotal = "0";
+
+
+
+                })
+
+                // }
+            },
+            setPage: function (idx) {//設定頁面
+                if (idx <= 0 || idx > this.totalPage) {
+                    return;
+                }
+                this.currPage = idx;
+            },
+            del: function (id) {
+
+                console.log(id);
+
+                axios.delete("/api/products/" + id).then(alert(id));
+
+            },
+
+        },
+        filters: {
+            ellipsis(value) {
+                if (!value) return '';
+                if (value.length > 50) {
+                    return value.slice(0, 50) + '...'//第幾個字加...
+                }
+                return value
+            }
+        },
+
+
+    });
+
+</script>
