@@ -131,13 +131,13 @@ namespace TFM104MVC.Controllers
         public async Task<IActionResult> GetOrderById([FromRoute]string orderId)
         {
             int OrderId = int.Parse(orderId);
-            var order = await _productRepository.GetOrderById(OrderId);
+            var order = await _productRepository.GetOrderContentById(OrderId);
             if(order == null)
             {
                 return NotFound("查無此訂單編號");
             }
 
-            var orderForShowDto = _mapper.Map<OrderForShowDto>(order);
+            var orderForShowDto = _mapper.Map<List<OrderForShowDto>>(order);
 
             return Ok(orderForShowDto);
         }

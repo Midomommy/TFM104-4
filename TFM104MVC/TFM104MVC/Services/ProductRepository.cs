@@ -227,13 +227,16 @@ namespace TFM104MVC.Services
         public async Task<Order> GetOrderById(int orderId)
         {
             return await _context.Orders.FirstOrDefaultAsync(x => x.Id == orderId);
-            //return  _context.Orders.Include(x => x.Orderdetails).ThenInclude(x =>).ThenInclude(x => x.ProductPictures).Where(x => x.Id == orderId);
-
         }
 
         public async Task<List<Orderdetail>> GetOrderdetailTotalPrice(int orderId)
         {
             return await _context.Orderdetails.Where(x => x.OrderId == orderId).ToListAsync();
+        }
+
+        public async Task<List<Order>> GetOrderContentById(int orderId)
+        {
+            return await _context.Orders.Include(x => x.Orderdetails).ThenInclude(x => x.Product).Where(x => x.Id == orderId).ToListAsync();
         }
     }
 }
