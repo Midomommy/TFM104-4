@@ -62,7 +62,7 @@
                 <!-- 商品分類 -->
                 <div class="product-type">
                     <select class="form-select" aria-label="product-type" v-model="add.tripType">
-                        <option selected disabled>商品分類</option>
+                        <option value="" selected disabled>商品分類</option>
                         <option value="0">露營</option>
                         <option value="1">水上活動</option>
                         <option value="2">人文之旅</option>
@@ -75,7 +75,7 @@
                 <!-- 商品狀態 -->
                 <div class="product-status">
                     <select class="form-select" aria-label="product-status">
-                        <option selected disabled>商品狀態</option>
+                        <option value="" selected disabled>商品狀態</option>
                         <option value="1">未審核</option>
                         <option value="2">已上架</option>
                         <option value="3">已下架</option>
@@ -84,7 +84,7 @@
                 <!-- 地區分類 -->
                 <div class="region-type">
                     <select class="form-select" aria-label="region-type" v-model="add.region">
-                        <option selected disabled>地區分類</option>
+                        <option value="" selected disabled>地區分類</option>
                         <option value="0">北北基</option>
                         <option value="1">桃竹苗</option>
                         <option value="2">中彰投</option>
@@ -97,7 +97,7 @@
                 <!-- 旅遊天數 -->
                 <div class="travel-day">
                     <select class="form-select" aria-label="travel-day" v-model="add.travelDays">
-                        <option selected disabled>旅遊天數</option>
+                        <option value="" selected disabled>旅遊天數</option>
                         <option value="0">1天</option>
                         <option value="1">2天</option>
                         <option value="2">3天</option>
@@ -125,12 +125,12 @@
             <textarea id="description" name="description" rows="10" cols="105" v-model="add.description">請輸入關於商品的描述</textarea>
         </div>
         <!-- 商品備註 -->
-        <div class="product-note mt-3">
+        <!--<div class="product-note mt-3">
             <p class="fs-6" style="color: #3c5587;">
                 商品備註
             </p>
             <textarea id="note" name="note" rows="5" cols="105">請輸入商品備註</textarea>
-        </div>
+        </div>-->
     </div>
     <!--商品圖片編輯-->
     <div class="product-edit-body mt-3 mb-3">
