@@ -271,7 +271,7 @@
                             <!--點數-->
                             <div class="d-flex justify-content-between mb-5">
                                 <div class="text-muted">
-                                    KKday Points
+                                    TT Points
                                 </div>
                                 <div class="d-flex gap-2">
                                     <span class="text-warning"><i class="bi bi-exclamation-circle-fill"></i></span>
@@ -785,8 +785,18 @@
             },
 
             purchaseNow: function () {
-               var directPurchase = '/Purchase/BookingNow?productId=' + pid + '&quantity=' + this.index;
-               window.location.href = directPurchase;
+                var userExist = localStorage.getItem('userExist');
+                if (userExist == null) {
+                    alertWrong("您似乎尚未登入");
+                    var myLogin1 = document.getElementsByName("mylogin");
+                    myLogin1[0].click();
+                } else {
+                    var directPurchase = '/Purchase/BookingNow?productId=' + pid + '&quantity=' + this.index;
+                    window.location.href = directPurchase;
+                }
+
+               //var directPurchase = '/Purchase/BookingNow?productId=' + pid + '&quantity=' + this.index;
+               //window.location.href = directPurchase;
             }
         },
         //buy: function () {
