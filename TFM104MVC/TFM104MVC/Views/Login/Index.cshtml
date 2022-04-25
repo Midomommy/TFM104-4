@@ -19,17 +19,17 @@
                             </div>
                         </div>
 
-                        <h4 class="break-word"></h4>
+                        <h4 class="break-word">@User.Identity.Name</h4>
                         <p>@User.Claims.Where(x => x.Type == "email").FirstOrDefault().Value</p>
-                        <div class="account-group">
-                            <div class="account gap-2">
-                                <img src="https://imgur.com/MAqZ1Pb.png" style="width: 24px;height: 24px;" class="channel-icon">
-                                <div class="channel-name">
-                                    <div>Facebook</div>
-                                </div>
-                                <!--缺打勾icon-->
-                            </div>
-                        </div>
+                        <!--<div class="account-group">
+                        <div class="account gap-2">
+                            <img src="https://imgur.com/MAqZ1Pb.png" style="width: 24px;height: 24px;" class="channel-icon">
+                            <div class="channel-name">
+                                <div>Facebook</div>
+                            </div>-->
+                        <!--缺打勾icon-->
+                        <!--</div>
+                        </div>-->
                     </div>
 
                     <!--左下列表-->
@@ -127,7 +127,7 @@
                                     @*<input placeholder="YYYY-MM-DD" type="text" class="form-control.has-datepicker">*@
                                     <input type="date" id="birtday" name="birthday"
                                            value="1918-06-07" min="1918-06-07T00:00" max="2300-06-14T00:00"
-                                            v-model="memberData.members.birthday">
+                                           v-model="memberData.members.birthday">
 
                                     <span class="input-group-addon">
                                         <i class="bi bi-calendar2-week"></i>
@@ -197,17 +197,17 @@
         el: '#EditData',
         data: {
             memberData: {
-                account:"",
+                account: "",
                 lastName: "",
                 firstName: "",
                 phone: "",
                 members: {
                     birthday: "",
-                    gender:false
+                    gender: false
                 }
             }
         },
-        mounted: function() {
+        mounted: function () {
             this.getUserData();
         },
         methods: {
@@ -219,9 +219,9 @@
                             console.log("成功送出資料");
                             alertSuccess("您已成功更新資料");
                         }
-                ).then(function () {
-                    self.getUserData();
-                });
+                    ).then(function () {
+                        self.getUserData();
+                    });
             },
             getUserData: function () {
                 let self = this;
@@ -231,31 +231,30 @@
                     }
                 )
             }
-        },  
+        },
     })
 </script>
 
 <!--回頂部btn 暫時隱藏-->
-
 @*<div class="scroll-top-wrapper">
-    <button type="button" id="BackTop" class="scroll-top-inner" style="float: right;">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-arrow-up-circle" viewBox="0 0 16 16">
-            <path fill-rule="evenodd"
-                  d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z" />
-        </svg>
-    </button>
-</div>
-<script type="text/javascript">
-    $(function () {
-        $('#BackTop').click(function () {
-            $('html,body').animate({ scrollTop: 0 }, 333);
+        <button type="button" id="BackTop" class="scroll-top-inner" style="float: right;">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-arrow-up-circle" viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                      d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z" />
+            </svg>
+        </button>
+    </div>
+    <script type="text/javascript">
+        $(function () {
+            $('#BackTop').click(function () {
+                $('html,body').animate({ scrollTop: 0 }, 333);
+            });
+            $(window).scroll(function () {
+                if ($(this).scrollTop() > 100) {
+                    $('#BackTop').fadeIn(222);
+                } else {
+                    $('#BackTop').stop().fadeOut(222);
+                }
+            }).scroll();
         });
-        $(window).scroll(function () {
-            if ($(this).scrollTop() > 100) {
-                $('#BackTop').fadeIn(222);
-            } else {
-                $('#BackTop').stop().fadeOut(222);
-            }
-        }).scroll();
-    });
-</script>*@
+    </script>*@
