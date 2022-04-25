@@ -24,7 +24,7 @@
         <div class="btn-group">
             <select class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
                     aria-expanded="false">
-                <option selected disabled>選擇上架狀態</option>
+                <option value="" selected disabled>選擇上架狀態</option>
                 <option value="">未審核</option>
                 <option value="">已上架</option>
                 <option value="">已下架</option>
@@ -34,7 +34,7 @@
         <div class="btn-group">
             <select class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
                     aria-expanded="false" v-model="TriptypeValue" v-on:change="regionClick">
-                <option selected disabled>商品分類</option>
+                <option value="" selected disabled>商品分類</option>
                 <option value="0">露營</option>
                 <option value="1">水上活動</option>
                 <option value="2">人文之旅</option>
@@ -48,14 +48,14 @@
         <div class="btn-group">
             <select type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
                     aria-expanded="false" v-model="regionValue" v-on:change="regionClick">
-                <option selected disabled>地區分類</option>
-                <option>北北基</option>
-                <option>桃竹苗</option>
-                <option>中彰投</option>
-                <option>雲嘉南</option>
-                <option>高屏</option>
-                <option>宜花東</option>
-                <option>離島地區</option>
+                <option value="" selected disabled>地區分類</option>
+                <option value="">北北基</option>
+                <option value="">桃竹苗</option>
+                <option value="">中彰投</option>
+                <option value="">雲嘉南</option>
+                <option value="">高屏</option>
+                <option value="">宜花東</option>
+                <option value="">離島地區</option>
             </select>
 
         </div>
