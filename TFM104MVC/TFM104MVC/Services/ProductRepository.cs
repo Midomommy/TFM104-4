@@ -219,9 +219,22 @@ namespace TFM104MVC.Services
             return await _context.Products.Include(x=>x.ProductPictures).Where(x => productId.Contains(x.Id)).ToListAsync();
         }
 
-        public async Task<IEnumerable<Order>> GetAllOrders()
+        public async Task<IEnumerable<Order>> GetAllOrders(string Status,string Keyword)
         {
-            return await _context.Orders.Include(x => x.Orderdetails).ThenInclude(x => x.Product).ThenInclude(x => x.ProductPictures).Where(x=>x.OrderStatus == OrderStatus.NotPaid || x.OrderStatus == OrderStatus.Paid).ToListAsync();
+            IQueryable<Order> result = _context.Orders.Include(x => x.Orderdetails).ThenInclude(x => x.Product).ThenInclude(x => x.ProductPictures);
+            if (!string.IsNullOrWhiteSpace(Keyword))
+            {
+                Keyword = Keyword.Trim();
+                result = result.Where(x => x.Name == Keyword || x.Id == int.Parse(Keyword));
+            }
+            if (!string.IsNullOrWhiteSpace(Status))
+            {
+                Status = Status.Trim();
+                var r1 = (OrderStatus)Enum.Parse(typeof(OrderStatus), Status);
+                result = result.Where(x => x.OrderStatus == r1);
+            }
+            return await result.ToListAsync();
+            //return await _context.Orders.Include(x => x.Orderdetails).ThenInclude(x => x.Product).ThenInclude(x => x.ProductPictures).Where(x=>x.OrderStatus == OrderStatus.NotPaid || x.OrderStatus == OrderStatus.Paid).ToListAsync();
         }
 
         public async Task<Order> GetOrderById(int orderId)

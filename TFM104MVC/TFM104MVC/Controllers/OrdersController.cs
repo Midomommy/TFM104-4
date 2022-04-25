@@ -115,12 +115,12 @@ namespace TFM104MVC.Controllers
 
         [HttpGet("manage")]
         [Authorize(Roles ="Firm,Admin")]
-        public async Task<IActionResult> GetAllOrders() //管理者與廠商 讀取訂單 功能
+        public async Task<IActionResult> GetAllOrders([FromQuery] string Status,string Keyword) //管理者與廠商 讀取訂單 功能
         {
-            var allOrders = await _productRepository.GetAllOrders(); //只撈出未付款和已付款的訂單 不撈出已取消的訂單
+            var allOrders = await _productRepository.GetAllOrders(Status, Keyword); //只撈出未付款和已付款的訂單 不撈出已取消的訂單
             if(allOrders == null || allOrders.Count() == 0)
             {
-                return NotFound("目前平台沒有訂單");
+                return NotFound("目前平台沒有此類型訂單");
             }
 
             var orderForShowDto = _mapper.Map<List<OrderForShowDto>>(allOrders);

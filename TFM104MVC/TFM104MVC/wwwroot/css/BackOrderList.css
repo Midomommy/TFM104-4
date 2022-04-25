@@ -43,11 +43,13 @@ h2 {
     .breadcrumb a {
         color: #3c4554;
         text-decoration: none;
+        cursor: pointer;
     }
 
         .breadcrumb a:hover {
             color: #5b7ce3;
             text-decoration: none;
+            cursor: pointer;
         }
 
 /*背景*/
