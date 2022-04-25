@@ -87,12 +87,9 @@
                 <tr v-for="(item,index) in orderList.slice(pageStart, pageStart + countOfPage)">
                     <th scope="row"><input type="checkbox" name="choice" class="checknum" onclick="setAll()" /></th>
                     <td>
-                        <span>
-                            #
                             <a v-bind:href=" '/Backstage/order/'+ item.id ">
-                                {{item.id}}
+                                #{{item.id}}
                             </a>
-                        </span>
                     </td>
                     <td>{{item.date}}</td>
                     <td>{{item.name}}</td>
