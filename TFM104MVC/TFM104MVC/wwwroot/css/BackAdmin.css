@@ -6,15 +6,17 @@
     padding-top: 0.5rem;
 }
 
-.breadcrumb  a {
-    color: #3c4554;
-    text-decoration: none;
-}
+    .breadcrumb a {
+        color: #3c4554;
+        text-decoration: none;
+        cursor: pointer;
+    }
 
-.breadcrumb  a:hover {
-    color: #5b7ce3;
-    text-decoration: none;
-}
+        .breadcrumb a:hover {
+            color: #5b7ce3;
+            text-decoration: none;
+            cursor: pointer;
+        }
 
 /*訂單數量*/
 /* .infobox {

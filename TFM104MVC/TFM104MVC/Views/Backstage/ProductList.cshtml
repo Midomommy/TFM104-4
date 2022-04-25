@@ -22,9 +22,9 @@
     <div class="product-list-search-bar d-flex gap-3">
         <!-- 選擇上架狀態 -->
         <div class="btn-group">
-            <select  class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
+            <select class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
                     aria-expanded="false">
-                <option selected disabled>選擇上架狀態</option>
+                <option value="" selected disabled>選擇上架狀態</option>
                 <option value="">未審核</option>
                 <option value="">已上架</option>
                 <option value="">已下架</option>
@@ -32,21 +32,10 @@
         </div>
         <!-- 商品分類 -->
         <div class="btn-group">
-            <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                商品分類
-            </button>
-            @*<ul class="dropdown-menu"  v-model="TriptypeValue" v-on:change="regionClick">
-                    <li><a class="dropdown-item" href="#">露營</a></li>
-                    <li><a class="dropdown-item" href="#">水上活動</a></li>
-                    <li><a class="dropdown-item" href="#">人文之旅</a></li>
-                    <li><a class="dropdown-item" href="#">地方特色</a></li>
-                    <li><a class="dropdown-item" href="#">溫泉之旅</a></li>
-                    <li><a class="dropdown-item" href="#">戶外休閒</a></li>
-                    <li><a class="dropdown-item" href="#">景點門票</a></li>
-                </ul>*@
-            <select v-model="TriptypeValue" v-on:change="regionClick">
-                <option   value="0">露營</option>
+            <select class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
+                    aria-expanded="false" v-model="TriptypeValue" v-on:change="regionClick">
+                <option value="" selected disabled>商品分類</option>
+                <option value="0">露營</option>
                 <option value="1">水上活動</option>
                 <option value="2">人文之旅</option>
                 <option value="3">地方特色</option>
@@ -57,19 +46,18 @@
         </div>
         <!-- 地區分類 -->
         <div class="btn-group">
-            <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                地區分類
-            </button>
-            <ul class="dropdown-menu" v-model="regionValue" v-on:change="regionClick">
-                <li><a class="dropdown-item" href="#">北北基</a></li>
-                <li><a class="dropdown-item" href="#">桃竹苗</a></li>
-                <li><a class="dropdown-item" href="#">中彰投</a></li>
-                <li><a class="dropdown-item" href="#">雲嘉南</a></li>
-                <li><a class="dropdown-item" href="#">高屏</a></li>
-                <li><a class="dropdown-item" href="#">宜花東</a></li>
-                <li><a class="dropdown-item" href="#">離島地區</a></li>
-            </ul>
+            <select type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
+                    aria-expanded="false" v-model="regionValue" v-on:change="regionClick">
+                <option value="" selected disabled>地區分類</option>
+                <option value="">北北基</option>
+                <option value="">桃竹苗</option>
+                <option value="">中彰投</option>
+                <option value="">雲嘉南</option>
+                <option value="">高屏</option>
+                <option value="">宜花東</option>
+                <option value="">離島地區</option>
+            </select>
+
         </div>
         <!-- 請輸入商品名稱 -->
         <div class="mb-3">
@@ -88,17 +76,15 @@
             <thead>
                 <tr>
                     <th scope="col">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                        全選
+                        <input class="d-block form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                        <span class="d-block">全選</span>
                     </th>
-                    <th scope="col">商品編號</th>
+                    @*<th scope="col">商品編號</th>*@
                     <th scope="col">商品圖</th>
                     <th scope="col">品名</th>
                     <th scope="col">單價</th>
                     <th scope="col">上架狀態</th>
-                    <th scope="col">
-                        商品編輯&刪除
-                    </th>
+                    <th scope="col">商品編輯&刪除</th>
                 </tr>
             </thead>
             <tbody>
@@ -106,9 +92,9 @@
                     <th scope="row">
                         <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
                     </th>
-                    <td>{{item.id}}</td>
+                    @*<td>{{item.id}}</td>*@
                     <td>
-                        <img src="https://fakeimg.pl/50/">
+                        <img :src="item.productPictures[0].url" style="width:50px;">
                     </td>
                     <td>{{item.title}}</td>
                     <td>{{item.originalPrice }}</td>
@@ -311,5 +297,32 @@
 
 
     });
+
+</script>
+
+<!--checkbox全選-->
+<script>
+    //點選全選，子複選框被選中
+    function demo() {
+        var allcheck = document.getElementById("flexCheckChecked");
+        var choice = document.getElementsByName("choice");
+        for (var i = 0; i < choice.length; i++) {
+            choice[i].checked = allcheck.checked;
+        }
+    }
+
+    //點選子複選框,全選框 選中、取消
+    function setAll() {
+        if (!$(".form-check-input").checked) {
+            $("#flexCheckChecked").prop("checked", false); // 子複選框某個不選擇，全選也被取消
+        }
+        var choicelength = $("input[type='checkbox'][class='form-check-input']").length;
+        var choiceselect = $("input[type='checkbox'][class='form-check-input']:checked").length;
+
+        if (choicelength == choiceselect) {
+            $("#flexCheckChecked").prop("checked", true);   // 子複選框全部部被選擇，全選也被選擇；1.對於HTML元素我們自己自定義的DOM屬性，在處理時，使用attr方法；2.對於HTML元素本身就帶有的固有屬性，在處理時，使用prop方法。
+        }
+
+    }
 
 </script>
