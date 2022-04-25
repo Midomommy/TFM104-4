@@ -451,13 +451,13 @@
                     <hr>
                     <div class="container">
                         <div class="mb-3">
-                            <input type="email" class="form-control" placeholder="電子郵件">
+                            <input v-model="memberPasswordUpdate.account" type="email" class="form-control" placeholder="電子郵件">
                         </div>
                         <div class="mb-3">
-                            <input type="password" class="form-control" placeholder="請輸入新密碼">
+                            <input v-model="memberPasswordUpdate.password" type="password" class="form-control" placeholder="請輸入新密碼">
                         </div>
                         <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-primary mb-3">重新設定密碼</button>
+                            <button v-on:click="updatePassword" class="btn btn-primary mb-3">重新設定密碼</button>
                         </div>
                         <div class="mb-3" data-bs-toggle="modal" data-bs-target="#register">
                             <a href="javascript:void(0);">還未加入TT嗎？立即註冊！</a>
@@ -535,9 +535,9 @@
                     )
                     .catch(function (error) {
                         if (error.status == 404) {
-                            alert(error.data);
+                            alertWrong(error.data);
                         }
-                        if (error.status == 422) {
+                        else if (error.status == 422) {
                             for (var i of Object.keys(error.data.errors)) {
                                 alert(error.data.errors[i][0]);
                             }
@@ -580,7 +580,7 @@
                     })
                     .catch(function (err) {
                         if (err.status == 404) {
-                            alert(err.data);
+                            alertWrong(err.data);
                         }
                     });
             },
@@ -606,6 +606,34 @@
         }
     })
 
+</script>
+
+<!--忘記密碼-->
+<script>
+    var forgetPassword = new Vue({
+        el: "#resetcode",
+        data: {
+            memberPasswordUpdate: {
+                account: "",
+                password:""
+            }
+        },
+        methods: {
+            updatePassword: function () {
+                let self = this;
+                axios.put("/auth/reset", self.memberPasswordUpdate)
+                    .then(function (res) {
+                        if (res.status == 200) {
+                            alertSuccess(res.data);
+                        }
+                    }).catch(function (res) {
+                        if (res.status == 404) {
+                            alertWrong(res.data);
+                        }
+                    })
+            }
+        }
+    })
 </script>
 
 <!--發購物車API-->
