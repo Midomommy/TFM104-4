@@ -199,7 +199,7 @@
                                             <!--商品標題-->
                                             <div class="d-flex gap-3">
                                                 <span class="card-title mb-3 fs-6 fw-bold">{{item.title}}</span>
-                                                <a href="javascript:void(0);" v-bind:tempRemoveItem="item.id" data-bs-toggle="modal" data-bs-target="#deleteProduct">
+                                                <a href="javascript:void(0);" v-on:click="deleteCartItem(item.id)" data-bs-toggle="modal" data-bs-target="#deleteProduct">
                                                     <i class="bi bi-trash3"></i>
                                                 </a>
                                             </div>
@@ -615,7 +615,7 @@
         data: {
             memberPasswordUpdate: {
                 account: "",
-                password:""
+                password: ""
             }
         },
         methods: {
@@ -642,8 +642,7 @@
         el: "#offcanvasShopCart",
         data: {
             cartList: [],
-            tempRemoveItem:"",
-            removeCartItemList:""
+            tempRemoveItem: "",
         },
         mounted:
             function () {
@@ -704,18 +703,50 @@
                     window.location.href = "/purchase/cart";
                 }
             },
-            removeCartItem: function () {
-                console.log(item.id);
-                //let self = this;
-                //axios, put("/api/cart/removecart", removeCartItem)
-                //    .then(function (res) {
-                //        console.log(item.id);
-                //        removeCartItemList.push(item.id);
-                //    })
+            deleteCartItem: function (value) {
+                this.tempRemoveItem = value;
             }
         }
     })
 </script>
+
+<!--刪除商品API-->
+<script>
+    var deleteCartItem = new Vue({
+        el: "#deleteProduct",
+        data: {
+            removeCartItemList: {
+                productId:""
+            },
+        },
+        methods: {
+            removeCartItem: function () {
+                let self = this;
+                self.removeCartItemList.productId = cartListVue.tempRemoveItem;
+                //console.log(self.removeCartItemList);
+                axios.post("/api/cart/removecart", self.removeCartItemList)
+                    .then(function (res) {
+                        if (res.status == 204) {
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: '您已成功刪除商品',
+                                showConfirmButton: false,
+                                timer: 1500,
+                                willClose: (toast) => {
+                                    cartListVue.getCurrentUserCart();
+                                    //window.location.href = "/home/index";
+
+                                }
+                            });
+                        }
+                    })
+            }
+        }
+    })
+</script>
+
+
 <script>
     var useOauth = new Vue({
         el: "#oauth",
@@ -738,7 +769,7 @@
 </script>
 
 <script>
-    function alertSuccess (inp) {
+    function alertSuccess(inp) {
         Swal.fire({
             position: 'center',
             icon: 'success',
