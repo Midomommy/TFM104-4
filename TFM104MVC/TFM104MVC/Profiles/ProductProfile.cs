@@ -30,7 +30,7 @@ namespace TFM104MVC.Profiles
             CreateMap<ProductUpdateDto, Product>();
             CreateMap<Product, ProductForCartDto>()
                 .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.OriginalPrice * (decimal)(src.DiscountPersent ?? 1)))
-                .ForMember(dest => dest.GoTouristTime, opt => opt.MapFrom(src => src.GoTouristTime.ToString()));
+                .ForMember(dest => dest.GoTouristTime, opt => opt.MapFrom(src => src.GoTouristTime.HasValue ? src.GoTouristTime.Value.ToString("yyyy-MM-dd") : ""));
         }
     }
 }
