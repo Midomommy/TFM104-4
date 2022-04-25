@@ -31,33 +31,30 @@
             <h2><strong>訂單管理</strong></h2>
         </div>
         <div class="rel mb-3">
-            顯示<button class="rel_n btn btn-outline-secondary dropdown-toggle" type="button"
+            顯示<select class="rel_n btn btn-outline-secondary dropdown-toggle" v-model="orderStatus" type="button"
                       id="dropdownOrderButton" data-bs-toggle="dropdown" aria-expanded="false">
-                所有狀態
-            </button>的訂單
-            <ul class="dropdown-menu" aria-labelledby="dropdownOrderButton">
-                <li><a class="dropdown-item" href="#">已付款</a></li>
-                <li><a class="dropdown-item" href="#">未付款</a></li>
-                <li><a class="dropdown-item" href="#">已取消</a></li>
-            </ul>
+                <option selected disabled>所有狀態</option>
+                <option value="">已付款</option>
+                <option value="">未付款</option>
+                <option value="">已取消</option>
+            </select>
+            的訂單
         </div>
         <!-- 下拉選單 -->
         <div class="downlist">
             <div class="dropdown">
-                <span class="dropdown-title">
+                <div class="dropdown-title">
                     顯示
-                    <button class="btn btn-outline-secondary dropdown-toggle" type="button"
+                    <select class="btn btn-outline-secondary dropdown-toggle" v-model="countOfPage" type="button"
                             id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                        10
-                    </button>筆
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                        <li><a class="dropdown-item" href="#">10</a></li>
-                        <li><a class="dropdown-item" href="#">25</a></li>
-                        <li><a class="dropdown-item" href="#">50</a></li>
-                        <li><a class="dropdown-item" href="#">100</a></li>
-                        <li><a class="dropdown-item" href="#">200</a></li>
-                    </ul>
-                </span>
+                        <option selected class="dropdown-item" id="pageNumber" value="10">10</option>
+                        <option class="dropdown-item" id="pageNumber" value="25">25</option>
+                        <option class="dropdown-item" id="pageNumber" value="50">50</option>
+                        <option class="dropdown-item" id="pageNumber" value="100">100</option>
+                        <option class="dropdown-item" id="pageNumber" value="200">200</option>
+                    </select>
+                    筆
+                </div>
             </div>
         </div>
         <!--textbox搜尋框-->
@@ -86,7 +83,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(item,index) in orderList">
+                <tr v-for="(item,index) in orderList.slice(pageStart, pageStart + countOfPage)">
                     <th scope="row"><input type="checkbox" name="choice" class="checknum" onclick="setAll()" /></th>
                     <td>
                         <span>
@@ -122,26 +119,48 @@
         <div class="list-count">
             找到<span id="list-count-d">{{totalOrder}}</span>筆訂單
         </div>
+        @*<nav class="page-navigator" aria-label="Page navigation example">
+                <ul class="pagination">
+                    <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li class="page-item"><button class="page-link">1</button></li>
+                    <li class="page-item"><button class="page-link">2</button></li>
+                    <li class="page-item"><button class="page-link">3</button></li>
+                    <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>*@
         <nav class="page-navigator" aria-label="Page navigation example">
+            @*<div class="pagination">*@
             <ul class="pagination">
-                <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                    </a>
+                <!--<li class="page-item" v-bind:class="{'disabled': (currPage === 1)}"--> @*currPage=1停止下一頁*@
+                <!--@@click.prevent="setPage(currPage-1)"><a class="page-link" href="#">&#60 Prev</a></li>-->
+                @*現在頁面+1*@
+                <li class="page-item" v-for="n in totalPage" v-bind:class="{'active': (currPage === (n))}"
+                    @@click.prevent="setPage(n)">
+                    <a class="page-link" href="#">{{n}}</a>
                 </li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                    </a>
+                <li class="page-item" v-bind:class="{'disabled': (currPage === totalPage)}"
+                    @@click.prevent="setPage(currPage+1)">
+                    <a class="page-link" v-if="orderTotal>0" href="#">></a>
                 </li>
             </ul>
         </nav>
     </div>
 </div>
 
+@*<script>
+    document.getElementById("pageNumber").addEventListener("change", function () {
+        var selectPageNumber = document.getElementById("pageNumber").value;
+        appFirmOrder.currPage = selectPageNumber;
+    });
+</script>*@
 <script type="text/javascript">
     //checkbox全選全不選
     //點選全選，子複選框被選中
@@ -179,12 +198,23 @@
                 "NotPaid": "未付款",
                 "Paid": "已付款",
                 "Canceled": "已取消",
-                "Done":"已結案"
-            }
+                "Done": "已結案"
+            },
+            orderTotal: "",
+            pageLeftBtn: true,
+            countOfPage: 10,// 幾個一頁
+            currPage: 1,//初始頁
+            orderStatus:""
         },
         computed: {
             totalOrder: function () {
                 return this.orderList.length;
+            },
+            pageStart: function () {
+                return (this.currPage - 1) * this.countOfPage;
+            },
+            totalPage: function () {
+                return Math.ceil(this.orderList.length / this.countOfPage);
             }
         },
         mounted: function () {
@@ -199,7 +229,7 @@
                             i.orderStatus = self.paidStatus[i.orderStatus];
                         }
                         self.orderList = res.data;
-
+                        self.orderTotal = res.data.length;
                         //    self.totalOrder = res.data.length;
                     })
             },
@@ -209,6 +239,21 @@
                 //計算每筆訂單內所有訂單明細的總金額
                 var item = x.map(x => x.unitPrice * x.discountPersent * x.quantity).reduce((now, next) => now + next, 0);
                 return item;
+            },
+            setPage: function (idx) {//設定頁面
+                if (idx <= 0 || idx > this.totalPage) {
+                    return;
+                }
+                this.currPage = idx;
+            }
+        },
+        filters: {
+            ellipsis(value) {
+                if (!value) return '';
+                if (value.length > 50) {
+                    return value.slice(0, 50) + '...'//第幾個字加...
+                }
+                return value
             }
         }
     })

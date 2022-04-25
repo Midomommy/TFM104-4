@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using TFM104MVC.Dtos;
 using TFM104MVC.Models.Entity;
 using TFM104MVC.Models.Session;
+using TFM104MVC.ResouceParameters;
 using TFM104MVC.Services;
 
 namespace TFM104MVC.Controllers

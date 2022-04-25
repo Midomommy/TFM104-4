@@ -22,15 +22,13 @@
     <div class="product-list-search-bar d-flex gap-3">
         <!-- 選擇上架狀態 -->
         <div class="btn-group">
-            <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
+            <select  class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
                     aria-expanded="false">
-                選擇上架狀態
-            </button>
-            <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">未審核</a></li>
-                <li><a class="dropdown-item" href="#">已上架</a></li>
-                <li><a class="dropdown-item" href="#">已下架</a></li>
-            </ul>
+                <option selected disabled>選擇上架狀態</option>
+                <option value="">未審核</option>
+                <option value="">已上架</option>
+                <option value="">已下架</option>
+            </select>
         </div>
         <!-- 商品分類 -->
         <div class="btn-group">
