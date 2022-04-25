@@ -11,7 +11,7 @@
         <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
-                    <a href="#">所有商品</a>
+                    <a onclick="location.href='@Url.Action("ProductList", "Backstage")'">所有商品</a>
                 </li>
                 <li class="breadcrumb-item active" aria-current="page">新增商品</li>
             </ol>
@@ -112,7 +112,7 @@
 
                 <!-- 出發日期 -->
                 <div class="travel-date d-flex align-content-center">
-                    <input type="datetime-local" id="meeting-time" name="meeting-time"
+                    <input type="date" id="meeting-time" name="meeting-time"
                            value="2022-05-06T19:30" min="2018-06-07T00:00" max="2025-06-14T00:00" v-model="add.goTouristTime">
                 </div>
             </div>
@@ -161,7 +161,7 @@
             </button>
         </div>
         <div class="">
-            <button type="button" class="btn btn-outline-primary">
+            <button onclick="location.href='@Url.Action("ProductList", "Backstage")'" type="button" class="btn btn-outline-primary">
                 返回列表
             </button>
         </div>

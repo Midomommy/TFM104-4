@@ -5,15 +5,17 @@
     color: #3c4554;
 }
 
-.breadcrumb  a {
-    color: #3c4554;
-    text-decoration: none;
-}
+    .breadcrumb a {
+        color: #3c4554;
+        text-decoration: none;
+        cursor: pointer;
+    }
 
-.breadcrumb  a:hover {
-    color: #5b7ce3;
-    text-decoration: none;
-}
+    .breadcrumb a:hover {
+        color: #5b7ce3;
+        text-decoration: none;
+        cursor: pointer;
+    }
 
 /*商品編輯icon群組的樣式修改*/
 .icon-btn-group a{
