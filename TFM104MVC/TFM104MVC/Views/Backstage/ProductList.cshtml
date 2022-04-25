@@ -38,15 +38,24 @@
                     aria-expanded="false">
                 商品分類
             </button>
-            <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">露營</a></li>
-                <li><a class="dropdown-item" href="#">水上活動</a></li>
-                <li><a class="dropdown-item" href="#">人文之旅</a></li>
-                <li><a class="dropdown-item" href="#">地方特色</a></li>
-                <li><a class="dropdown-item" href="#">溫泉之旅</a></li>
-                <li><a class="dropdown-item" href="#">戶外休閒</a></li>
-                <li><a class="dropdown-item" href="#">景點門票</a></li>
-            </ul>
+            @*<ul class="dropdown-menu"  v-model="TriptypeValue" v-on:change="regionClick">
+                    <li><a class="dropdown-item" href="#">露營</a></li>
+                    <li><a class="dropdown-item" href="#">水上活動</a></li>
+                    <li><a class="dropdown-item" href="#">人文之旅</a></li>
+                    <li><a class="dropdown-item" href="#">地方特色</a></li>
+                    <li><a class="dropdown-item" href="#">溫泉之旅</a></li>
+                    <li><a class="dropdown-item" href="#">戶外休閒</a></li>
+                    <li><a class="dropdown-item" href="#">景點門票</a></li>
+                </ul>*@
+            <select v-model="TriptypeValue" v-on:change="regionClick">
+                <option   value="0">露營</option>
+                <option value="1">水上活動</option>
+                <option value="2">人文之旅</option>
+                <option value="3">地方特色</option>
+                <option value="4">溫泉之旅</option>
+                <option value="5">戶外休閒</option>
+                <option value="6">景點門票</option>
+            </select>
         </div>
         <!-- 地區分類 -->
         <div class="btn-group">
@@ -54,7 +63,7 @@
                     aria-expanded="false">
                 地區分類
             </button>
-            <ul class="dropdown-menu">
+            <ul class="dropdown-menu" v-model="regionValue" v-on:change="regionClick">
                 <li><a class="dropdown-item" href="#">北北基</a></li>
                 <li><a class="dropdown-item" href="#">桃竹苗</a></li>
                 <li><a class="dropdown-item" href="#">中彰投</a></li>
