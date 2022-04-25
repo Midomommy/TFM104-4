@@ -87,7 +87,7 @@
                             </a>
                         </span>
                         <span>
-                            <a href="javascript:;">
+                            <a v-on:click="deleteCartItem(item.id)">
                                 <i class="bi bi-trash3"></i>
                             </a>
                         </span>
@@ -243,45 +243,44 @@
                         <div class="row g-0">
                             <div class="col-12 product-card-image" style="background-image: url(https://picsum.photos/150/100);">
                                 <div class="mt-3 d-flex justify-content-between mx-3">-->
-                                    <!--地點-->
-                                    <!--<div class="d-flex gap-1">
-                                        <span class="text-light">
-                                            <i class="bi bi-geo-alt-fill"></i>
-                                        </span>
-                                        <p><small class="text-light">地點</small></p>
-                                    </div>-->
-                                    <!--收藏愛心 這邊暫時不做a標籤 -->
-                                    <!--<div class="text-light">
-                                        <span class="text-danger"><i class="bi bi-heart"></i></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="card-body">
-                                    <div class="d-flex justify-content-between">
-                                        <h5 class="card-title mb-3">商品標題</h5>
-                                    </div>-->
-
-                                    <!--產品資訊：評價&購買數量-->
-                                    <!--<div class="product-info d-flex gap-1">-->
-                                        <!--評價-->
-                                        <!--<div class="product-star d-flex">
-                                            <span class="text-warning"><i class="bi bi-star-fill"></i></span>
-                                            <p><small class="text-muted">(星星評價數)</small></p>
-                                        </div>
-                                        <span class="divider">|</span>-->
-                                        <!--熱門程度-->
-                                        <!--<div class="prodcut-book d-flex gap-1">
-                                            <span>
-                                                <i class="fas fa-fire text-danger"></i>
-                                            </span>
-                                            <p><small class="text-muted">xxxx個已訂購</small></p>
-                                        </div>
-                                    </div>-->
-                                    <!--產品資訊：評價&熱門程度&價格-->
-                                    <!--<div class="product-footer d-flex gap-1 ">-->
-                                        <!--價格-->
-                                        <!--<div class="product-price gap-3">
+        <!--地點-->
+        <!--<div class="d-flex gap-1">
+            <span class="text-light">
+                <i class="bi bi-geo-alt-fill"></i>
+            </span>
+            <p><small class="text-light">地點</small></p>
+        </div>-->
+        <!--收藏愛心 這邊暫時不做a標籤 -->
+        <!--<div class="text-light">
+                    <span class="text-danger"><i class="bi bi-heart"></i></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <h5 class="card-title mb-3">商品標題</h5>
+                </div>-->
+        <!--產品資訊：評價&購買數量-->
+        <!--<div class="product-info d-flex gap-1">-->
+        <!--評價-->
+        <!--<div class="product-star d-flex">
+            <span class="text-warning"><i class="bi bi-star-fill"></i></span>
+            <p><small class="text-muted">(星星評價數)</small></p>
+        </div>
+        <span class="divider">|</span>-->
+        <!--熱門程度-->
+        <!--<div class="prodcut-book d-flex gap-1">
+                <span>
+                    <i class="fas fa-fire text-danger"></i>
+                </span>
+                <p><small class="text-muted">xxxx個已訂購</small></p>
+            </div>
+        </div>-->
+        <!--產品資訊：評價&熱門程度&價格-->
+        <!--<div class="product-footer d-flex gap-1 ">-->
+        <!--價格-->
+        <!--<div class="product-price gap-3">
                                             <div>
                                                 <p class="fw-bolder">TWD X,XXX </p>
                                             </div>
@@ -305,10 +304,14 @@
         data: {
             cartList: [],
             selectedProduct: [],
+            tempRemoveItem: "",
+            removeCartItemList: {
+                productId: ""
+            },
         },
         mounted: function () {
             this.getCurrentUserCart();
-            this.getProductList();
+            //this.getProductList();
         },
         computed: {
             totalPrice: function () {
@@ -352,6 +355,32 @@
                 }
                 document.body.appendChild(form);
                 form.submit();
+            },
+            deleteCartItem: function (value) {
+                this.tempRemoveItem = value;
+                this.removeCartItem();
+            },
+            removeCartItem: function () {
+                let self = this;
+                self.removeCartItemList.productId = self.tempRemoveItem;
+                //console.log(self.removeCartItemList);
+                axios.post("/api/cart/removecart", self.removeCartItemList)
+                    .then(function (res) {
+                        if (res.status == 204) {
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: '您已成功刪除商品',
+                                showConfirmButton: false,
+                                timer: 1500,
+                                willClose: (toast) => {
+                                    purchaseCarVue.getCurrentUserCart();
+                                    //window.location.href = "/home/index";
+
+                                }
+                            });
+                        }
+                    })
             }
 
         }
