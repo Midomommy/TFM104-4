@@ -43,15 +43,15 @@
                             </a>
                         </div>
                         <h4>訂單編號 #{{orderDetails.orderId}}</h4>
-                        <p>訂購人姓名：{{orderInfo.name}}</p>
+                        <p>訂購人姓名：{{orderInfo[0].name}}</p>
                         <div>
                             <a href="javascript:void(0);" class="btn" id="btn_2" role="button" data-bs-toggle="button">
                                 <p>給予評價</p>
                             </a>
                         </div>
-                        <p>電子郵件：{{orderInfo.email}}</p>
-                        <p>連絡電話：{{orderInfo.phone}}</p>
-                        <p>訂購日期：{{orderInfo.buyDate}}</p>
+                        <p>電子郵件：{{orderInfo[0].email}}</p>
+                        <p>連絡電話：{{orderInfo[0].phone}}</p>
+                        <p>訂購日期：{{orderInfo[0].date}}</p>
                     </div>
                 </div>
             </div>
