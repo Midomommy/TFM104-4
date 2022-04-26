@@ -95,8 +95,7 @@ namespace TFM104MVC.Controllers
         }
 
         [HttpPost] // api/products
-        [Authorize(Roles ="Admin,Firm")]
-
+        [Authorize(Roles = "Admin,Firm")]
         public async Task<IActionResult> CreateProduct([FromForm] ProductCreationDto productCreationDto)
         {
             string rootRoot = _environment.WebRootPath + "/ProductPictures/";
@@ -217,8 +216,6 @@ namespace TFM104MVC.Controllers
 
             return NoContent();
         }
-        
-
 
         [HttpPost("{productId}/soft")]
         [Authorize(Roles ="Admin,Firm")]

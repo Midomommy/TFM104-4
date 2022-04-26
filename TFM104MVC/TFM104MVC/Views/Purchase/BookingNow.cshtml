@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="/css/purchase.css" type="text/css">
 
 <section id="bookingNow">
-    <div >
+    <div>
         <!--麵包屑-->
         <div class="container mt-3">
             <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
@@ -63,7 +63,7 @@
                                         </label>
                                     </div>
                                     <div>
-                                        <input type="text" name="LastName" placeholder="例：蘇" class="form-control"  v-model="lastName">
+                                        <input type="text" name="LastName" placeholder="例：蘇" class="form-control" v-model="lastName">
                                     </div>
                                 </div>
                             </div>
@@ -78,7 +78,7 @@
                                     </label>
                                 </div>
                                 <div>
-                                    <input class="form-control" name="Phone" type="tel" placeholder="請輸入聯絡電話"  v-model="buyNowOrderInfo.phone">
+                                    <input class="form-control" name="Phone" type="tel" placeholder="請輸入聯絡電話" v-model="buyNowOrderInfo.phone">
                                 </div>
                             </div>
                             <!--電子郵件信箱-->
@@ -92,7 +92,7 @@
                                     </label>
                                 </div>
                                 <div>
-                                    <input class="form-control" name="Email" type="email" placeholder="請輸入常用電子郵件信箱"  v-model="buyNowOrderInfo.email">
+                                    <input class="form-control" name="Email" type="email" placeholder="請輸入常用電子郵件信箱" v-model="buyNowOrderInfo.email">
                                 </div>
                             </div>
                         </div>
@@ -102,77 +102,77 @@
 
                 <!--其他資訊-->
                 <span class="fs-5 fw-bold">其他資訊</span>
-                    <div class="board mb-5">
-                        <!--商品單項標題-->
-                        <div class="board-title d-flex gap-3">
-                            <!--icon-->
-                            <div>
-                                <a class="text-black" data-bs-toggle="collapse" href="#collapseOrderInfo" role="button">
-                                    <span class="fs-3">
-                                        <i class="fas fa-angle-down"></i>
-                                    </span>
-                                </a>
-                            </div>
-                            <!--商品單項-->
-                            <div class="mb-3">
-                                <div class="row g-0">
-                                    <div class="col-3">
-                                        <div class="product-pic w-80 h-50">
-                                            <img :src="productData.productPictures[0].url"
-                                                 class="w-100 img-fluid rounded-start product-pic">
-                                        </div>
-                                    </div>
-                                    <div class="col-9">
-                                        <div class="card-body">
-                                            <!--商品標題-->
-                                            <div class="d-flex">
-                                                <span class="card-title mb-3 fs-6 fw-bold">{{productData.title}}</span>
-                                            </div>
-                                            <div class="d-flex justify-content-between">
-                                                <!--日期-->
-                                                <div class="d-flex gap-1">
-                                                    <span class="text-muted"><i class="bi bi-calendar"></i></span>
-                                                    <p><small class="text-muted">{{productData.goTouristTime}}</small></p>
-                                                </div>
-                                                <!--人數/商品數-->
-                                                <div class="d-flex gap-1">
-                                                    <span class="text-muted"><i class="bi bi-people-fill"></i></span>
-                                                    <p><small class="text-muted">數量x{{buyNowOrderInfo.quantity}}</small></p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                <div class="board mb-5">
+                    <!--商品單項標題-->
+                    <div class="board-title d-flex gap-3">
+                        <!--icon-->
+                        <div>
+                            <a class="text-black" data-bs-toggle="collapse" href="#collapseOrderInfo" role="button">
+                                <span class="fs-3">
+                                    <i class="fas fa-angle-down"></i>
+                                </span>
+                            </a>
                         </div>
-                        <div class="container collapse" id="collapseOrderInfo">
-                            <hr class="text-muted">
-                            <!--特殊需求備註-->
-                            <div class="mb-4 mt-4">
-                                <div class="mb-2">
-                                    <span class="fs-6 fw-bold">▎特殊需求備註</span>
+                        <!--商品單項-->
+                        <div class="mb-3">
+                            <div class="row g-0">
+                                <div class="col-3">
+                                    <div class="product-pic w-80 h-50">
+                                        <img :src="productData.productPictures[0].url"
+                                             class="w-100 img-fluid rounded-start product-pic">
+                                    </div>
                                 </div>
-                                <div>
-                                    <textarea class="form-control" placeholder="此欄位僅限資料備註。不在商品規換內的個人需求，不保證提供。"></textarea>
+                                <div class="col-9">
+                                    <div class="card-body">
+                                        <!--商品標題-->
+                                        <div class="d-flex">
+                                            <span class="card-title mb-3 fs-6 fw-bold">{{productData.title}}</span>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <!--日期-->
+                                            <div class="d-flex gap-1">
+                                                <span class="text-muted"><i class="bi bi-calendar"></i></span>
+                                                <p><small class="text-muted">{{productData.goTouristTime}}</small></p>
+                                            </div>
+                                            <!--人數/商品數-->
+                                            <div class="d-flex gap-1">
+                                                <span class="text-muted"><i class="bi bi-people-fill"></i></span>
+                                                <p><small class="text-muted">數量x{{buyNowOrderInfo.quantity}}</small></p>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <!--使用折扣券-->
-                            <div class="mb-3">
-                                <div class="mb-2">
-                                    <span class="fs-6 fw-bold">▎使用折扣券</span>
-                                </div>
-                                <div class="mt-3 mb-4">
-                                    <button type="button" class="btn btn-outline-success">
-                                        <span>
-                                            <i class="bi bi-ticket-perforated"></i>
-                                            使用折扣券
-                                        </span>
-                                    </button>
-                                </div>
-                            </div>
-                            <button class="btn btn-info" type="button">繼續</button>
                         </div>
                     </div>
+                    <div class="container collapse" id="collapseOrderInfo">
+                        <hr class="text-muted">
+                        <!--特殊需求備註-->
+                        <div class="mb-4 mt-4">
+                            <div class="mb-2">
+                                <span class="fs-6 fw-bold">▎特殊需求備註</span>
+                            </div>
+                            <div>
+                                <textarea class="form-control" placeholder="此欄位僅限資料備註。不在商品規換內的個人需求，不保證提供。"></textarea>
+                            </div>
+                        </div>
+                        <!--使用折扣券-->
+                        <div class="mb-3">
+                            <div class="mb-2">
+                                <span class="fs-6 fw-bold">▎使用折扣券</span>
+                            </div>
+                            <div class="mt-3 mb-4">
+                                <button type="button" class="btn btn-outline-success">
+                                    <span>
+                                        <i class="bi bi-ticket-perforated"></i>
+                                        使用折扣券
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                        <button class="btn btn-info" type="button">繼續</button>
+                    </div>
+                </div>
 
 
 
@@ -198,41 +198,41 @@
                         <div class="mb-3">
                             <!--WEBATM繳費-->
                             <!--<div class="form-check">
-                            <input class="form-check-input" type="radio" name="PayMethod" id="WEBATM" value="WEBATM">
-                            <label class="form-check-label" for="WEBATM">
-                                <div class="d-flex gap-3">
-                                    <div>
-                                        <span>
-                                            網銀繳費
-                                        </span>
+                                <input class="form-check-input" type="radio" name="PayMethod" id="WEBATM" value="WEBATM">
+                                <label class="form-check-label" for="WEBATM">
+                                    <div class="d-flex gap-3">
+                                        <div>
+                                            <span>
+                                                網銀繳費
+                                            </span>
+                                        </div>
+                                        <div>
+                                            <img src="" style="max-width:40px">
+                                        </div>
                                     </div>
-                                    <div>
-                                        <img src="" style="max-width:40px">
-                                    </div>
-                                </div>
-                            </label>
-                        </div>
-                        <hr class="text-muted">-->
+                                </label>
+                            </div>
+                            <hr class="text-muted">-->
                             <!--ATM轉帳-->
                             <!--<div class="form-check">
-                            <input class="form-check-input" type="radio" name="PayMethod" id="VACC" value="VACC">
-                            <label class="form-check-label" for="VACC">
-                                <div class="d-flex gap-3">
-                                    <div>
-                                        <span>
-                                            ATM轉帳
-                                        </span>
+                                <input class="form-check-input" type="radio" name="PayMethod" id="VACC" value="VACC">
+                                <label class="form-check-label" for="VACC">
+                                    <div class="d-flex gap-3">
+                                        <div>
+                                            <span>
+                                                ATM轉帳
+                                            </span>
+                                        </div>
+                                        <div>
+                                            <img src="" style="max-width:40px">
+                                        </div>
                                     </div>
-                                    <div>
-                                        <img src="" style="max-width:40px">
-                                    </div>
-                                </div>
-                            </label>
-                        </div>
-                        <hr class="text-muted">-->
+                                </label>
+                            </div>
+                            <hr class="text-muted">-->
                             <!--超商代碼繳費-->
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="PayMethod" id="CVS" value="CVS">
+                                <input class="form-check-input" type="radio" name="PayMethod" id="CVS" v-model="buyNowOrderInfo.payMethod" value="CVS">
                                 <label class="form-check-label" for="CVS">
                                     <div class="d-flex gap-3">
                                         <div>
@@ -249,24 +249,24 @@
                             <hr class="text-muted">
                             <!--超商條碼繳費-->
                             <!--<div class="form-check">
-                            <input class="form-check-input" type="radio" name="PayMethod" id="BARCODE" value="BARCODE">
-                            <label class="form-check-label" for="BARCODE">
-                                <div class="d-flex gap-3">
-                                    <div>
-                                        <span>
-                                            超商條碼繳費
-                                        </span>
+                                <input class="form-check-input" type="radio" name="PayMethod" id="BARCODE" value="BARCODE">
+                                <label class="form-check-label" for="BARCODE">
+                                    <div class="d-flex gap-3">
+                                        <div>
+                                            <span>
+                                                超商條碼繳費
+                                            </span>
+                                        </div>
+                                        <div>
+                                            <img src="" style="max-width:40px">
+                                        </div>
                                     </div>
-                                    <div>
-                                        <img src="" style="max-width:40px">
-                                    </div>
-                                </div>
-                            </label>
-                        </div>
-                        <hr class="text-muted">-->
+                                </label>
+                            </div>
+                            <hr class="text-muted">-->
                             <!--Google Pay-->
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="PayMethod" id="GooglePay" value="GooglePay">
+                                <input class="form-check-input" type="radio" name="PayMethod" id="GooglePay" v-model="buyNowOrderInfo.payMethod" value="GooglePay">
                                 <label class="form-check-label" for="GooglePay">
                                     <div class="d-flex gap-3">
                                         <div>
@@ -283,7 +283,7 @@
                             <hr class="text-muted">
                             <!--Samsung Pay-->
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="PayMethod" id="SamsungPay" value="SamsungPay">
+                                <input class="form-check-input" type="radio" name="PayMethod" id="SamsungPay" v-model="buyNowOrderInfo.payMethod" value="SamsungPay">
                                 <label class="form-check-label" for="SamsungPay">
                                     <div class="d-flex gap-3">
                                         <div>
@@ -301,7 +301,7 @@
                             <!--信用卡-->
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="PayMethod" id="creditcard"
-                                       value="creditcard">
+                                      v-model="buyNowOrderInfo.payMethod" value="creditcard">
                                 <label class="form-check-label gap-3" for="creditcard">
                                     <span>
                                         信用卡/簽帳金融卡
@@ -450,7 +450,7 @@
     console.log("我是網址" + url);
     //?productId=7d2edc71-28ef-48e5-86c7-217999da3de1&quantity=1
     var pid = "";
-    var qty=1;
+    var qty = 1;
 
     if (url.indexOf('?') != -1) {
         //在此直接將各自的參數資料切割放進ary中
@@ -480,13 +480,17 @@
                 quantity: qty,
                 name: "",
                 email: "",
-                phone:""
+                phone: "",
+                payMethod: ""
             },
             productData: {},
-            error: "",
-            payMethod: "",
+            checkOrderInfo: {
+                ordernumber: "",
+                amount: "",
+                payMethod: ""
+            },
             lastName: "",
-            firstName:""
+            firstName: ""
         },
         beforeMount: function () {
             let self = this;
@@ -499,31 +503,68 @@
         },
         computed: {
             points: function () {
-                return Math.floor( this.productData.price * this.buyNowOrderInfo.quantity * 0.1);
-            },
-            name: function () {
-                return this.buyNowOrderInfo.name = this.lastName + this.firstName;
+                return Math.floor(this.productData.price * this.buyNowOrderInfo.quantity * 0.1);
             }
+           
         },
         methods: {
+            name: function () {
+                return this.buyNowOrderInfo.name = this.lastName + this.firstName;
+            },
             addOrder: function () {
                 let self = this;
-                axios.post("/api/Orders/addorder", self.buyNowOrderInfo);
-                    //.then(function (res) {
-                    //    //if (res.status == 204) {
-                    //    //    //alert("訂購成功");
-                    //    //    //window.location.href = "/Order/Manage";
-                    //    //}
-                    //}).catch(function (err) {
-                    //    console.log(err.data);
-                    //});
+                this.name();
+                axios.post("/api/Orders/addorder", self.buyNowOrderInfo)
+                    .then(function (res) {
+                        if (res.status == 200) {
+                            self.checkOrderInfo = res.data;
+                            console.log(self.checkOrderInfo.payMethod);
+
+                            //拿到資料做form表單發到bank
+                            var form = document.createElement("form");
+                            form.method = "post";
+                            form.action = "/Bank/SpgatewayPayBill"
+
+                            //訂單編號
+                            var inp1 = document.createElement("input");
+                            inp1.type = "text";
+                            inp1.name = "ordernumber";
+                            inp1.value = self.checkOrderInfo.ordernumber;
+                            form.appendChild(inp1);
+
+                            //訂單總金額
+                            var inp2 = document.createElement("input");
+                            inp2.type = "number";
+                            inp2.name = "amount";
+                            inp2.value = self.checkOrderInfo.amount;
+                            form.appendChild(inp2);
+
+                            //訂單總金額
+                            var inp3 = document.createElement("input");
+                            inp3.type = "text";
+                            inp3.name = "payMethod";
+                            inp3.value = self.checkOrderInfo.payMethod;
+                            form.appendChild(inp3);
+
+                            document.body.appendChild(form);
+                            form.submit();
+                            //console.log(self.checkOrderInfo.ordernumber);
+                        }
+                    });
+                //.then(function (res) {
+                //    //if (res.status == 204) {
+                //    //    //alert("訂購成功");
+                //    //    //window.location.href = "/Order/Manage";
+                //    //}
+                //}).catch(function (err) {
+                //    console.log(err.data);
+                //});
                 //axios.post("/Bank/SpgatewayPayBill", {
                 //    ordernumber: "1",
                 //    amount: 400,
                 //    payMethod: "creditcard"
                 //});
-            },
-
+            }
             //getProductData: function () {
             //    let self = this;
             //    axios.get("/api/products/" + pid)
@@ -533,7 +574,7 @@
             //            console.log("我是res.data"+res.data);
             //            console.log("我是productData" + self.productData);
             //        }).catch(function (err) {
-                        
+
             //        })
             //}
         }

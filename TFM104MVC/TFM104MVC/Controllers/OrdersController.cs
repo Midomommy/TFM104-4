@@ -23,7 +23,7 @@ namespace TFM104MVC.Controllers
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IProductRepository _productRepository;
         private readonly IMapper _mapper;
-        public OrdersController(IHttpContextAccessor httpContextAccessor,IProductRepository productRepository,IMapper mapper)
+        public OrdersController(IHttpContextAccessor httpContextAccessor, IProductRepository productRepository, IMapper mapper)
         {
             _httpContextAccessor = httpContextAccessor;
             _productRepository = productRepository;
@@ -31,7 +31,7 @@ namespace TFM104MVC.Controllers
         }
 
         [HttpPost("addorder")]
-        [Authorize(AuthenticationSchemes ="Cookies")]
+        [Authorize(AuthenticationSchemes = "Cookies")]
         public async Task<IActionResult> AddOrder([FromBody] ProductCheck productCheck)
         {
             //1.先取出使用者Id
@@ -67,18 +67,32 @@ namespace TFM104MVC.Controllers
 
             //取得訂單編號以及訂單總金額
             var orderId = order.Id;
-            Console.WriteLine(orderId);
+            //Console.WriteLine(orderId);
             //var =await _productRepository.GetOrderdetailByOrderId(orderId);
 
             var amt = orderdetail.Quantity * orderdetail.UnitPrice * (decimal)orderdetail.DiscountPersent;
             var amount = (int)amt;
+            //Console.WriteLine(amount);
+
             string ordernumber = orderId.ToString();
 
-            return RedirectToAction("SpgatewayPayBill","Bank", new { ordernumber= ordernumber, amount=amount, PayMethod= "creditcard" });
+            //var x = productCheck.PayMethod;
+            //Console.WriteLine("付款方式"+x);
+
+            var checkOrderInfoData = new checkOrderInfoDto()
+            {
+                ordernumber = ordernumber,
+                amount = amount,
+                PayMethod = productCheck.PayMethod
+            };
+
+            //return RedirectToAction("SpgatewayPayBill", "Bank", new { ordernumber = ordernumber, amount = amount, PayMethod = "creditcard" });
+
+            return Ok(checkOrderInfoData);
         }
 
         [HttpGet]
-        [Authorize(AuthenticationSchemes ="Cookies")]
+        [Authorize(AuthenticationSchemes = "Cookies")]
         public async Task<IActionResult> GetOrders() //會員讀取訂單功能
         {
             //1.先取出使用者Id
@@ -88,7 +102,7 @@ namespace TFM104MVC.Controllers
             //2.透過使用者id 叫出特定訂單列表
             var Orders = await _productRepository.GetOrders(UserId);
 
-            if(Orders == null || Orders.Count() == 0)
+            if (Orders == null || Orders.Count() == 0)
             {
                 return NotFound("目前沒有訂單");
             }
@@ -99,10 +113,10 @@ namespace TFM104MVC.Controllers
 
         [HttpGet("{orderId}/{productId}")] // /api/orders/xxx
         [Authorize(AuthenticationSchemes = "Cookies")] //會員讀取單一訂單明細功能
-        public async Task<IActionResult> GetOrderdetailByOrderId([FromRoute] int orderId,Guid productId)
+        public async Task<IActionResult> GetOrderdetailByOrderId([FromRoute] int orderId, Guid productId)
         {
             //透過訂單Id 叫出特定訂單詳情(包含訂單 訂單詳情 商品 商品照片)
-            var orderdetail = await _productRepository.GetOrderdetailByProductIdAndOrderId(productId,orderId);
+            var orderdetail = await _productRepository.GetOrderdetailByProductIdAndOrderId(productId, orderId);
             if (orderdetail == null)
             {
                 return NotFound("沒有此訂單詳情");
@@ -114,11 +128,11 @@ namespace TFM104MVC.Controllers
         }
 
         [HttpGet("manage")]
-        [Authorize(Roles ="Firm,Admin")]
-        public async Task<IActionResult> GetAllOrders([FromQuery] string Status,string Keyword) //管理者與廠商 讀取訂單 功能
+        [Authorize(Roles = "Firm,Admin")]
+        public async Task<IActionResult> GetAllOrders([FromQuery] string Status, string Keyword) //管理者與廠商 讀取訂單 功能
         {
             var allOrders = await _productRepository.GetAllOrders(Status, Keyword); //只撈出未付款和已付款的訂單 不撈出已取消的訂單
-            if(allOrders == null || allOrders.Count() == 0)
+            if (allOrders == null || allOrders.Count() == 0)
             {
                 return NotFound("目前平台沒有此類型訂單");
             }
@@ -129,11 +143,11 @@ namespace TFM104MVC.Controllers
 
 
         [HttpGet("manage/{orderId}")] //讀取單一訂單 功能
-        public async Task<IActionResult> GetOrderById([FromRoute]string orderId)
+        public async Task<IActionResult> GetOrderById([FromRoute] string orderId)
         {
             int OrderId = int.Parse(orderId);
             var order = await _productRepository.GetOrderContentById(OrderId);
-            if(order == null)
+            if (order == null)
             {
                 return NotFound("查無此訂單編號");
             }
@@ -144,7 +158,7 @@ namespace TFM104MVC.Controllers
         }
 
         [HttpPost("cancel/{orderId}")]
-        [Authorize(Roles ="Firm,Admin")] //管理者與廠商 軟刪除特定訂單 功能
+        [Authorize(Roles = "Firm,Admin")] //管理者與廠商 軟刪除特定訂單 功能
         public async Task<IActionResult> SoftDeleteOrder([FromRoute] int orderId)
         {
             var order = await _productRepository.GetOrderById(orderId);
@@ -161,8 +175,8 @@ namespace TFM104MVC.Controllers
         }
 
         [HttpPost("done/{orderId}")]
-        [Authorize(Roles ="Firm,Admin")]
-        public async Task<IActionResult> SoftChangeOrder([FromRoute]int orderId)
+        [Authorize(Roles = "Firm,Admin")]
+        public async Task<IActionResult> SoftChangeOrder([FromRoute] int orderId)
         {
             var order = await _productRepository.GetOrderById(orderId);
             if (order == null)
@@ -176,7 +190,7 @@ namespace TFM104MVC.Controllers
 
             return NoContent();
         }
-        
+
         [HttpPost("gettotalprice/{orderId}")]
         public async Task<IActionResult> GetOrderDetailsTotalPriceByOrderId([FromRoute] int orderId)
         {
@@ -189,6 +203,12 @@ namespace TFM104MVC.Controllers
             var orderDetailsPriceDto = _mapper.Map<List<OrderdetailTotalPirceDto>>(order);
             return Ok(orderDetailsPriceDto);
         }
+
+        //[HttpGet("getTodayOrder")]
+        //public async Task<IActionResult> GetTodayOrder()
+        //{
+
+        //}
 
     }
 }

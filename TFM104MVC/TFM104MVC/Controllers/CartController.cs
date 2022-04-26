@@ -136,7 +136,6 @@ namespace TFM104MVC.Controllers
 
         [HttpPost("checkout")]
         //[Authorize(AuthenticationSchemes = "Cookies")]
-
         public async Task<IActionResult> CheckOut([FromBody] OrderInformation orderInformation)
         {
             //取得使用者userId
@@ -148,7 +147,7 @@ namespace TFM104MVC.Controllers
 
             //創造訂單詳情集合
             List<Orderdetail> orderdetails = new List<Orderdetail>();
-
+            decimal totalPrice = 0;
             //將dict迴圈取出 製作新的訂單詳情 最後存入我們創造的訂單詳情集合
             foreach (var items in dict)
             {
@@ -162,12 +161,13 @@ namespace TFM104MVC.Controllers
 
                 };
                 orderdetails.Add(orderdetail);
+                totalPrice += product.OriginalPrice * (decimal)items.Qty * (decimal)product.DiscountPersent;
             }
 
             //創造訂單
             Order order = new Order()
             {
-                Name = orderInformation.UserInformation,
+                Name = orderInformation.UserInformation.Name,
                 OrderStatus = Models.Enum.OrderStatus.NotPaid,
                 Date = DateTime.UtcNow,
                 Discount = null,
@@ -197,7 +197,29 @@ namespace TFM104MVC.Controllers
                     SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
                 }
             }
-            return NoContent();
+
+            //取得訂單編號以及訂單總金額
+            var orderId = order.Id;
+            //Console.WriteLine(orderId);
+            //var =await _productRepository.GetOrderdetailByOrderId(orderId);
+
+            var amount = (int)totalPrice;
+            //Console.WriteLine(amount);
+
+            string ordernumber = orderId.ToString();
+
+            //var x = productCheck.PayMethod;
+            //Console.WriteLine("付款方式"+x);
+
+            var checkOrderInfoData = new checkOrderInfoDto()
+            {
+                ordernumber = ordernumber,
+                amount = amount,
+                PayMethod = orderInformation.UserInformation.PayMethod
+            };
+
+            return Ok(checkOrderInfoData);
+            //return NoContent();
 
         }
         //[HttpPost("addcart")]

@@ -25,6 +25,7 @@ namespace TFM104MVC.Controllers
         //後台總覽儀錶板頁
         public IActionResult Home()
         {
+            ViewBag.message = "後台總覽儀錶板";
             return View();
         }
 
