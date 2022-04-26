@@ -146,7 +146,7 @@ namespace TFM104MVC.Controllers
             {
                 userModel.LastName = "Guest";
             }
-           
+
             //string userName = User.Identity.Name;
             //userName = "Guest";
 
@@ -246,7 +246,7 @@ namespace TFM104MVC.Controllers
             return Ok(userDto);
         }
 
-        [HttpGet("getFirm")]
+        [HttpGet("getFirm")] //撈廠商資料渲染在後台管理中心
         public IActionResult GetFirmById()
         {
             var userId = _httpContextAccessor.HttpContext.User.FindFirstValue("userId");
@@ -305,7 +305,7 @@ namespace TFM104MVC.Controllers
 
         [HttpPost("UpdateFirmPassword")]
         [Authorize(AuthenticationSchemes = "Cookies")]
-        public IActionResult UpdateFirmPassword([FromQuery]string passwordNew)
+        public IActionResult UpdateFirmPassword([FromQuery] string passwordNew)
         {
             var userId = _httpContextAccessor.HttpContext.User.FindFirstValue("userId");
             var Id = int.Parse(userId);
@@ -322,6 +322,20 @@ namespace TFM104MVC.Controllers
 
             return Ok("更新密碼完成，請妥善保管您的密碼");
         }
+
+        [HttpPost("checkAccount")] //確認帳號存在與否
+        public IActionResult checkAccount([FromQuery] string account)
+        {
+            var email = _authenticateRepository.AccountCheck(account);
+
+            //var loginUser = _authenticateRepository.CheckUser(loginDto.Account, loginDto.Password);
+            if (email != null)
+            {
+                return NotFound("帳號已存在");
+            }
+            return Ok("帳號可使用");
+        }
+
 
     }
 }

@@ -132,7 +132,7 @@
                             <input type="text" class="textbox" placeholder="姓" name="lastname" v-model="firmregisterInformation.lastName">
                         </div>
                         <div class="col-sm-2" style="margin-left: 20px;">
-                            <input type="text" class="textbox" placeholder="名" name="firstname"v-model="firmregisterInformation.firstName">
+                            <input type="text" class="textbox" placeholder="名" name="firstname" v-model="firmregisterInformation.firstName">
                         </div>
                     </div>
                 </div>
@@ -145,7 +145,7 @@
                         <div class="tbx col-sm-4">
                             <input type="text" class="textbox" placeholder="請輸入常用電子信箱" name="email" v-model="firmregisterInformation.account">
                         </div>
-                        <button type="button" class="btn btn-secondary btn-lg">驗證E-mail</button>
+                        <button v-on:click="checkEmail" type="button" class="btn btn-secondary btn-lg">驗證E-mail</button>
                     </div>
                 </div>
                 <div class="contain-password">
@@ -511,39 +511,74 @@
                 }
             }
         },
-            methods: {
-                addRegister: function () {
-                    let self = this;
-                    axios.post("/auth/register", self.firmregisterInformation)
-                        .then(
-                            function (res) {
-                                if (res.status == 200) {
-                                    Swal.fire({
-                                        position: 'center',
-                                        icon: 'success',
-                                        title: '恭喜註冊成功',
-                                        showConfirmButton: false,
-                                        timer: 1500,
-                                        willClose: (toast) => {
-                                            axios.post("/auth/login", self.firmregisterInformation).then(function (res) { window.location.href = "/backstage/home"; }).catch();
-                                        }
-                                    });
-                                    //alert("恭喜註冊成功，請再次登入，並至您的信箱接收帳號激活驗證信");
-                                    //axios.post("/auth/login", self.firmregisterInformation).then(function (res) { window.location.href = "/backstage/home"; }).catch();
-                                };
+        methods: {
+            addRegister: function () {
+                let self = this;
+                axios.post("/auth/register", self.firmregisterInformation)
+                    .then(
+                        function (res) {
+                            if (res.status == 200) {
+                                Swal.fire({
+                                    position: 'center',
+                                    icon: 'success',
+                                    title: '恭喜註冊成功',
+                                    showConfirmButton: false,
+                                    timer: 1500,
+                                    willClose: (toast) => {
+                                        axios.post("/auth/login", self.firmregisterInformation).then(function (res) { window.location.href = "/backstage/home"; }).catch();
+                                    }
+                                });
+                                //alert("恭喜註冊成功，請再次登入，並至您的信箱接收帳號激活驗證信");
+                                //axios.post("/auth/login", self.firmregisterInformation).then(function (res) { window.location.href = "/backstage/home"; }).catch();
+                            };
+                        }
+                    )
+                    .catch(function (error) {
+                        if (error.status == 404) {
+                            alert(error.data);
+                        }
+                        if (error.status == 422) {
+                            for (var i of Object.keys(error.data.errors)) {
+                                alert(error.data.errors[i][0]);
                             }
-                        )
-                        .catch(function (error) {
-                            if (error.status == 404) {
-                                alert(error.data);
+                        }
+                    });
+            },
+            checkEmail: function () {
+                let self = this;
+                axios.post("/auth/checkAccount?account=" + self.firmregisterInformation.account)
+                    .then(function (res) {
+                        if (res.status == 200) {
+                            if (res.data == "帳號已存在") {
+                                alertWrong(res.data);
                             }
-                            if (error.status == 422) {
-                                for (var i of Object.keys(error.data.errors)) {
-                                    alert(error.data.errors[i][0]);
-                                }
+                            else {
+                                alertSuccess(res.data);
                             }
-                        });
-                }
+                        }
+                    });
             }
+        }
+    });
+</script>
+
+
+<script>
+    function alertSuccess(inp) {
+        Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: inp,
+            showConfirmButton: false,
+            timer: 1500,
         });
+    }
+
+    function alertWrong(inp) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: inp,
+        })
+    }
 </script>
