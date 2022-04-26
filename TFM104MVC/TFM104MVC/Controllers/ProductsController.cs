@@ -96,7 +96,7 @@ namespace TFM104MVC.Controllers
 
         [HttpPost] // api/products
 
-        [Authorize(Roles ="Admin,Firm")]
+        [Authorize(Roles = "Admin,Firm")]
 
         public async Task<IActionResult> CreateProduct([FromForm] ProductCreationDto productCreationDto)
         {
@@ -182,6 +182,7 @@ namespace TFM104MVC.Controllers
 
             return NoContent();
         }
+       
         [HttpDelete("{productId}")]
         [Authorize(Roles = "Admin,Firm")]
         public async Task<IActionResult> DeleteProduct([FromRoute] Guid productId)
@@ -196,5 +197,6 @@ namespace TFM104MVC.Controllers
 
             return NoContent();
         }
+    
     }
 }

@@ -101,7 +101,7 @@
             <div class="row gap-3 mt-3">
                 <div class="col infobox-block infobox-green">
                     <div class="infobox-amount">
-                        XXX
+                        {{cancelOrderTotal}}
                     </div>
                     <div class="infobox-content">
                         今日取消訂單數
@@ -180,7 +180,7 @@
         el: "#backstageOrderVue",
         data: {
             lastOrderList: [],
-            productList:[]
+            productList: [],
         },
         mounted: function () {
             this.getLastOrder();
@@ -192,6 +192,11 @@
             },
             totalProduct: function () {
                 return this.productList.length;
+            },
+            cancelOrderTotal: function () {
+                var orderList = this.lastOrderList.filter(item => item.orderStatus == "Canceled" && Date.parse(Date(item.date)).getDate() == Date.now().getDate());
+                var orderListTotal = orderList.length;
+                return orderListTotal;
             }
         },
         methods: {

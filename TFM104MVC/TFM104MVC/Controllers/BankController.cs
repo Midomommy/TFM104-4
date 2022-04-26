@@ -12,6 +12,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using TFM104MVC.Database;
 using TFM104MVC.Models;
 using TFM104MVC.Models.Bank;
 using TFM104MVC.Models.Bank.Util;
@@ -20,6 +21,13 @@ namespace TFM104MVC.Controllers
 {
     public class BankController : Controller
     {
+        private readonly AppDbContext _db;
+        public BankController(AppDbContext db)
+        {
+            _db = db;
+        }
+
+
         /// <summary>
         /// 金流基本資料(可再移到Web.config或資料庫設定)
         /// </summary>
@@ -54,13 +62,13 @@ namespace TFM104MVC.Controllers
         /// 
 
         //金流只在意付款方式、價格、訂單編號
-        //[HttpPost]
+        [HttpPost]
         public async Task SpgatewayPayBillAsync(string ordernumber, int amount, string PayMethod)
         {
             string version = "2.0";
             //ordernumber = "111";
             //amount = 500;
-            
+
             TradeInfo tradeInfo = new TradeInfo()
             {
                 // * 商店代號
@@ -78,7 +86,7 @@ namespace TFM104MVC.Controllers
                 // * 訂單金額
                 Amt = amount,
                 // * 商品資訊
-                ItemDesc = "商品資訊(自行修改)",
+                ItemDesc = "Taiwan Tourist旅遊電商",
                 // 繳費有效期限(適用於非即時交易)
                 ExpireDate = null,
                 // 支付完成 返回商店網址
@@ -107,14 +115,14 @@ namespace TFM104MVC.Controllers
                 // 超商條碼繳費啟用(1=啟用、0或者未有此參數，即代表不開啟)(當該筆訂單金額小於 20 元或超過 4 萬元時，即使此參數設定為啟用，MPG 付款頁面仍不會顯示此支付方式選項。)
                 BARCODE = null,
                 //LINEPAY= null,
-                ANDROIDPAY=null,
-                SAMSUNGPAY=null,
+                ANDROIDPAY = null,
+                SAMSUNGPAY = null,
             };
 
             if (PayMethod == "creditcard")
             {
                 tradeInfo.CREDIT = 1;
-            }                
+            }
             else if (PayMethod == "WEBATM")
             {
                 tradeInfo.WEBATM = 1;

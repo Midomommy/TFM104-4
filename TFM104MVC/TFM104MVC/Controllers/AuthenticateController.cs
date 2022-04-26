@@ -331,7 +331,7 @@ namespace TFM104MVC.Controllers
             //var loginUser = _authenticateRepository.CheckUser(loginDto.Account, loginDto.Password);
             if (email != null)
             {
-                return NotFound("帳號已存在");
+                return Ok("帳號已存在");
             }
             return Ok("帳號可使用");
         }
