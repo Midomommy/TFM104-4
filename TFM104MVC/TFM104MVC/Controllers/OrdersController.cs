@@ -204,11 +204,51 @@ namespace TFM104MVC.Controllers
             return Ok(orderDetailsPriceDto);
         }
 
-        //[HttpGet("getTodayOrderTotalPriceAndCount")]
-        //public async Task<IActionResult> GetTodayOrderTotalPriceAndCount()
-        //{
-        //    var todayOrderCount = _productRepository.OrderTotalCount(DateTime.Today);
-        //}
+        [HttpGet("getTodayOrderTotalPriceAndCount")]
+        //[Authorize(Roles ="Admin,Firm")]
+        public IActionResult GetTodayOrderTotalPriceAndCount() //後台總覽 查看今日訂單筆數與總金額
+        {
+            DateTime start = Convert.ToDateTime(DateTime.Now.ToString("D"));
+            DateTime end = Convert.ToDateTime(DateTime.Now.AddDays(1).ToString("D")).AddSeconds(-1);
+            var todayOrderCount = _productRepository.OrderTotalCountAndPrice(start, end);
+            if(todayOrderCount == null)
+            {
+                todayOrderCount.Count = 0;
+                todayOrderCount.Price = 0;
+                return Ok(todayOrderCount);
+            }
+            return Ok(todayOrderCount);
+        }
 
+        [HttpGet("getYesterdayOrderTotalPriceAndCount")]
+        public IActionResult GetYesterdayOrderTotalPriceAndCount() //後台總攬 查看昨日訂單筆數與總金額
+        {
+            DateTime start = Convert.ToDateTime(DateTime.Now.AddDays(-1).ToString("D"));
+            DateTime end = Convert.ToDateTime(DateTime.Now.ToString("D")).AddSeconds(-1);
+            var yesterdayOrderCount = _productRepository.OrderTotalCountAndPrice(start, end);
+            if (yesterdayOrderCount == null)
+            {
+                yesterdayOrderCount.Count = 0;
+                yesterdayOrderCount.Price = 0;
+                return Ok(yesterdayOrderCount);
+            }
+            return Ok(yesterdayOrderCount);
+        }
+
+
+        [HttpGet("getLastWeekOrderTotalPriceAndCount")]
+        public IActionResult GetLastWeekOrderTotalPriceAndCount()
+        {
+            DateTime start = Convert.ToDateTime(DateTime.Now.AddDays(-7).ToString("D"));
+            DateTime end = Convert.ToDateTime(DateTime.Now.ToString("D")).AddSeconds(-1);
+            var lastWeekOrderCount = _productRepository.OrderTotalCountAndPrice(start, end);
+            if (lastWeekOrderCount == null)
+            {
+                lastWeekOrderCount.Count = 0;
+                lastWeekOrderCount.Price = 0;
+                return Ok(lastWeekOrderCount);
+            }
+            return Ok(lastWeekOrderCount);
+        }
     }
 }

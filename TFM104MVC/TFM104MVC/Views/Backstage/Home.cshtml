@@ -46,13 +46,13 @@
                             <small class="fw-bold" style="font-size: 13px;">
                                 NT$
                             </small>
-                            X,XXX
+                            {{todayOrdersList.price}}
                         </span>
                         <span class="infobox-text">
                             /
                         </span>
                         <span class="infobox-text">
-                            x筆訂單
+                            {{todayOrdersList.count}}筆訂單
                         </span>
                     </div>
                 </div>
@@ -66,13 +66,13 @@
                             <small class="fw-bold" style="font-size: 13px;">
                                 NT$
                             </small>
-                            X,XXX
+                            {{yesterdayOrdersList.price}}
                         </span>
                         <span class="infobox-text">
                             /
                         </span>
                         <span class="infobox-text">
-                            x筆訂單
+                            {{yesterdayOrdersList.count}}筆訂單
                         </span>
                     </div>
                 </div>
@@ -86,13 +86,13 @@
                             <small class="fw-bold" style="font-size: 13px;">
                                 NT$
                             </small>
-                            X,XXX
+                            {{lastWeekOrdersList.price}}
                         </span>
                         <span class="infobox-text">
                             /
                         </span>
                         <span class="infobox-text">
-                            x筆訂單
+                            {{lastWeekOrdersList.count}}筆訂單
                         </span>
                     </div>
                 </div>
@@ -183,10 +183,16 @@
         data: {
             lastOrderList: [],
             productList: [],
+            todayOrdersList: [],
+            yesterdayOrdersList: [],
+            lastWeekOrdersList:[]
         },
         mounted: function () {
             this.getLastOrder();
             this.getProductList();
+            this.todayOrders();
+            this.yesterdayOrders();
+            this.lastWeekOrders();
         },
         computed: {
             totalOrder: function () {
@@ -224,6 +230,45 @@
                 //計算每筆訂單內所有訂單明細的總金額
                 var item = x.map(x => x.unitPrice * x.discountPersent * x.quantity).reduce((now, next) => now + next, 0);
                 return item;
+            },
+            todayOrders: function () {
+                let self = this;
+                axios.get("/api/Orders/getTodayOrderTotalPriceAndCount")
+                    .then(
+                        function (res) {
+                            self.todayOrdersList = res.data;
+                        }
+                    ).catch(
+                        function (err) {
+                            alertWrong(err.data);
+                        }
+                    );
+            },
+            yesterdayOrders: function () {
+                let self = this;
+                axios.get("/api/Orders/getYesterdayOrderTotalPriceAndCount")
+                    .then(
+                        function (res) {
+                            self.yesterdayOrdersList = res.data;
+                        }
+                    ).catch(
+                        function (err) {
+                            alertWrong(err.data);
+                        }
+                    );
+            },
+            lastWeekOrders: function () {
+                let self = this;
+                axios.get("/api/Orders/getLastWeekOrderTotalPriceAndCount")
+                    .then(
+                        function (res) {
+                            self.lastWeekOrdersList = res.data;
+                        }
+                    ).catch(
+                        function (err) {
+                            alertWrong(err.data);
+                        }
+                    );
             }
         }
     })

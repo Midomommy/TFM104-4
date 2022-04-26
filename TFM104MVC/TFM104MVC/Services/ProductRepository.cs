@@ -261,7 +261,7 @@ namespace TFM104MVC.Services
 
         public CountAndPrice OrderTotalCountAndPrice(DateTime sinceTime,DateTime finishTime)
         {
-            var count = _context.Orders.Where(x => x.Date >= sinceTime && x.Date<= finishTime).Count();
+            var count = _context.Orders.Where(x => x.Date.CompareTo(sinceTime)>=0 && x.Date.CompareTo(finishTime)<=0).Count();
             var price = _context.Orderdetails.Where(x => x.Order.Date >= sinceTime && x.Order.Date <= finishTime).Sum(x => (decimal)x.Quantity * x.UnitPrice * (decimal)x.DiscountPersent);
             CountAndPrice result = new CountAndPrice()
             {

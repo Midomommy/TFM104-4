@@ -39,6 +39,6 @@ namespace TFM104MVC.Services
         Task<Order> GetOrderById(int orderId);
         Task<List<Orderdetail>> GetOrderdetailTotalPrice(int orderId);
         Task<List<Order>> GetOrderContentById(int orderId);
-        public CountAndPrice OrderTotalCountAndPrice(DateTime time, DateTime finishTime);
+        public CountAndPrice OrderTotalCountAndPrice(DateTime sinceTime, DateTime finishTime);
     }
 }
