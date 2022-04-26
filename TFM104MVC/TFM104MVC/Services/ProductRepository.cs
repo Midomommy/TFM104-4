@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TFM104MVC.Database;
+using TFM104MVC.Dtos;
 using TFM104MVC.Models;
 using TFM104MVC.Models.Entity;
 using TFM104MVC.Models.Enum;
@@ -250,6 +251,18 @@ namespace TFM104MVC.Services
         public async Task<List<Order>> GetOrderContentById(int orderId)
         {
             return await _context.Orders.Include(x => x.Orderdetails).ThenInclude(x => x.Product).Where(x => x.Id == orderId).ToListAsync();
+        }
+
+        public CountAndPrice OrderTotalCountAndPrice(DateTime sinceTime,DateTime finishTime)
+        {
+            var count = _context.Orders.Where(x => x.Date >= sinceTime && x.Date<= finishTime).Count();
+            var price = _context.Orderdetails.Where(x => x.Order.Date >= sinceTime && x.Order.Date <= finishTime).Sum(x => (decimal)x.Quantity * x.UnitPrice * (decimal)x.DiscountPersent);
+            CountAndPrice result = new CountAndPrice()
+            {
+                Count = count,
+                Price = price
+            };
+            return result;
         }
     }
 }

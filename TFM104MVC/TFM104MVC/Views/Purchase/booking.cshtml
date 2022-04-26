@@ -555,6 +555,7 @@
             },
             addOrder: function () {
                 let self = this;
+                this.name();
                 axios.post("/api/Cart/Checkout", self.orderInformation)
                     .then(function (res) {
                         if (res.status == 200) {

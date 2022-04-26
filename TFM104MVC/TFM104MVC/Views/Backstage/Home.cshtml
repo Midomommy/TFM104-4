@@ -104,7 +104,7 @@
                         {{cancelOrderTotal}}
                     </div>
                     <div class="infobox-content">
-                        今日取消訂單數
+                        取消訂單總數
                     </div>
                 </div>
                 <div class="col infobox-block infobox-blue">
@@ -176,6 +176,8 @@
 </div>
 
 <script>
+    var timeStamp = new Date(new Date().setHours(0, 0, 0, 0));
+    var oneDayAgo = timeStamp - 86400 * 1;
     var appBackStageOrderVue = new Vue({
         el: "#backstageOrderVue",
         data: {
@@ -194,10 +196,12 @@
                 return this.productList.length;
             },
             cancelOrderTotal: function () {
-                var orderList = this.lastOrderList.filter(item => item.orderStatus == "Canceled" && Date.parse(Date(item.date)).getDate() == Date.now().getDate());
+                //var orderList = this.lastOrderList.filter(item => item.orderStatus == "Canceled" && Date.parse(Date(item.date)) >= oneDayAgo);
+                var orderList = this.lastOrderList.filter(item => item.orderStatus == "Canceled");
                 var orderListTotal = orderList.length;
                 return orderListTotal;
-            }
+            },
+
         },
         methods: {
             getLastOrder: function () {

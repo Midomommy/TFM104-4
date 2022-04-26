@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TFM104MVC.Dtos;
 using TFM104MVC.Models;
 using TFM104MVC.Models.Entity;
 using TFM104MVC.ResouceParameters;
@@ -38,5 +39,6 @@ namespace TFM104MVC.Services
         Task<Order> GetOrderById(int orderId);
         Task<List<Orderdetail>> GetOrderdetailTotalPrice(int orderId);
         Task<List<Order>> GetOrderContentById(int orderId);
+        public CountAndPrice OrderTotalCountAndPrice(DateTime time, DateTime finishTime);
     }
 }

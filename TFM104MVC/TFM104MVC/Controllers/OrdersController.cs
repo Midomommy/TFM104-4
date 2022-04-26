@@ -175,7 +175,7 @@ namespace TFM104MVC.Controllers
         }
 
         [HttpPost("done/{orderId}")]
-        [Authorize(Roles = "Firm,Admin")]
+        [Authorize(Roles = "Firm,Admin")] //把訂單狀態轉換成已結案
         public async Task<IActionResult> SoftChangeOrder([FromRoute] int orderId)
         {
             var order = await _productRepository.GetOrderById(orderId);
@@ -204,10 +204,10 @@ namespace TFM104MVC.Controllers
             return Ok(orderDetailsPriceDto);
         }
 
-        //[HttpGet("getTodayOrder")]
-        //public async Task<IActionResult> GetTodayOrder()
+        //[HttpGet("getTodayOrderTotalPriceAndCount")]
+        //public async Task<IActionResult> GetTodayOrderTotalPriceAndCount()
         //{
-
+        //    var todayOrderCount = _productRepository.OrderTotalCount(DateTime.Today);
         //}
 
     }
