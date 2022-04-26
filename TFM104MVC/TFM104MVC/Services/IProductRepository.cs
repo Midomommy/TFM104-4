@@ -11,7 +11,7 @@ namespace TFM104MVC.Services
 {
     public interface IProductRepository
     {
-        Task<IEnumerable<Product>> GetProductsAsync(string keyword,string operatorType,int ratingValue,string Region,string Traveldays , string Triptype,int pageSize,int pageNumber,string OrderBy,string OrderByDesc,string goTouristTime);//取得所有商品
+        Task<IEnumerable<Product>> GetProductsAsync(string keyword,string operatorType,int ratingValue,string Region,string Traveldays , string Triptype,int pageSize,int pageNumber,string OrderBy,string OrderByDesc,string goTouristTime,string product);//取得所有商品
         Task<Product> GetProductWithNoPicturesAsync(Guid ProductId);
         Task<Product> GetProductAsync(Guid ProductId);//取得單一商品(使用者輸入商品ID)
 

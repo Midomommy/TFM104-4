@@ -52,7 +52,7 @@ namespace TFM104MVC.Controllers
                     ratingValue = int.Parse(match.Groups[2].Value);
                 }
             }
-            var productsFromRepo = await _productRepository.GetProductsAsync(parameters.Keyword, operatorType, ratingValue, parameters.Region, parameters.Traveldays, parameters.Triptype, parameters.PageSize, parameters.PageNumber, parameters.OrderBy, parameters.OrderByDesc, parameters.GoTouristTime);
+            var productsFromRepo = await _productRepository.GetProductsAsync(parameters.Keyword, operatorType, ratingValue, parameters.Region, parameters.Traveldays, parameters.Triptype, parameters.PageSize, parameters.PageNumber, parameters.OrderBy, parameters.OrderByDesc, parameters.GoTouristTime,parameters.ProductStatus);
 
 
             if (productsFromRepo == null || productsFromRepo.Count() <= 0)
@@ -95,9 +95,7 @@ namespace TFM104MVC.Controllers
         }
 
         [HttpPost] // api/products
-
         [Authorize(Roles = "Admin,Firm")]
-
         public async Task<IActionResult> CreateProduct([FromForm] ProductCreationDto productCreationDto)
         {
             string rootRoot = _environment.WebRootPath + "/ProductPictures/";
@@ -131,22 +129,42 @@ namespace TFM104MVC.Controllers
         }
 
         [HttpPut("{productId}")]
-        //   [Authorize(Roles = "Admin,Firm")]
-        [AllowAnonymous]
+        [Authorize(Roles = "Admin,Firm")]
         public async Task<IActionResult> UpdateProduct(
             [FromRoute] Guid productId,
-            [FromBody] ProductUpdateDto productUpdateDto
+            [FromForm] ProductUpdateDto productUpdateDto
             )
         {
             if (!(await _productRepository.ProductExistAsync(productId)))
             {
                 return NotFound("沒有此商品");
             }
+
             var productFromRepo = await _productRepository.GetProductAsync(productId);
             // 1.把從倉庫提取出來的數據映射為Dto
             // 2.更新這個Dto數據
             // 3.更新完後再映射回原本的Repo
-            _mapper.Map(productUpdateDto, productFromRepo);
+            var productSaveRepo = _mapper.Map(productUpdateDto, productFromRepo);
+
+            string rootRoot = _environment.WebRootPath + "/ProductPictures/";
+            var files = productUpdateDto.Pic;
+            if (files != null)
+            {
+                foreach (var file in files)
+                {
+                    ProductPicture productPicture = new ProductPicture();
+                    if (file.Length > 0)
+                    {
+                        var ticks = Guid.NewGuid();
+                        using (var stream = System.IO.File.Create(rootRoot + ticks.ToString() + file.FileName))
+                        {
+                            file.CopyTo(stream);
+                        }
+                        productPicture.Url = "/ProductPictures/" + ticks.ToString() + file.FileName;
+                    }
+                    productSaveRepo.ProductPictures.Add(productPicture);
+                }
+            }
 
             await _productRepository.SaveAsync();
 
@@ -154,6 +172,7 @@ namespace TFM104MVC.Controllers
         }
 
         [HttpPatch("{productId}")]
+        [Authorize(Roles ="Admin,Firm")]
         public async Task<IActionResult> PartiallyUpdateProfuct(
             [FromRoute] Guid productId,
             [FromBody] JsonPatchDocument<ProductUpdateDto> patchDocument)
@@ -182,7 +201,7 @@ namespace TFM104MVC.Controllers
 
             return NoContent();
         }
-       
+
         [HttpDelete("{productId}")]
         [Authorize(Roles = "Admin,Firm")]
         public async Task<IActionResult> DeleteProduct([FromRoute] Guid productId)
@@ -197,6 +216,20 @@ namespace TFM104MVC.Controllers
 
             return NoContent();
         }
-    
+
+        [HttpPost("{productId}/soft")]
+        [Authorize(Roles ="Admin,Firm")]
+        public async Task<IActionResult> SoftDeleteProduct([FromRoute]Guid productId)
+        {
+            if(!await _productRepository.ProductExistAsync(productId))
+            {
+                return NotFound("沒有此商品");
+            }
+            var productFromRepo = await _productRepository.GetProductAsync(productId);
+            productFromRepo.ProductStatus = Models.Enum.ProductStatus.NotSold;
+            await _productRepository.SaveAsync();
+
+            return Ok("商品已下架");
+        }
     }
 }

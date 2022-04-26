@@ -24,6 +24,7 @@ namespace TFM104MVC.Dtos
         public DateTime? GoTouristTime { get; set; }
         public string Notes { get; set; }
         public double? CustomerRating { get; set; }
+        public string ProductStatus { get; set; }
         public string TravelDays { get; set; }
         public string TripType { get; set; }
         public string Region { get; set; }

@@ -26,7 +26,7 @@ namespace TFM104MVC.Services
             //return _context.Products.Where(n => n.Id == ProductId).FirstOrDefault();
         }
 
-        public async Task<IEnumerable<Product>> GetProductsAsync(string keyword , string operatorType , int ratingValue,string region,string travelDays,string tripType,int pageSize, int pageNumber,string orderBy,string orderByDesc,string goTouristTime)
+        public async Task<IEnumerable<Product>> GetProductsAsync(string keyword , string operatorType , int ratingValue,string region,string travelDays,string tripType,int pageSize, int pageNumber,string orderBy,string orderByDesc,string goTouristTime,string productStatus)
 
         {
             IQueryable<Product> result = _context.Products.Include(t => t.ProductPictures);
@@ -76,7 +76,12 @@ namespace TFM104MVC.Services
             {
                 result = result.Where(n => n.GoTouristTime.ToString() == goTouristTime);
             }
-
+            if (!string.IsNullOrWhiteSpace(productStatus))
+            {
+                productStatus = productStatus.Trim();
+                var r4 = (ProductStatus)Enum.Parse(typeof(ProductStatus), productStatus);
+                result = result.Where(n => n.ProductStatus == r4);
+            }
             ////分頁功能的實現放在最後 因為首先要過濾數據 搜索排序 最後再形成分頁
             ////分頁思路
             ////跳過一定量的資料(例如 使用者要到第七頁 代表數據要跳過前六頁的所有內容=> (頁數-1)*大小)
@@ -234,6 +239,7 @@ namespace TFM104MVC.Services
                 var r1 = (OrderStatus)Enum.Parse(typeof(OrderStatus), Status);
                 result = result.Where(x => x.OrderStatus == r1);
             }
+            result = result.OrderByDescending(x => x.Date);
             return await result.ToListAsync();
             //return await _context.Orders.Include(x => x.Orderdetails).ThenInclude(x => x.Product).ThenInclude(x => x.ProductPictures).Where(x=>x.OrderStatus == OrderStatus.NotPaid || x.OrderStatus == OrderStatus.Paid).ToListAsync();
         }

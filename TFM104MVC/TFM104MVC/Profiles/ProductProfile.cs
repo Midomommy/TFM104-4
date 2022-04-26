@@ -6,6 +6,7 @@ using AutoMapper;
 using TFM104MVC.Dtos;
 using TFM104MVC.Models;
 using TFM104MVC.Models.Entity;
+using TFM104MVC.Models.Enum;
 using TFM104MVC.Models.Session;
 
 namespace TFM104MVC.Profiles
@@ -26,6 +27,9 @@ namespace TFM104MVC.Profiles
             CreateMap<ProductCreationDto, Product>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => Guid.NewGuid()));
             CreateMap<ProductUpdateDto, Product>();
+                //.ForMember(dest => dest.ProductStatus, opt => opt.MapFrom(src => (ProductStatus)Enum.Parse(typeof(ProductStatus), src.ProductStatus)))
+                //.ForMember(dest => dest.Region, opt => opt.MapFrom(src => (Region)Enum.Parse(typeof(Region), src.Region)))
+                //.ForMember(dest => dest.TravelDays, opt => opt.MapFrom(src => (TravelDays)Enum.Parse(typeof(TravelDays), src.TravelDays)));
             CreateMap<Product, ProductUpdateDto>();
             CreateMap<ProductUpdateDto, Product>();
             CreateMap<Product, ProductForCartDto>()

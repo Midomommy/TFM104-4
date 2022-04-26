@@ -16,6 +16,7 @@ namespace TFM104MVC.ResouceParameters
         public string Traveldays { get; set; }
         public string Triptype { get; set; }
         public string GoTouristTime { get; set; }
+        public string ProductStatus { get; set; }
         public int PageNumber { 
             get 
             { 

@@ -22,50 +22,48 @@
     <div class="product-list-search-bar d-flex gap-3">
         <!-- 選擇上架狀態 -->
         <div class="btn-group">
-            <select class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
+            <select class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" v-model="productStatusValue" v-on:change="regionClick"
                     aria-expanded="false">
-                <option value="" selected disabled>選擇上架狀態</option>
-                <option value="">未審核</option>
-                <option value="">已上架</option>
-                <option value="">已下架</option>
+                <option value="" selected>選擇上架狀態</option>
+                <option value="Unapproved">未審核</option>
+                <option value="Launched">已上架</option>
+                <option value="NotSold">已下架</option>
             </select>
         </div>
         <!-- 商品分類 -->
         <div class="btn-group">
             <select class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
                     aria-expanded="false" v-model="TriptypeValue" v-on:change="regionClick">
-                <option value="" selected disabled>商品分類</option>
-                <option value="0">露營</option>
-                <option value="1">水上活動</option>
-                <option value="2">人文之旅</option>
-                <option value="3">地方特色</option>
-                <option value="4">溫泉之旅</option>
-                <option value="5">戶外休閒</option>
-                <option value="6">景點門票</option>
+                <option value="" selected>商品分類</option>
+                <option value="Camping">露營</option>
+                <option value="WaterActivities">水上活動</option>
+                <option value="HistoryJourney">人文之旅</option>
+                <option value="LocalSpecialties">地方特色</option>
+                <option value="SpringTour">溫泉之旅</option>
             </select>
         </div>
         <!-- 地區分類 -->
         <div class="btn-group">
             <select type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
                     aria-expanded="false" v-model="regionValue" v-on:change="regionClick">
-                <option value="" selected disabled>地區分類</option>
-                <option value="">北北基</option>
-                <option value="">桃竹苗</option>
-                <option value="">中彰投</option>
-                <option value="">雲嘉南</option>
-                <option value="">高屏</option>
-                <option value="">宜花東</option>
-                <option value="">離島地區</option>
+                <option value="" selected>地區分類</option>
+                <option value="North">北北基</option>
+                <option value="MiddleNorth">桃竹苗</option>
+                <option value="Middle">中彰投</option>
+                <option value="MiddleSouth">雲嘉南</option>
+                <option value="South">高屏</option>
+                <option value="East">宜花東</option>
+                <option value="OutsideIsland">離島地區</option>
             </select>
 
         </div>
         <!-- 請輸入商品名稱 -->
         <div class="mb-3">
-            <input type="text" class="form-control" id="productInput" placeholder="請輸入商品名稱">
+            <input type="text" class="form-control" id="productInput" placeholder="請輸入商品名稱" v-model="searchKeyword">
         </div>
         <!-- 搜尋btn -->
         <div class="float-end">
-            <button type="button" class="btn btn-primary" type="submit">
+            <button type="button" class="btn btn-primary" v-on:click="regionClick">
                 搜尋
             </button>
         </div>
@@ -98,7 +96,7 @@
                     </td>
                     <td>{{item.title}}</td>
                     <td>{{item.originalPrice }}</td>
-                    <td>已上架</td>
+                    <td>{{item.productStatus}}</td>
                     <td>
                         <div class="d-flex gap-3">
                             <!--編輯-->
@@ -106,9 +104,9 @@
                                 <i class="bi bi-pencil-square"></i>
                             </a>
                             <!--眼睛-->
-                            <a href="" class="btn btn-warning">
+                            <button v-on:click="softDelete(item.id)" class="btn btn-warning">
                                 <i class="bi bi-eye-slash"></i>
-                            </a>
+                            </button>
                             <!--垃圾桶-->
                             <div href="" class="btn btn-danger" v-on:click.prevent="del(item.id)">
                                 <i class="bi bi-trash3"></i>
@@ -179,6 +177,7 @@
 <script>
     var keyword = window.location.search.replace("?", "");
     var keywordDecode = decodeURI(window.location.search.replace("?keyword=", ""));
+
     var backstageProductList = new Vue({
         el: '#GetProducts',
 
@@ -193,7 +192,7 @@
             customerRating: '',
             goTraveltime: "",
             pageLeftBtn: true,
-
+            productStatusValue: "",
             countOfPage: 10,// 幾個一頁
             currPage: 1,//初始頁
             sectionObject: {
@@ -205,9 +204,14 @@
                 "East": "宜花東",
                 "OutsideIsland": "離島地區"
             },
+            sectionProductStatusObject: {
+                "Unapproved": "未上架",
+                "Launched": "已上架",
+                "NotSold": "已下架"
+            },
             chRegion: "",
-
-
+            tempDeleteItem: "",
+            searchKeyword: ""
         },
         computed: {
             pageStart: function () {
@@ -225,6 +229,7 @@
             axios.get("/api/products?" + keyword).then(function (res) {
                 for (let i of res.data) {
                     i.region = self.sectionObject[i.region];
+                    i.productStatus = self.sectionProductStatusObject[i.productStatus];
                     //    i.goTouristTime = "" +i.goTouristTime;
                 }
                 self.productList = res.data;
@@ -241,31 +246,30 @@
             regionClick: function () {
                 var self = this;
                 var regionValue = self.regionValue;
-                var Traveldays = self.TraveldaysValue;
-                var Triptype = self.TriptypeValue
-                var orderbyClick = self.orderbyClick;
-                var customerRating = self.customerRating;
-                var goTraveltime = self.goTraveltime;
-                if (goTraveltime != "") { goTraveltime = decodeURI(goTraveltime.replace("T", "+").concat(":00.0000000")); }
+                //var Traveldays = self.TraveldaysValue;
+                var Triptype = self.TriptypeValue;
+                var ProductStatus = self.productStatusValue;
+                var Keyword = self.searchKeyword;
+                //var orderbyClick = self.orderbyClick;
+                //var customerRating = self.customerRating;
+                //var goTraveltime = self.goTraveltime;
+                //if (goTraveltime != "") { goTraveltime = decodeURI(goTraveltime.replace("T", "+").concat(":00.0000000")); }
 
-                axios.get("/api/products?Region=" + regionValue + "&Traveldays=" + Traveldays + "&Triptype=" + Triptype + "&Rating=lessThan" + customerRating + orderbyClick + "&GoTouristTime=" + decodeURI(goTraveltime) + "&" + keyword).then(function (res) {
+                axios.get("/api/products?Region=" + regionValue + "&Triptype=" + Triptype + "&ProductStatus=" + ProductStatus + "&Keyword=" + Keyword).then(function (res) {
                     for (let i of res.data) {
                         i.region = self.sectionObject[i.region];
-
+                        i.productStatus = self.sectionProductStatusObject[i.productStatus];
                     };
-                    console.log(customerRating);
                     self.productList = res.data;
-                    self.error = "";
-                    self.currPage = "1";
-                    self.productTotal = res.data.length;
+                    //self.error = "";
+                    //self.currPage = "1";
+                    //self.productTotal = res.data.length;
 
                 }).catch(function (error) {
-                    self.error = error.data;
-                    self.productList = "";
-                    self.productTotal = "0";
-
-
-
+                    //self.error = error.data;
+                    //self.productList = "";
+                    //self.productTotal = "0";
+                    alertWrong(error.data);
                 })
 
                 // }
@@ -277,13 +281,51 @@
                 this.currPage = idx;
             },
             del: function (id) {
-
-                console.log(id);
-
-                axios.delete("/api/products/" + id).then(alert(id));
+                axios.delete("/api/products/" + id).then(
+                    function (res) {
+                        if (res.status == 204) {
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: res.data,
+                                showConfirmButton: false,
+                                timer: 1500,
+                                willClose: (toast) => {
+                                    location.reload();
+                                }
+                            });
+                        }
+                    }
+                ).catch(
+                    function (err) {
+                        alertWrong(err.data);
+                    }
+                )
 
             },
-
+            softDelete: function (productId) {
+                var url = "/api/products/" + productId + "/soft";
+                axios.post(url)
+                    .then(function (res) {
+                        if (res.status == 200) {
+                            //alertSuccess(res.data);
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: res.data,
+                                showConfirmButton: false,
+                                timer: 1500,
+                                willClose: (toast) => {
+                                    location.reload();
+                                }
+                            });
+                        }
+                    }).catch(function (err) {
+                        if (err.status == 404) {
+                            alertWrong(err.data);
+                        }
+                    });
+            },
         },
         filters: {
             ellipsis(value) {

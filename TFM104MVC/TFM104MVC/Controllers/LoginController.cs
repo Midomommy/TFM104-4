@@ -26,12 +26,12 @@ namespace TFM104MVC.Controllers
         private AppDbContext _context;
         string _redirect_uri = "https://localhost:5001/Login/UseLineLogin";
         string _client_id = "1657070363";
-        string _state = "123"; 
+        string _state = "123";
         string _client_serect = "37f66dac4363ffef924d522a7a753de4";
-        
+
         private readonly IHttpClientFactory _clientFactory;
         private readonly IAuthenticateRepository _authenticateRepository;
-        public LoginController(AppDbContext appDbContext,IHttpClientFactory httpClientFactory, IAuthenticateRepository authenticateRepository)
+        public LoginController(AppDbContext appDbContext, IHttpClientFactory httpClientFactory, IAuthenticateRepository authenticateRepository)
         {
             _context = appDbContext;
             _clientFactory = httpClientFactory;
@@ -86,11 +86,20 @@ namespace TFM104MVC.Controllers
                 _context.Users.Add(member);
                 _context.SaveChanges();
             };
+            var saveUserAlready = _authenticateRepository.AccountCheck(email);
+            var claims = new[]
+            {
+                new Claim(ClaimTypes.Email,email),
+                new Claim("email",email),
+                new Claim("userId",saveUserAlready.Id.ToString()),
+                new Claim(ClaimTypes.Name,lastName+firstName),
+                new Claim(ClaimTypes.Role,saveUserAlready.RoleName)
+            };
 
-            var user = _context.Users.FirstOrDefault(x => x.Account == email);
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+            await HttpContext.SignInAsync(claimsPrincipal);
 
-            //return Ok("登入成功");
-            //return Json(data);
             return Redirect("~/Home/Index");
         }
 
@@ -185,13 +194,14 @@ namespace TFM104MVC.Controllers
                     _authenticateRepository.Save();
                 }
 
+                var saveUserAlready = _authenticateRepository.AccountCheck(lineLoginUserResource.UserEmail);
                 var claims = new[]
                 {
                 new Claim(ClaimTypes.Email,lineLoginUserResource.UserEmail),
                 new Claim("email",lineLoginUserResource.UserEmail),
-                new Claim("userId",existUser.Id.ToString()),
+                new Claim("userId",saveUserAlready.Id.ToString()),
                 new Claim(ClaimTypes.Name,lineLoginUserResource.Name),
-                new Claim(ClaimTypes.Role,existUser.RoleName)
+                new Claim(ClaimTypes.Role,saveUserAlready.RoleName)
                 };
 
                 var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
