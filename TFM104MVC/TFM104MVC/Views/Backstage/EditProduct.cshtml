@@ -105,17 +105,15 @@
                         <option value="2">人文之旅</option>
                         <option value="3">地方特色</option>
                         <option value="4">溫泉之旅</option>
-                        <option value="5">戶外休閒</option>
-                        <option value="6">景點門票</option>
                     </select>
                 </div>
                 <!-- 商品狀態 -->
                 <div class="product-status">
-                    <select class="form-select" aria-label="product-status">
+                    <select class="form-select" aria-label="product-status" v-model="add.productStatus">
                         <option value="" selected disabled>商品狀態</option>
-                        <option value="1">未審核</option>
-                        <option value="2">已上架</option>
-                        <option value="3">已下架</option>
+                        <option value="0">未審核</option>
+                        <option value="1">已上架</option>
+                        <option value="2">已下架</option>
                     </select>
                 </div>
                 <!-- 地區分類 -->
@@ -148,8 +146,8 @@
                 </div>
 
                 <!-- 出發日期 -->
-                <div class="travel-date d-flex align-content-center">
-                    <input type="datetime-local" id="meeting-time" name="meeting-time"
+                <div class="travel-date d-flex align-content-center" v-model="add.goTouristTime">
+                    <input type="date" id="meeting-time" name="meeting-time"
                            value="2022-05-06T19:30" min="2018-06-07T00:00" max="2025-06-14T00:00" v-model="add.goTouristTime">
                 </div>
             </div>
@@ -163,11 +161,11 @@
         </div>
         <!-- 商品備註 -->
         @*<div class="product-note mt-3">
-            <p class="fs-6" style="color: #3c5587;">
-                商品備註
-            </p>
-            <textarea id="note" name="note" rows="5" cols="105">請輸入商品備註</textarea>
-        </div>*@
+                <p class="fs-6" style="color: #3c5587;">
+                    商品備註
+                </p>
+                <textarea id="note" name="note" rows="5" cols="105">請輸入商品備註</textarea>
+            </div>*@
     </div>
     <!--商品圖片編輯-->
     <div class="product-edit-body mt-3 mb-3">
@@ -176,11 +174,11 @@
         </p>
         <div class="photo-display-container mb-3">
             <div class="photo-display">
-                <img src="https://fakeimg.pl/100x100/">
-                <div class="photo-edit-icons">
-                    <i class="bi bi-arrows-move"></i>
-                    <i class="bi bi-x-lg"></i>
-                </div>
+                <img :src="add.productPictures[0].url" style="width:100px;">
+                    @*<div class="photo-edit-icons">
+                        <i class="bi bi-arrows-move"></i>
+                        <i class="bi bi-x-lg"></i>
+                    </div>*@
             </div>
         </div>
         <div class="input-group mb-3">
@@ -222,17 +220,42 @@
                 tripType: "",
                 region: "",
                 description: "",
+                productStatus: "",
                 productPictures: [],
             },
-            sectionObject: {
-                "North": "0",
-                "MiddleNorth": "1",
-                "Middle": "2",
-                "MiddleSouth": "3",
-                "South": "4",
-                "East": "5",
-                "OutsideIsland": "6"
+            sectionRegionObject: {
+                "North": 0,
+                "MiddleNorth": 1,
+                "Middle": 2,
+                "MiddleSouth": 3,
+                "South": 4,
+                "East": 5,
+                "OutsideIsland": 6
             },
+            sectionTripTypeObject: {
+                "Camping": 0,
+                "WaterActivities": 1,
+                "HistoryJourney": 2,
+                "LocalSpecialties": 3,
+                "SpringTour": 4
+            },
+            sectionTravelDaysObject: {
+                "One": 0,
+                "Two": 1,
+                "Three": 2,
+                "Four": 3,
+                "Five": 4,
+                "Six": 5,
+                "Seven": 6,
+                "Eight": 7,
+                "EightPlus": 8
+            },
+            sectionProductStatusObject: {
+                "Unapproved": 0,
+                "Launched": 1,
+                "NotSold": 2
+            }
+
         },
         computed: {
 
@@ -240,11 +263,18 @@
         },
         mounted: function () {
             var self = this;
+            //axios.get("/api/products/" + pid).then(function (res) { self.list = res.data })
             axios.get("/api/products/" + pid).then(function (res) {
                 //for (let i of res.data) {
                 //    i.region = self.sectionObject[i.region];
                 //}
                 /*  self.product = res.data;*/
+
+                res.data.region = self.sectionRegionObject[res.data.region];
+                res.data.tripType = self.sectionTripTypeObject[res.data.tripType];
+                res.data.travelDays = self.sectionTravelDaysObject[res.data.travelDays];
+                res.data.productStatus = self.sectionProductStatusObject[res.data.productStatus];
+
                 self.add.title = res.data.title;
                 self.add.originalPrice = res.data.originalPrice;
                 self.add.discountPersent = res.data.discountPersent;
@@ -254,10 +284,25 @@
                 self.add.region = res.data.region;
                 self.add.description = res.data.description;
                 self.add.productPictures = res.data.productPictures;
+                self.add.productStatus = res.data.productStatus;
             })
 
         },
         methods: {
+            getProductInfo: function () {
+                var self = this;
+                axios.get("/api/products/" + pid).then(function (res) {
+                    self.add.title = res.data.title;
+                    self.add.originalPrice = res.data.originalPrice;
+                    self.add.discountPersent = res.data.discountPersent;
+                    self.add.goTouristTime = res.data.goTouristTime;
+                    self.add.travelDays = res.data.travelDays;
+                    self.add.tripType = res.data.tripType;
+                    self.add.region = res.data.region;
+                    self.add.description = res.data.description;
+                    self.add.productPictures = res.data.productPictures;
+                });
+            },
             uppic: function (event) {
                 // console.log(event);
                 /*  this.add.productPictures = event.target.files[0]*/
@@ -283,40 +328,56 @@
                 }
             },
             save: function () {
-                //var bodyFormData = new FormData();
-                //bodyFormData.append("title", this.add.title);
-                //bodyFormData.append("originalPrice", this.add.originalPrice);
-                //bodyFormData.append("discountPersent", this.add.discountPersent);
-                //bodyFormData.append("tripType", this.add.tripType);
-                //bodyFormData.append("region", this.add.region);
-                //bodyFormData.append("travelDays", this.add.travelDays);
-                //bodyFormData.append("description", this.add.description);
-                //bodyFormData.append("goTouristTime", this.add.goTouristTime);
-                //axios({
-                //    method: "put",
-                //    url: "/api/products/" + pid,
-                //    data: bodyFormData,
-                //    headers: { 'Content-Type': 'application/json' }
-                //})
-                let self = this;
-                axios.put("/api/products/" + pid, self.add)
-                    .then(function (res) {
+                var self = this;
+                var bodyFormData = new FormData();
+                bodyFormData.append("title", this.add.title);
+                bodyFormData.append("originalPrice", this.add.originalPrice);
+                bodyFormData.append("discountPersent", this.add.discountPersent);
+                bodyFormData.append("tripType", this.add.tripType);
+                bodyFormData.append("region", this.add.region);
+                bodyFormData.append("travelDays", this.add.travelDays);
+                bodyFormData.append("description", this.add.description);
+                bodyFormData.append("goTouristTime", this.add.goTouristTime);
+                for (let index = 0; index < this.add.productPictures.length; index++) {
+                    bodyFormData.append("pic", this.add.productPictures[index]);
+                }
+                axios({
+                    method: "put",
+                    url: "/api/products/" + pid,
+                    data: bodyFormData,
+                    headers: { 'Content-Type': 'multipart/form-data' }
+                }).then(
+                    function (res) {
                         if (res.status == 204) {
-                            alert("你已送出")
+                            //alertSuccess("修改成功")
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: '修改成功',
+                                showConfirmButton: false,
+                                timer: 1500,
+                                willClose: (toast) => {
+                                    self.getProductInfo();
+                                }
+                            });
                         }
-                    });
-
+                    }
+                )
+                    .catch(
+                        function (err) {
+                            if (err.status == 404) {
+                                alertWrong("沒有此商品")
+                            }
+                            else if (error.status == 422) {
+                                for (var i of Object.keys(error.data.errors)) {
+                                    alertWrong(error.data.errors[i][0]);
+                                }
+                            }
+                        }
+                    )
             }
 
         }
-
-
-
-
-
-
-
-
     });
 </script>
 
