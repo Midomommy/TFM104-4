@@ -165,6 +165,12 @@ namespace TFM104MVC.Controllers
                     productSaveRepo.ProductPictures.Add(productPicture);
                 }
             }
+            var productFromRepoPic = await _productRepository.GetPicturesByProductIdAsync(productId);
+
+            foreach(var pic in productFromRepoPic)
+            {
+                productSaveRepo.ProductPictures.Add(pic);
+            }
 
             await _productRepository.SaveAsync();
 
@@ -230,6 +236,15 @@ namespace TFM104MVC.Controllers
             await _productRepository.SaveAsync();
 
             return Ok("商品已下架");
+        }
+
+        [HttpGet("newest")]
+        public IActionResult GetNewestProduct()
+        {
+            var productsFromRepo = _productRepository.GetNewestProducts(4);
+            var productsDto = _mapper.Map<List<ProductDto>>(productsFromRepo);
+
+            return Ok(productsDto);
         }
     }
 }

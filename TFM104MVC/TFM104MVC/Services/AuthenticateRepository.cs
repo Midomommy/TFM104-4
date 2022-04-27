@@ -51,5 +51,9 @@ namespace TFM104MVC.Services
         {
             return _context.Users.FirstOrDefault(x => x.Id == userId);
         }
+        public User FindUserPic(int userId)
+        {
+            return _context.Users.Include(x=>x.Members).FirstOrDefault(x => x.Id == userId);
+        }
     }
 }

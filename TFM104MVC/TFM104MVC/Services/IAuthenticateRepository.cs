@@ -21,6 +21,7 @@ namespace TFM104MVC.Services
 
         User FindFirm(int userId);
         User FindTheOnlyUser(int userId);
+        User FindUserPic(int userId);
 
     }
 }

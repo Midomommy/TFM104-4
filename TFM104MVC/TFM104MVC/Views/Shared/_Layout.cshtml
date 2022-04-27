@@ -108,8 +108,8 @@
                 <div class="list-group-item list-group-item-action d-flex justify-content-between">
                     <div class="">
                         <a onclick="location.href='@Url.Action("Index", "Login")'">
-                            @*<img src="https://fakeimg.pl/50/" class="rounded-circle img-fluid">*@
-                            <i class="bi bi-person-circle fs-4"></i>
+                            <img v-bind:src="url" class="rounded-circle img-fluid" style="width:35px;">
+                            @*<i class="bi bi-person-circle fs-4"></i>*@
                             <span class="offcanvas-title " id="offcanvasUser">
                                 <span> @User.Identity.Name</span>
                                 <i class="bi bi-gear"></i>
@@ -556,7 +556,7 @@
             loginInformation: {
                 account: "",
                 password: ""
-            },
+            }
         },
         methods: {
             submitLogin: function () {
@@ -593,6 +593,12 @@
 <script>
     var FUserLogin = new Vue({
         el: "#offcanvasFUserLogin",
+        data: {
+            url:""
+        },
+        mounted: function () {
+            this.getUserPic();
+        },
         methods: {
             logout: function () {
                 axios.post("/auth/logout").then(function (res) {
@@ -602,6 +608,13 @@
 
                     }
                 });
+            },
+            getUserPic: function () {
+                let self = this;
+                axios.get("/auth/GetUserPic")
+                    .then(function (res) {
+                        self.url = res.data;
+                    })
             }
         }
     })

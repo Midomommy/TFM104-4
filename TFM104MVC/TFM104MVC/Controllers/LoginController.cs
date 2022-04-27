@@ -181,19 +181,22 @@ namespace TFM104MVC.Controllers
                 var existUser = _authenticateRepository.AccountCheck(lineLoginUserResource.UserEmail);
                 if (existUser == null)
                 {
+                    Models.Entity.Member memberData = new Models.Entity.Member();
+                    memberData.PicPath = lineLoginUserResource.PictureUrl;
                     var member = new User
                     {
                         Account = lineLoginUserResource.UserEmail,
                         Password = "bbbbbb",
                         LastName = lineLoginUserResource.Name,
                         FirstName = "",
-                        RoleName = "Member"
+                        RoleName = "Member",
+                        Members = memberData
+
                     };
 
                     _authenticateRepository.AddUser(member);
                     _authenticateRepository.Save();
                 }
-
                 var saveUserAlready = _authenticateRepository.AccountCheck(lineLoginUserResource.UserEmail);
                 var claims = new[]
                 {
