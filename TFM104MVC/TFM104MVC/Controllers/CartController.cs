@@ -19,8 +19,8 @@ namespace TFM104MVC.Controllers
     {
         private readonly IProductRepository _productRepository;
         private readonly IMapper _mapper;
-        
-        public CartController(IProductRepository productRepository,IMapper mapper)
+
+        public CartController(IProductRepository productRepository, IMapper mapper)
         {
             _productRepository = productRepository;
             _mapper = mapper;
@@ -44,7 +44,7 @@ namespace TFM104MVC.Controllers
                 //先檢查有沒有相同商品 如果有相同商品則只修改數量
                 List<AddCartItemDto> cart = SessionHelper.GetObjectFromJson<List<AddCartItemDto>>(HttpContext.Session, "cart");
                 int index = cart.FindIndex(x => x.ProductId == addCartItemDto.ProductId);
-                if(index != -1)
+                if (index != -1)
                 {
                     cart[index].Quantity += addCartItemDto.Quantity;
                     SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
@@ -121,8 +121,8 @@ namespace TFM104MVC.Controllers
                 //});
 
                 var productdto = _mapper.Map<List<ProductForCartDto>>(allProd);
-                
-                foreach(var i in productdto)
+
+                foreach (var i in productdto)
                 {
                     i.Title = i.Title.Substring(0, 20);
                     i.qty = cart.First(c => c.ProductId == i.Id).Quantity;
@@ -168,6 +168,8 @@ namespace TFM104MVC.Controllers
             Order order = new Order()
             {
                 Name = orderInformation.UserInformation.Name,
+                Phone = orderInformation.UserInformation.Phone,
+                Email = orderInformation.UserInformation.Email,
                 OrderStatus = Models.Enum.OrderStatus.NotPaid,
                 Date = DateTime.UtcNow,
                 Discount = null,
@@ -183,7 +185,7 @@ namespace TFM104MVC.Controllers
             List<AddCartItemDto> cart = SessionHelper.GetObjectFromJson<List<AddCartItemDto>>(HttpContext.Session, "cart");
 
             //查詢要刪除的商品在List裡面的哪一個位置
-            foreach (var i in orderInformation.CheckOutList) 
+            foreach (var i in orderInformation.CheckOutList)
             {
                 int index = cart.FindIndex(x => x.ProductId == i.Id);
                 cart.RemoveAt(index);
