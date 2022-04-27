@@ -240,6 +240,22 @@ namespace TFM104MVC.Controllers
             return Ok("商品已下架");
         }
 
+        [HttpPost("{productId}/goPublic")]
+        //[Authorize(Roles = "Admin,Firm")]
+        public async Task<IActionResult> GoPublicProduct([FromRoute] Guid productId)
+        {
+            if (!await _productRepository.ProductExistAsync(productId))
+            {
+                return NotFound("沒有此商品");
+            }
+            var productFromRepo = await _productRepository.GetProductAsync(productId);
+            productFromRepo.ProductStatus = Models.Enum.ProductStatus.Launched;
+            await _productRepository.SaveAsync();
+
+            return Ok("商品已上架");
+        }
+
+
         [HttpGet("newest")]
         public IActionResult GetNewestProduct()
         {

@@ -27,7 +27,7 @@
     <div class="row">
         <div class="icon-btn-group d-flex gap-3">
             <div>
-                <a href="">
+                <a href="javascript:void(0);" v-on:click="goPublic">
                     <span>
                         <i class="bi bi-eye"></i>
                     </span>
@@ -37,7 +37,8 @@
                 </a>
             </div>
             <div>
-                <a href="">
+                <a v-bind:href=" '/ProductView/product/'+ pid ">
+                    @*<a href="">*@
                     <span>
                         <i class="bi bi-box-arrow-up-right"></i>
                     </span>
@@ -53,7 +54,7 @@
                 </a>
             </div>
             <div>
-                <a href="">
+                <a href="" v-on:click.prevent="del">
                     <span><i class="bi bi-trash3"></i></span>
                     <span>刪除商品</span>
                 </a>
@@ -175,7 +176,7 @@
         <div class="photo-display-container mb-3">
             <div class="photo-display">
                 <img :src="add.productPictures[0].url" style="width:100px;">
-                    @*<div class="photo-edit-icons">
+                @*<div class="photo-edit-icons">
                         <i class="bi bi-arrows-move"></i>
                         <i class="bi bi-x-lg"></i>
                     </div>*@
@@ -207,7 +208,7 @@
 <script>
     var getUrlString = location.pathname; //抓網頁路徑部分(/ProductView/product/XXXXX)
     var pid = getUrlString.replace("/Backstage/EditProduct/", "");//字元處理 移除"/ProductView/product/" 字串
-
+    //console.log(pid);
     var editproductVue = new Vue({
         el: '#editproduct',
         data: {
@@ -254,11 +255,15 @@
                 "Unapproved": 0,
                 "Launched": 1,
                 "NotSold": 2
-            }
+            },
+            pid: pid
 
         },
         computed: {
-
+            //productLink: function () {
+            //    var x = "ProductView/product/" + pid;
+            //    return x;
+            //}
 
         },
         mounted: function () {
@@ -375,7 +380,41 @@
                             }
                         }
                     )
-            }
+            },
+            goPublic: function () {
+                var self = this;
+                //var url = "/api/products/" + self.pid + "/goPublic";
+                axios.post("/api/products/" + self.pid + "/goPublic")
+                    .then(function (res) {
+                        if (res.status == 200) {
+                            alertSuccess(res.data);
+                        }
+                    }).catch(function (err) { console.log(err.data); })
+            },
+            del: function () {
+                let self = this;
+                axios.delete("/api/products/" + self.pid).then(
+                    function (res) {
+                        if (res.status == 204) {
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: "刪除成功",
+                                showConfirmButton: false,
+                                timer: 1500,
+                                willClose: (toast) => {
+                                    location.href="/BackStage/productList";
+                                }
+                            });
+                        }
+                    }
+                ).catch(
+                    function (err) {
+                        alertWrong(err.data);
+                    }
+                )
+
+            },
 
         }
     });

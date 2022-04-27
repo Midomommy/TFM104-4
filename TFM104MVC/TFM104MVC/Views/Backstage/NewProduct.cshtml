@@ -140,10 +140,10 @@
         <div class="photo-display-container mb-3">
             <div class="photo-display">
                 <img src="https://fakeimg.pl/100x100/">
-                <div class="photo-edit-icons">
+                @*<div class="photo-edit-icons">
                     <i class="bi bi-arrows-move"></i>
                     <i class="bi bi-x-lg"></i>
-                </div>
+                </div>*@
             </div>
         </div>
         <form>
@@ -255,7 +255,7 @@
                     headers: { 'Content-Type': 'multipart/form-data' }
                 }).then(function (response) {
                     if (response.status === 201) {
-                        alert("成功拉");
+                        alertSuccess("你已成功新增商品了");
                         self.add.title = "";
                         self.add.originalPrice = "";
                         self.add.description = "";
@@ -272,7 +272,7 @@
 
                 })
                     .catch(function (error) {
-                        alert(error.data);
+                        alertWrong(error.data);
 
                     });
             },
