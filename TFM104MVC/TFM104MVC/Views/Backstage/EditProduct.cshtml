@@ -27,7 +27,7 @@
     <div class="row">
         <div class="icon-btn-group d-flex gap-3">
             <div>
-                <a href="">
+                <a href="javascript:void(0);" v-on:click="goPublic">
                     <span>
                         <i class="bi bi-eye"></i>
                     </span>
@@ -38,7 +38,7 @@
             </div>
             <div>
                 <a v-bind:href=" '/ProductView/product/'+ pid ">
-                @*<a href="">*@
+                    @*<a href="">*@
                     <span>
                         <i class="bi bi-box-arrow-up-right"></i>
                     </span>
@@ -54,7 +54,7 @@
                 </a>
             </div>
             <div>
-                <a href="">
+                <a href="" v-on:click.prevent="del">
                     <span><i class="bi bi-trash3"></i></span>
                     <span>刪除商品</span>
                 </a>
@@ -256,7 +256,7 @@
                 "Launched": 1,
                 "NotSold": 2
             },
-            pid:pid
+            pid: pid
 
         },
         computed: {
@@ -380,7 +380,41 @@
                             }
                         }
                     )
-            }
+            },
+            goPublic: function () {
+                var self = this;
+                //var url = "/api/products/" + self.pid + "/goPublic";
+                axios.post("/api/products/" + self.pid + "/goPublic")
+                    .then(function (res) {
+                        if (res.status == 200) {
+                            alertSuccess(res.data);
+                        }
+                    }).catch(function (err) { console.log(err.data); })
+            },
+            del: function () {
+                let self = this;
+                axios.delete("/api/products/" + self.pid).then(
+                    function (res) {
+                        if (res.status == 204) {
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: "刪除成功",
+                                showConfirmButton: false,
+                                timer: 1500,
+                                willClose: (toast) => {
+                                    location.href="/BackStage/productList";
+                                }
+                            });
+                        }
+                    }
+                ).catch(
+                    function (err) {
+                        alertWrong(err.data);
+                    }
+                )
+
+            },
 
         }
     });
