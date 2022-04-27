@@ -37,8 +37,8 @@ namespace TFM104MVC.Controllers
             HashKey = "8LImeXm6c1hyF94X7K4iexXxs0bY8ilj",
             HashIV = "CzZWZTbaRiI33oRP",
             ReturnURL = "https://tibame104-16su.azurewebsites.net/Order/Manage", /*"http://yourWebsitUrl/Bank/SpgatewayReturn"*/
-            NotifyURL = "http://yourWebsitUrl/Bank/SpgatewayNotify",
-            CustomerURL = "http://yourWebsitUrl/Bank/SpgatewayCustomer",
+            NotifyURL = "https://tibame104-16su.azurewebsites.net/Bank/SpgatewayReturn", //"http://yourWebsitUrl/Bank/SpgatewayNotify"
+            CustomerURL = "https://tibame104-16su.azurewebsites.net/Order/Manage", //http://yourWebsitUrl/Bank/SpgatewayCustomer,
             AuthUrl = "https://ccore.spgateway.com/MPG/mpg_gateway",
             CloseUrl = "https://core.newebpay.com/API/CreditCard/Close"
         };
@@ -97,7 +97,7 @@ namespace TFM104MVC.Controllers
                 // 商店取號網址
                 CustomerURL = _bankInfoModel.CustomerURL,
                 // 支付取消 返回商店網址
-                ClientBackURL = null,
+                ClientBackURL = "https://tibame104-16su.azurewebsites.net/Order/Manage",
                 // * 付款人電子信箱
                 Email = string.Empty,
                 // 付款人電子信箱 是否開放修改(1=可修改 0=不可修改)
@@ -194,40 +194,58 @@ namespace TFM104MVC.Controllers
         /// <summary>
         /// [智付通]金流介接(結果: 支付完成 返回商店網址)
         /// </summary>
-        //[HttpPost]
-        //public ActionResult SpgatewayReturn()
-        //{
-        //    Request.LogFormData("SpgatewayReturn(支付完成)");
+        [HttpPost]
+        public ActionResult SpgatewayReturn()
+        {
+            //Request.LogFormData("SpgatewayReturn(支付完成)");
 
-        //    // Status 回傳狀態 
-        //    // MerchantID 回傳訊息
-        //    // TradeInfo 交易資料AES 加密
-        //    // TradeSha 交易資料SHA256 加密
-        //    // Version 串接程式版本
-        //    NameValueCollection collection = Request.Form;
+            // Status 回傳狀態 
+            // MerchantID 回傳訊息
+            // TradeInfo 交易資料AES 加密
+            // TradeSha 交易資料SHA256 加密
+            // Version 串接程式版本
+            //NameValueCollection collection = Request.Form;
+            var collection = Request.Form;
+            if (collection["MerchantID"].Count>0 && string.Equals(collection["MerchantID"], _bankInfoModel.MerchantID) &&
+                collection["TradeInfo"].Count>0 && string.Equals(collection["TradeSha"], CryptoUtil.EncryptSHA256($"HashKey={_bankInfoModel.HashKey}&{collection["TradeInfo"]}&HashIV={_bankInfoModel.HashIV}")))
+            {
+                var decryptTradeInfo = CryptoUtil.DecryptAESHex(collection["TradeInfo"], _bankInfoModel.HashKey, _bankInfoModel.HashIV);
 
-        //    if (collection["MerchantID"] != null && string.Equals(collection["MerchantID"], _bankInfoModel.MerchantID) &&
-        //        collection["TradeInfo"] != null && string.Equals(collection["TradeSha"], CryptoUtil.EncryptSHA256($"HashKey={_bankInfoModel.HashKey}&{collection["TradeInfo"]}&HashIV={_bankInfoModel.HashIV}")))
-        //    {
-        //        var decryptTradeInfo = CryptoUtil.DecryptAESHex(collection["TradeInfo"], _bankInfoModel.HashKey, _bankInfoModel.HashIV);
+                // 取得回傳參數(ex:key1=value1&key2=value2),儲存為NameValueCollection
+                NameValueCollection decryptTradeCollection = HttpUtility.ParseQueryString(decryptTradeInfo);
+                SpgatewayOutputDataModel convertModel = LambdaUtil.DictionaryToObject<SpgatewayOutputDataModel>(decryptTradeCollection.AllKeys.ToDictionary(k => k, k => decryptTradeCollection[k]));
 
-        //        // 取得回傳參數(ex:key1=value1&key2=value2),儲存為NameValueCollection
-        //        NameValueCollection decryptTradeCollection = HttpUtility.ParseQueryString(decryptTradeInfo);
-        //        SpgatewayOutputDataModel convertModel = LambdaUtil.DictionaryToObject<SpgatewayOutputDataModel>(decryptTradeCollection.AllKeys.ToDictionary(k => k, k => decryptTradeCollection[k]));
+                //LogUtil.WriteLog(JsonConvert.SerializeObject(convertModel));
 
-        //        LogUtil.WriteLog(JsonConvert.SerializeObject(convertModel));
+                // TODO 將回傳訊息寫入資料庫
 
-        //        // TODO 將回傳訊息寫入資料庫
+                if (convertModel.Status == "SUCCESS")
+                {
+                    var od = _db.Orders.Where(x => x.Id == Convert.ToInt32(convertModel.MerchantOrderNo)).FirstOrDefault();
+                    od.OrderStatus = Models.Enum.OrderStatus.Paid;
 
-        //        return Content(JsonConvert.SerializeObject(convertModel));
-        //    }
-        //    else
-        //    {
-        //        LogUtil.WriteLog("MerchantID/TradeSha驗證錯誤");
-        //    }
+                    _db.SaveChanges();
 
-        //    return Content(string.Empty);
-        //}
+                }
+
+                if (convertModel.Status != "SUCCESS")
+                {
+                    var od = _db.Orders.Where(x => x.Id == Convert.ToInt32(convertModel.MerchantOrderNo)).FirstOrDefault();
+                    od.OrderStatus = Models.Enum.OrderStatus.NotPaid;
+
+                    _db.SaveChanges();
+                }
+
+
+                return Content(JsonConvert.SerializeObject(convertModel));
+            }
+            //else
+            //{
+            //    LogUtil.WriteLog("MerchantID/TradeSha驗證錯誤");
+            //}
+
+            return Content(string.Empty);
+        }
 
         /// <summary>
         /// [智付通]金流介接(結果: 支付通知網址)
