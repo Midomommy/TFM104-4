@@ -55,6 +55,8 @@ namespace TFM104MVC.Controllers
             var order = new Order()
             {
                 Name = productCheck.Name,
+                Phone = productCheck.Phone,
+                Email = productCheck.Email,
                 Discount = null,
                 OrderStatus = Models.Enum.OrderStatus.NotPaid,
                 Date = DateTime.UtcNow,
@@ -129,9 +131,9 @@ namespace TFM104MVC.Controllers
 
         [HttpGet("manage")]
         [Authorize(Roles = "Firm,Admin")]
-        public async Task<IActionResult> GetAllOrders([FromQuery] string Status, string Keyword) //管理者與廠商 讀取訂單 功能
+        public async Task<IActionResult> GetAllOrders([FromQuery] OrderResourceParameters parameters) //管理者與廠商 讀取訂單 功能
         {
-            var allOrders = await _productRepository.GetAllOrders(Status, Keyword); //只撈出未付款和已付款的訂單 不撈出已取消的訂單
+            var allOrders = await _productRepository.GetAllOrders(parameters.Status, parameters.Keyword); //只撈出未付款和已付款的訂單 不撈出已取消的訂單
             if (allOrders == null || allOrders.Count() == 0)
             {
                 return NotFound("目前平台沒有此類型訂單");
@@ -204,11 +206,51 @@ namespace TFM104MVC.Controllers
             return Ok(orderDetailsPriceDto);
         }
 
-        //[HttpGet("getTodayOrderTotalPriceAndCount")]
-        //public async Task<IActionResult> GetTodayOrderTotalPriceAndCount()
-        //{
-        //    var todayOrderCount = _productRepository.OrderTotalCount(DateTime.Today);
-        //}
+        [HttpGet("getTodayOrderTotalPriceAndCount")]
+        //[Authorize(Roles ="Admin,Firm")]
+        public IActionResult GetTodayOrderTotalPriceAndCount() //後台總覽 查看今日訂單筆數與總金額
+        {
+            DateTime start = Convert.ToDateTime(DateTime.Now.ToString("D"));
+            DateTime end = Convert.ToDateTime(DateTime.Now.AddDays(1).ToString("D")).AddSeconds(-1);
+            var todayOrderCount = _productRepository.OrderTotalCountAndPrice(start, end);
+            if (todayOrderCount == null)
+            {
+                todayOrderCount.Count = 0;
+                todayOrderCount.Price = 0;
+                return Ok(todayOrderCount);
+            }
+            return Ok(todayOrderCount);
+        }
 
+        [HttpGet("getYesterdayOrderTotalPriceAndCount")]
+        public IActionResult GetYesterdayOrderTotalPriceAndCount() //後台總攬 查看昨日訂單筆數與總金額
+        {
+            DateTime start = Convert.ToDateTime(DateTime.Now.AddDays(-1).ToString("D"));
+            DateTime end = Convert.ToDateTime(DateTime.Now.ToString("D")).AddSeconds(-1);
+            var yesterdayOrderCount = _productRepository.OrderTotalCountAndPrice(start, end);
+            if (yesterdayOrderCount == null)
+            {
+                yesterdayOrderCount.Count = 0;
+                yesterdayOrderCount.Price = 0;
+                return Ok(yesterdayOrderCount);
+            }
+            return Ok(yesterdayOrderCount);
+        }
+
+
+        [HttpGet("getLastWeekOrderTotalPriceAndCount")]
+        public IActionResult GetLastWeekOrderTotalPriceAndCount()
+        {
+            DateTime start = Convert.ToDateTime(DateTime.Now.AddDays(-7).ToString("D"));
+            DateTime end = Convert.ToDateTime(DateTime.Now.ToString("D")).AddSeconds(-1);
+            var lastWeekOrderCount = _productRepository.OrderTotalCountAndPrice(start, end);
+            if (lastWeekOrderCount == null)
+            {
+                lastWeekOrderCount.Count = 0;
+                lastWeekOrderCount.Price = 0;
+                return Ok(lastWeekOrderCount);
+            }
+            return Ok(lastWeekOrderCount);
+        }
     }
 }

@@ -111,8 +111,10 @@ namespace TFM104MVC.Controllers
                     if (file.Length > 0)
                     {
                         var ticks = Guid.NewGuid();
-                        var stream = System.IO.File.Create(rootRoot + ticks.ToString() + file.FileName);
-                        file.CopyTo(stream);
+                        using (var stream = System.IO.File.Create(rootRoot + ticks.ToString() + file.FileName))
+                        {
+                            file.CopyTo(stream);
+                        }
                         productPicture.Url = "/ProductPictures/" + ticks.ToString() + file.FileName;
                     }
                     productModel.ProductPictures.Add(productPicture);
@@ -164,6 +166,12 @@ namespace TFM104MVC.Controllers
                     }
                     productSaveRepo.ProductPictures.Add(productPicture);
                 }
+            }
+            var productFromRepoPic = await _productRepository.GetPicturesByProductIdAsync(productId);
+
+            foreach(var pic in productFromRepoPic)
+            {
+                productSaveRepo.ProductPictures.Add(pic);
             }
 
             await _productRepository.SaveAsync();
@@ -230,6 +238,31 @@ namespace TFM104MVC.Controllers
             await _productRepository.SaveAsync();
 
             return Ok("商品已下架");
+        }
+
+        [HttpPost("{productId}/goPublic")]
+        //[Authorize(Roles = "Admin,Firm")]
+        public async Task<IActionResult> GoPublicProduct([FromRoute] Guid productId)
+        {
+            if (!await _productRepository.ProductExistAsync(productId))
+            {
+                return NotFound("沒有此商品");
+            }
+            var productFromRepo = await _productRepository.GetProductAsync(productId);
+            productFromRepo.ProductStatus = Models.Enum.ProductStatus.Launched;
+            await _productRepository.SaveAsync();
+
+            return Ok("商品已上架");
+        }
+
+
+        [HttpGet("newest")]
+        public IActionResult GetNewestProduct()
+        {
+            var productsFromRepo = _productRepository.GetNewestProducts(4);
+            var productsDto = _mapper.Map<List<ProductDto>>(productsFromRepo);
+
+            return Ok(productsDto);
         }
     }
 }

@@ -537,6 +537,8 @@
         },
         mounted: function () {
             this.getUserCheckOutCart();
+            this.getUserData();
+
         },
         computed: {
             totalPrice: function () {
@@ -621,6 +623,17 @@
                         }
                     });
             },
+            getUserData: function () {
+                let self = this;
+                axios.get("/auth/getUser").then(
+                    function (res) {
+                        self.orderInformation.userInformation.email = res.data.account;
+                        self.orderInformation.userInformation.phone = res.data.phone;
+                        self.lastName = res.data.lastName;
+                        self.firstName = res.data.firstName;
+                    }
+                )
+            }
         }
     })
 </script>

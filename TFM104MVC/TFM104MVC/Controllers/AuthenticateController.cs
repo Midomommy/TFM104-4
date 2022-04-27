@@ -336,6 +336,20 @@ namespace TFM104MVC.Controllers
             return Ok("帳號可使用");
         }
 
+        [HttpGet("GetUserPic")]
+        [Authorize(AuthenticationSchemes = "Cookies")]
+        public IActionResult GetUserPic()
+        {
+            var userId = _httpContextAccessor.HttpContext.User.FindFirstValue("userId");
+            var Id = int.Parse(userId);
+            var user = _authenticateRepository.FindUserPic(Id);
+            string userPic = user.Members.PicPath;
+            if(userPic == null)
+            {
+                return Ok("https://fakeimg.pl/50/");
+            }
+            return Ok(userPic);
+        }
 
     }
 }

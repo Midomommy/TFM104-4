@@ -207,7 +207,7 @@ namespace TFM104MVC.Services
         public async Task<IEnumerable<Order>> GetOrders(int userId)
         {
             //return await _context.Orders.Include(x=>x.Orderdetails).Where(x => x.UserId == userId).ToListAsync();
-            return await _context.Orders.Include(x => x.Orderdetails).ThenInclude(x=>x.Product).ThenInclude(x=>x.ProductPictures).Where(x => x.UserId == userId).ToListAsync();
+            return await _context.Orders.Include(x => x.Orderdetails).ThenInclude(x=>x.Product).ThenInclude(x=>x.ProductPictures).Where(x => x.UserId == userId).OrderByDescending(x => x.Date).ToListAsync();
         }
 
         public async Task<Orderdetail> GetOrderdetailByProductIdAndOrderId(Guid productId,int orderId)
@@ -228,16 +228,16 @@ namespace TFM104MVC.Services
         public async Task<IEnumerable<Order>> GetAllOrders(string Status,string Keyword)
         {
             IQueryable<Order> result = _context.Orders.Include(x => x.Orderdetails).ThenInclude(x => x.Product).ThenInclude(x => x.ProductPictures);
-            if (!string.IsNullOrWhiteSpace(Keyword))
-            {
-                Keyword = Keyword.Trim();
-                result = result.Where(x => x.Name == Keyword || x.Id == int.Parse(Keyword));
-            }
             if (!string.IsNullOrWhiteSpace(Status))
             {
                 Status = Status.Trim();
                 var r1 = (OrderStatus)Enum.Parse(typeof(OrderStatus), Status);
                 result = result.Where(x => x.OrderStatus == r1);
+            }
+            if (!string.IsNullOrWhiteSpace(Keyword))
+            {
+                Keyword = Keyword.Trim();
+                result = result.Where(x => x.Name.Contains(Keyword) || x.Id.ToString().Contains(Keyword));
             }
             result = result.OrderByDescending(x => x.Date);
             return await result.ToListAsync();
@@ -261,7 +261,7 @@ namespace TFM104MVC.Services
 
         public CountAndPrice OrderTotalCountAndPrice(DateTime sinceTime,DateTime finishTime)
         {
-            var count = _context.Orders.Where(x => x.Date >= sinceTime && x.Date<= finishTime).Count();
+            var count = _context.Orders.Where(x => x.Date.CompareTo(sinceTime)>=0 && x.Date.CompareTo(finishTime)<=0).Count();
             var price = _context.Orderdetails.Where(x => x.Order.Date >= sinceTime && x.Order.Date <= finishTime).Sum(x => (decimal)x.Quantity * x.UnitPrice * (decimal)x.DiscountPersent);
             CountAndPrice result = new CountAndPrice()
             {
@@ -269,6 +269,13 @@ namespace TFM104MVC.Services
                 Price = price
             };
             return result;
+        }
+
+        public IEnumerable<Product> GetNewestProducts(int pencount)
+        {
+            int count = _context.Products.Count();
+            var result = _context.Products.Include(x => x.ProductPictures).Skip(count- pencount);
+            return result.ToList();
         }
     }
 }
