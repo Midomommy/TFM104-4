@@ -111,8 +111,10 @@ namespace TFM104MVC.Controllers
                     if (file.Length > 0)
                     {
                         var ticks = Guid.NewGuid();
-                        var stream = System.IO.File.Create(rootRoot + ticks.ToString() + file.FileName);
-                        file.CopyTo(stream);
+                        using (var stream = System.IO.File.Create(rootRoot + ticks.ToString() + file.FileName))
+                        {
+                            file.CopyTo(stream);
+                        }
                         productPicture.Url = "/ProductPictures/" + ticks.ToString() + file.FileName;
                     }
                     productModel.ProductPictures.Add(productPicture);
@@ -164,6 +166,12 @@ namespace TFM104MVC.Controllers
                     }
                     productSaveRepo.ProductPictures.Add(productPicture);
                 }
+            }
+            var productFromRepoPic = await _productRepository.GetPicturesByProductIdAsync(productId);
+
+            foreach(var pic in productFromRepoPic)
+            {
+                productSaveRepo.ProductPictures.Add(pic);
             }
 
             await _productRepository.SaveAsync();
@@ -248,5 +256,13 @@ namespace TFM104MVC.Controllers
         }
 
 
+        [HttpGet("newest")]
+        public IActionResult GetNewestProduct()
+        {
+            var productsFromRepo = _productRepository.GetNewestProducts(4);
+            var productsDto = _mapper.Map<List<ProductDto>>(productsFromRepo);
+
+            return Ok(productsDto);
+        }
     }
 }

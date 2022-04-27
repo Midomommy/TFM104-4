@@ -228,16 +228,16 @@ namespace TFM104MVC.Services
         public async Task<IEnumerable<Order>> GetAllOrders(string Status,string Keyword)
         {
             IQueryable<Order> result = _context.Orders.Include(x => x.Orderdetails).ThenInclude(x => x.Product).ThenInclude(x => x.ProductPictures);
-            if (!string.IsNullOrWhiteSpace(Keyword))
-            {
-                Keyword = Keyword.Trim();
-                result = result.Where(x => x.Name == Keyword || x.Id == int.Parse(Keyword));
-            }
             if (!string.IsNullOrWhiteSpace(Status))
             {
                 Status = Status.Trim();
                 var r1 = (OrderStatus)Enum.Parse(typeof(OrderStatus), Status);
                 result = result.Where(x => x.OrderStatus == r1);
+            }
+            if (!string.IsNullOrWhiteSpace(Keyword))
+            {
+                Keyword = Keyword.Trim();
+                result = result.Where(x => x.Name.Contains(Keyword) || x.Id.ToString().Contains(Keyword));
             }
             result = result.OrderByDescending(x => x.Date);
             return await result.ToListAsync();
@@ -269,6 +269,13 @@ namespace TFM104MVC.Services
                 Price = price
             };
             return result;
+        }
+
+        public IEnumerable<Product> GetNewestProducts(int pencount)
+        {
+            int count = _context.Products.Count();
+            var result = _context.Products.Include(x => x.ProductPictures).Skip(count- pencount);
+            return result.ToList();
         }
     }
 }

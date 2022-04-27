@@ -40,5 +40,6 @@ namespace TFM104MVC.Services
         Task<List<Orderdetail>> GetOrderdetailTotalPrice(int orderId);
         Task<List<Order>> GetOrderContentById(int orderId);
         public CountAndPrice OrderTotalCountAndPrice(DateTime sinceTime, DateTime finishTime);
+        public IEnumerable<Product> GetNewestProducts(int pencount);
     }
 }
