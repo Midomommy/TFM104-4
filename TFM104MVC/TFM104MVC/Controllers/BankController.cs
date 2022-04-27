@@ -36,7 +36,7 @@ namespace TFM104MVC.Controllers
             MerchantID = "MS134167575",
             HashKey = "8LImeXm6c1hyF94X7K4iexXxs0bY8ilj",
             HashIV = "CzZWZTbaRiI33oRP",
-            ReturnURL = "http://yourWebsitUrl/Bank/SpgatewayReturn",
+            ReturnURL = "https://tibame104-16su.azurewebsites.net/Order/Manage", /*"http://yourWebsitUrl/Bank/SpgatewayReturn"*/
             NotifyURL = "http://yourWebsitUrl/Bank/SpgatewayNotify",
             CustomerURL = "http://yourWebsitUrl/Bank/SpgatewayCustomer",
             AuthUrl = "https://ccore.spgateway.com/MPG/mpg_gateway",

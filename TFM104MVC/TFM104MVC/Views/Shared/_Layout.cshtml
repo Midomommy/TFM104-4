@@ -624,6 +624,7 @@
                 axios.put("/auth/reset", self.memberPasswordUpdate)
                     .then(function (res) {
                         if (res.status == 200) {
+                            localStorage.setItem('userExist', '123'); //註冊也要給
                             //alertSuccess(res.data);
                             Swal.fire({
                                 position: 'center',
