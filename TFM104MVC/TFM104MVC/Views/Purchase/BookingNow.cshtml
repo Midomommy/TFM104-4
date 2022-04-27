@@ -301,7 +301,7 @@
                             <!--信用卡-->
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="PayMethod" id="creditcard"
-                                      v-model="buyNowOrderInfo.payMethod" value="creditcard">
+                                       v-model="buyNowOrderInfo.payMethod" value="creditcard">
                                 <label class="form-check-label gap-3" for="creditcard">
                                     <span>
                                         信用卡/簽帳金融卡
@@ -505,7 +505,10 @@
             points: function () {
                 return Math.floor(this.productData.price * this.buyNowOrderInfo.quantity * 0.1);
             }
-           
+
+        },
+        mounted: function () {
+            this.getUserData();
         },
         methods: {
             name: function () {
@@ -564,6 +567,17 @@
                 //    amount: 400,
                 //    payMethod: "creditcard"
                 //});
+            },
+            getUserData: function () {
+                let self = this;
+                axios.get("/auth/getUser").then(
+                    function (res) {
+                        self.buyNowOrderInfo.email = res.data.account;
+                        self.buyNowOrderInfo.phone = res.data.phone;
+                        self.lastName = res.data.lastName;
+                        self.firstName = res.data.firstName;
+                    }
+                )
             }
             //getProductData: function () {
             //    let self = this;
