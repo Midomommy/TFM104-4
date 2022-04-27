@@ -55,6 +55,8 @@ namespace TFM104MVC.Controllers
             var order = new Order()
             {
                 Name = productCheck.Name,
+                Phone = productCheck.Phone,
+                Email = productCheck.Email,
                 Discount = null,
                 OrderStatus = Models.Enum.OrderStatus.NotPaid,
                 Date = DateTime.UtcNow,
@@ -211,7 +213,7 @@ namespace TFM104MVC.Controllers
             DateTime start = Convert.ToDateTime(DateTime.Now.ToString("D"));
             DateTime end = Convert.ToDateTime(DateTime.Now.AddDays(1).ToString("D")).AddSeconds(-1);
             var todayOrderCount = _productRepository.OrderTotalCountAndPrice(start, end);
-            if(todayOrderCount == null)
+            if (todayOrderCount == null)
             {
                 todayOrderCount.Count = 0;
                 todayOrderCount.Price = 0;
