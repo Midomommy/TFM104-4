@@ -96,7 +96,7 @@ namespace TFM104MVC.Services
                 switch (orderBy.ToLowerInvariant())
                 {
                     case "originalprice":
-                        result = result.OrderBy(x => x.OriginalPrice);
+                        result = result.OrderBy(x => x.OriginalPrice*(decimal)(x.DiscountPersent ?? 1 ));
                         break;
                     case "createdate":
                         result = result.OrderBy(x => x.CreateDate);
@@ -114,7 +114,7 @@ namespace TFM104MVC.Services
                 switch (orderByDesc.ToLowerInvariant())
                 {
                     case "originalprice":
-                        result = result.OrderByDescending(x => x.OriginalPrice);
+                        result = result.OrderByDescending(x => x.OriginalPrice*(decimal)(x.DiscountPersent ?? 1));
                         break;
                     case "createdate":
                         result = result.OrderByDescending(x => x.CreateDate);
