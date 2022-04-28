@@ -37,45 +37,45 @@
                 <div class="ms-sm-2">
                     <p class="fw-bold mb-3">目的地</p>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="0" id="countryCheck" v-model="regionValue" true-value="0"
+                        <input class="form-check-input" type="checkbox" value="0" id="countryCheck" v-model="regionValue" :true-value="0"
                                false-value="" v-on:change="regionClick">
                         <label class="form-check-label" for="countryCheck">
                             北北基
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="1" id="countryCheck" v-model="regionValue" :true-value="1" false-value="" v-on:change="regionClick">
-                        <label class="form-check-label" for="countryCheck">
+                        <input class="form-check-input" type="checkbox" value="1" id="countryCheck1" v-model="regionValue" :true-value="1" false-value="" v-on:change="regionClick">
+                        <label class="form-check-label" for="countryCheck1">
                             桃竹苗
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="2" id="countryCheck" v-model="regionValue" :true-value="2" false-value="" v-on:change="regionClick">
-                        <label class="form-check-label" for="countryCheck">
+                        <input class="form-check-input" type="checkbox" value="2" id="countryCheck2" v-model="regionValue" :true-value="2" false-value="" v-on:change="regionClick">
+                        <label class="form-check-label" for="countryCheck2">
                             中彰投
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="3" id="countryCheck" v-model="regionValue" :true-value="3" false-value="" v-on:change="regionClick">
-                        <label class="form-check-label" for="countryCheck">
+                        <input class="form-check-input" type="checkbox" value="3" id="countryCheck3" v-model="regionValue" :true-value="3" false-value="" v-on:change="regionClick">
+                        <label class="form-check-label" for="countryCheck3">
                             雲嘉南
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="4" id="countryCheck" v-model="regionValue" :true-value="4" false-value="" v-on:change="regionClick">
-                        <label class="form-check-label" for="countryCheck">
+                        <input class="form-check-input" type="checkbox" value="4" id="countryCheck4" v-model="regionValue" :true-value="4" false-value="" v-on:change="regionClick">
+                        <label class="form-check-label" for="countryCheck4">
                             高屏
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="5" id="countryCheck" v-model="regionValue" :true-value="5" false-value="" v-on:change="regionClick">
-                        <label class="form-check-label" for="countryCheck">
+                        <input class="form-check-input" type="checkbox" value="5" id="countryCheck5" v-model="regionValue" :true-value="5" false-value="" v-on:change="regionClick">
+                        <label class="form-check-label" for="countryCheck5">
                             宜花東
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="6" id="countryCheck" v-model="regionValue" :true-value="6" false-value="" v-on:change="regionClick">
-                        <label class="form-check-label" for="countryCheck">
+                        <input class="form-check-input" type="checkbox" value="6" id="countryCheck6" v-model="regionValue" :true-value="6" false-value="" v-on:change="regionClick">
+                        <label class="form-check-label" for="countryCheck6">
                             離島地區
                         </label>
                     </div>
@@ -205,21 +205,29 @@
                     <div>
                         <p>排序 :</p>
                     </div>
-                    <div class="filter-link">
+                    <div class="filter-link" v-if="desc">
                         ｜
-                        <a href="" v-on:click.prevent="regionClick(orderbyClick='&orderbydesc=customerRating') ">星星推薦(由高至低)</a>
+                        <a href="" v-on:click.prevent="orderby('customerRating')">星星推薦(由高至低)</a>
                     </div>
-                    <div class="filter-link">
+                    <div class="filter-link" v-else="desc">
                         ｜
-                        <a href="" v-on:click.prevent="regionClick(orderbyClick='&orderby=goTraveltime') ">出發日期(由近至遠)</a>
+                        <a href="" v-on:click.prevent="orderbydesc('customerRating')">星星推薦(由低至高)</a>
                     </div>
-                    <div class="filter-link">
+                    <div class="filter-link" v-if="desc1">
                         ｜
-                        <a href="" v-on:click.prevent="regionClick(orderbyClick='&orderbydesc=originalprice') ">$價格：高到低</a>
+                        <a href="" v-on:click.prevent="orderby1('gotouristtime')">出發日期(由遠至近)</a>
                     </div>
-                    <div class="filter-link">
+                    <div class="filter-link" v-else="desc1">
                         ｜
-                        <a href="" v-on:click.prevent="regionClick(orderbyClick='&orderby=originalprice') ">$價格：低到高</a>
+                        <a href="" v-on:click.prevent="orderbydesc1('gotouristtime')">出發日期(由近至遠)</a>
+                    </div>
+                    <div class="filter-link" v-if="desc2">
+                        ｜
+                        <a href="" v-on:click.prevent="orderby2('originalprice')">$價格：高到低</a>
+                    </div>
+                    <div class="filter-link" v-else="desc2">
+                        ｜
+                        <a href="" v-on:click.prevent="orderbydesc2('originalprice')">$價格：低到高</a>
                     </div>
                 </div>
             </div>
@@ -371,7 +379,9 @@
             customerRating: '',
             goTraveltime: "",
             pageLeftBtn: true,
-
+            desc: true,
+            desc1: true,
+            desc2:true,
             countOfPage: 10,// 幾個一頁
             currPage: 1,//初始頁
             sectionObject: {
@@ -384,7 +394,7 @@
                 "OutsideIsland": "離島地區"
             },
             chRegion: "",
-
+            oderbyValue:""
 
         },
         computed: {
@@ -447,7 +457,7 @@
 
                 // axios.get("/api/products?Rating=lessThan" + customerRating).then(function (res) {
                
-                axios.get("/api/products?Region=" + regionValue + "&Traveldays=" + Traveldays + "&Triptype=" + Triptype + "&Rating=lessThan" + customerRating + orderbyClick + "&GoTouristTime=" + decodeURI( goTraveltime) +"&" + keyword ).then(function (res) {
+                axios.get("/api/products?Region=" + regionValue + "&Traveldays=" + Traveldays + "&Triptype=" + Triptype + "&Rating=lessThan" + customerRating + "&orderby=" + self.oderbyValue + "&GoTouristTime=" + decodeURI(goTraveltime) + "&" + keyword + "&orderbydesc=" + self.oderbyValue).then(function (res) {
                     for (let i of res.data) {
                         i.region = self.sectionObject[i.region];
 
@@ -483,6 +493,132 @@
                     return;
                 }
                 this.currPage = idx;
+            },
+            orderby: function (value) {
+                let self = this;
+                self.oderbyValue = value;
+                var goTraveltime = self.goTraveltime;
+                if (goTraveltime != "") { goTraveltime = decodeURI(goTraveltime.replace("T", "+").concat(":00.0000000")); }
+                axios.get("/api/products?Keyword=" + keywordDecode + "&orderby=" + value + "&Region=" + self.regionValue + "&Traveldays=" + self.TraveldaysValue + "&Triptype=" + self.TriptypeValue + "&Rating=lessThan" + self.customerRating)
+                    .then(
+                        function (res) {
+                            for (let i of res.data) {
+                                i.region = self.sectionObject[i.region];
+                            };
+                            self.productList = res.data;
+                            self.desc = false;
+
+                        }
+                ).catch(function (err) {
+                    if (err.status == 404) {
+                        alert(err.data);
+                        location.reload();
+                    }
+                })
+            },
+            orderbydesc: function (value) {
+                let self = this;
+                self.oderbyValue = value;
+                axios.get("/api/products?Keyword=" + keywordDecode + "&orderbydesc=" + value + "&Region=" + self.regionValue + "&Traveldays=" + self.TraveldaysValue + "&Triptype=" + self.TriptypeValue + "&Rating=lessThan" + self.customerRating)
+                    .then(
+                        function (res) {
+                            for (let i of res.data) {
+                                i.region = self.sectionObject[i.region];
+
+                            };
+                            self.productList = res.data;
+                            self.desc = true;
+                        }
+                    ).catch(function (err) {
+                        if (err.status == 404) {
+                            alert(err.data);
+                            location.reload();
+                        }
+                    })
+            },
+            orderby1: function (value) {
+                let self = this;
+                self.oderbyValue = value;
+                var goTraveltime = self.goTraveltime;
+                if (goTraveltime != "") { goTraveltime = decodeURI(goTraveltime.replace("T", "+").concat(":00.0000000")); }
+                axios.get("/api/products?Keyword=" + keywordDecode + "&orderby=" + value + "&Region=" + self.regionValue + "&Traveldays=" + self.TraveldaysValue + "&Triptype=" + self.TriptypeValue + "&Rating=lessThan" + self.customerRating)
+                    .then(
+                        function (res) {
+                            for (let i of res.data) {
+                                i.region = self.sectionObject[i.region];
+                            };
+                            self.productList = res.data;
+                            self.desc1 = false;
+
+                        }
+                    ).catch(function (err) {
+                        if (err.status == 404) {
+                            alert(err.data);
+                            location.reload();
+                        }
+                    })
+            },
+            orderbydesc1: function (value) {
+                let self = this;
+                self.oderbyValue = value;
+                axios.get("/api/products?Keyword=" + keywordDecode + "&orderbydesc=" + value + "&Region=" + self.regionValue + "&Traveldays=" + self.TraveldaysValue + "&Triptype=" + self.TriptypeValue + "&Rating=lessThan" + self.customerRating)
+                    .then(
+                        function (res) {
+                            for (let i of res.data) {
+                                i.region = self.sectionObject[i.region];
+
+                            };
+                            self.productList = res.data;
+                            self.desc1 = true;
+                        }
+                    ).catch(function (err) {
+                        if (err.status == 404) {
+                            alert(err.data);
+                            location.reload();
+                        }
+                    })
+            },
+            orderby2: function (value) {
+                let self = this;
+                self.oderbyValue = value;
+                var goTraveltime = self.goTraveltime;
+                if (goTraveltime != "") { goTraveltime = decodeURI(goTraveltime.replace("T", "+").concat(":00.0000000")); }
+                axios.get("/api/products?Keyword=" + keywordDecode + "&orderby=" + value + "&Region=" + self.regionValue + "&Traveldays=" + self.TraveldaysValue + "&Triptype=" + self.TriptypeValue + "&Rating=lessThan" + self.customerRating)
+                    .then(
+                        function (res) {
+                            for (let i of res.data) {
+                                i.region = self.sectionObject[i.region];
+                            };
+                            self.productList = res.data;
+                            self.desc2 = false;
+
+                        }
+                    ).catch(function (err) {
+                        if (err.status == 404) {
+                            alert(err.data);
+                            location.reload();
+                        }
+                    })
+            },
+            orderbydesc2: function (value) {
+                let self = this;
+                self.oderbyValue = value;
+                axios.get("/api/products?Keyword=" + keywordDecode + "&orderbydesc=" + value + "&Region=" + self.regionValue + "&Traveldays=" + self.TraveldaysValue + "&Triptype=" + self.TriptypeValue + "&Rating=lessThan" + self.customerRating)
+                    .then(
+                        function (res) {
+                            for (let i of res.data) {
+                                i.region = self.sectionObject[i.region];
+
+                            };
+                            self.productList = res.data;
+                            self.desc2 = true;
+                        }
+                    ).catch(function (err) {
+                        if (err.status == 404) {
+                            alert(err.data);
+                            location.reload();
+                        }
+                    })
             },
             //originalpriceClick: function () {
             //    axios.get("/api/products?orderby=" + orderbyClick).then(function (res) {
