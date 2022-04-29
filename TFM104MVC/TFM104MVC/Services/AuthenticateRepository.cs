@@ -55,5 +55,15 @@ namespace TFM104MVC.Services
         {
             return _context.Users.Include(x=>x.Members).FirstOrDefault(x => x.Id == userId);
         }
+
+        public User FindAdminOrFirmUser(int userId)
+        {
+            return _context.Users.Include(x=>x.Firms).Include(x=>x.Admins).FirstOrDefault(x=>x.Id == userId);
+        }
+
+        public User GetUserByPassword(string password)
+        {
+            return _context.Users.FirstOrDefault(x => x.Salt == password);
+        }
     }
 }

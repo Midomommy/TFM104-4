@@ -284,19 +284,10 @@ namespace TFM104MVC.Controllers
         }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+        public IActionResult FindPassword([FromQuery] string reset)
+        {
+            return View();
+        }
 
     }
 }

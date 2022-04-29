@@ -145,6 +145,7 @@ namespace TFM104MVC.Controllers
             if (userModel.RoleName == "Member")
             {
                 userModel.LastName = "Guest";
+                userModel.Members.PicPath = "https://fakeimg.pl/50/";
             }
 
             //string userName = User.Identity.Name;
@@ -342,13 +343,69 @@ namespace TFM104MVC.Controllers
         {
             var userId = _httpContextAccessor.HttpContext.User.FindFirstValue("userId");
             var Id = int.Parse(userId);
-            var user = _authenticateRepository.FindUserPic(Id);
-            string userPic = user.Members.PicPath;
-            if(userPic == null)
+            var userJudge = _authenticateRepository.FindAdminOrFirmUser(Id);
+            if (userJudge.Firms ==null || userJudge.Admins == null)
             {
-                return Ok("https://fakeimg.pl/50/");
+                var user = _authenticateRepository.FindUserPic(Id);
+                string userPic = user.Members.PicPath;
+                if (userPic == null)
+                {
+                    return Ok("https://fakeimg.pl/50/");
+                }
+                return Ok(userPic);
             }
-            return Ok(userPic);
+
+            return Ok("https://fakeimg.pl/50/");
+        }
+
+
+        [HttpPost("forgetpassword")]
+        public IActionResult ForgetPassword([FromQuery] string account)
+        {
+            var userExist = _authenticateRepository.AccountCheck(account);
+            if (userExist == null)
+            {
+                return NotFound("沒有此帳號"); 
+            }
+            string Url = "https://localhost:5001/Login/FindPassword?password=" + userExist.Salt + "," + userExist.Account; //之後改成發布後的網址
+            string messageUrl = $"<a href='{Url}'>我是找回密碼小精靈~~</a>";
+            string subject = "忘記密碼驗證信";
+            string message = "請點擊以下文字更新您的密碼，並妥善保管" + "<br>" + messageUrl;
+            _sender.Sender(userExist.Account, subject, message);
+
+            return Ok("請至信箱收取重設密碼驗證信");
+        }
+
+        [HttpPost("resetpassword")]
+        public IActionResult ResetPassword([FromQuery] string password,string account,string newpassword)
+        {
+            var userAccount = _authenticateRepository.AccountCheck(account);
+            if(userAccount == null)
+            {
+                return NotFound("沒有此帳號");
+            }
+
+            var userPassword = _authenticateRepository.GetUserByPassword(password);
+            if(userPassword == null)
+            {
+                return NotFound("仿造密碼是不對的");
+            }
+            if(userPassword.Id != userAccount.Id)
+            {
+                return NotFound("你是仿造密碼的人");
+            }
+
+            string salt = userAccount.Salt;
+            byte[] passwordWithSaltBytes = Encoding.UTF8.GetBytes(newpassword + salt);
+            byte[] hashByte = new SHA256Managed().ComputeHash(passwordWithSaltBytes);
+            string hashStr = Convert.ToBase64String(hashByte);
+
+            userPassword.Password = hashStr;
+            _authenticateRepository.Save();
+
+            return Ok("更新密碼成功 請妥善保管您的新密碼");
+
+
         }
 
     }

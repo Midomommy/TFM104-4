@@ -451,13 +451,13 @@
                     <hr>
                     <div class="container">
                         <div class="mb-3">
-                            <input v-model="memberPasswordUpdate.account" type="email" class="form-control" placeholder="電子郵件">
+                            <input v-model="inputAccount" type="email" class="form-control" placeholder="電子郵件">
                         </div>
-                        <div class="mb-3">
+                        @*<div class="mb-3">
                             <input v-model="memberPasswordUpdate.password" type="password" class="form-control" placeholder="請輸入新密碼">
-                        </div>
+                        </div>*@
                         <div class="d-grid gap-2">
-                            <button v-on:click="updatePassword" class="btn btn-primary mb-3">重新設定密碼</button>
+                            <button v-on:click="forgetpassword" class="btn btn-primary mb-3">重新設定密碼</button>
                         </div>
                         <div class="mb-3" data-bs-toggle="modal" data-bs-target="#register">
                             <a href="javascript:void(0);">還未加入TT嗎？立即註冊！</a>
@@ -629,7 +629,8 @@
             memberPasswordUpdate: {
                 account: "",
                 password: ""
-            }
+            },
+            inputAccount:""
         },
         methods: {
             updatePassword: function () {
@@ -657,6 +658,23 @@
                             alertWrong(res.data);
                         }
                     })
+            },
+            forgetpassword: function () {
+                let self = this;
+                axios.post("/auth/forgetpassword?account=" + self.inputAccount)
+                    .then(
+                        function (res) {
+                            if (res.status == 200) {
+                                alertSuccess(res.data);
+                            }
+                        }
+                ).catch(
+                    function (err) {
+                        if (err.status == 404) {
+                            alertWrong(err.data);
+                        }
+                    }
+                )
             }
         }
     })
