@@ -77,7 +77,7 @@
                     <div class="col-2">數量x{{item.qty}}</div>
                     <div class="col-2">
                         <span class="fw-bold text-info ">
-                            TWD {{item.price}}
+                            TWD {{item.price * item.qty}}
                         </span>
                     </div>
                     <div class="col-1">
@@ -315,7 +315,7 @@
         },
         computed: {
             totalPrice: function () {
-                return this.cartList.map(x => x.price).reduce((now, next) => now + next, 0);
+                return this.cartList.map(x => x.price * x.qty).reduce((now, next) => now + next, 0);
             },
             totalCount: function () {
                 return this.cartList.length;
