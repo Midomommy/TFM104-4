@@ -68,17 +68,15 @@
                         <option value="2">人文之旅</option>
                         <option value="3">地方特色</option>
                         <option value="4">溫泉之旅</option>
-                        <option value="5">戶外休閒</option>
-                        <option value="6">景點門票</option>
                     </select>
                 </div>
                 <!-- 商品狀態 -->
                 <div class="product-status">
-                    <select class="form-select" aria-label="product-status">
+                    <select class="form-select" aria-label="product-status" v-model="add.productStatus">
                         <option value="" selected disabled>商品狀態</option>
-                        <option value="1">未審核</option>
-                        <option value="2">已上架</option>
-                        <option value="3">已下架</option>
+                        <option value="0">未審核</option>
+                        <option value="1">已上架</option>
+                        <option value="2">已下架</option>
                     </select>
                 </div>
                 <!-- 地區分類 -->
@@ -186,6 +184,7 @@
                 tripType: "",
                 region: "",
                 description: "",
+                productStatus:"",
                 productPictures: [],
 
             },
@@ -244,6 +243,7 @@
                 bodyFormData.append("description", this.add.description);
                 //bodyFormData.append("pic", this.add.productPictures);
                 bodyFormData.append("goTouristTime", this.add.goTouristTime);
+                bodyFormData.append("productStatus", this.add.productStatus);
                 for (let index = 0; index < this.add.productPictures.length; index++) {
                     bodyFormData.append("pic", this.add.productPictures[index]);
                 }
@@ -255,17 +255,29 @@
                     headers: { 'Content-Type': 'multipart/form-data' }
                 }).then(function (response) {
                     if (response.status === 201) {
-                        alertSuccess("你已成功新增商品了");
-                        self.add.title = "";
-                        self.add.originalPrice = "";
-                        self.add.description = "";
-                        self.add.discountPersent = "";
-                        self.add.goTouristTime = "";
-                        self.add.travelDays = "";
-                        self.add.tripType = "";
-                        self.add.region = "";
-                        var obj = document.getElementById("inputGroupFile");
-                        obj.outerHTML = obj.outerHTML;
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: '您已成功新增商品了',
+                            showConfirmButton: false,
+                            timer: 1500,
+                            willClose: (toast) => {
+                                window.location.href = "/BackStage/ProductList";
+
+                            }
+                        });
+                        //alertSuccess("你已成功新增商品了");
+                        //self.add.title = "";
+                        //self.add.originalPrice = "";
+                        //self.add.description = "";
+                        //self.add.discountPersent = "";
+                        //self.add.goTouristTime = "";
+                        //self.add.travelDays = "";
+                        //self.add.tripType = "";
+                        //self.add.region = "";
+                        //self.add.productStatus = "";
+                        //var obj = document.getElementById("inputGroupFile");
+                        //obj.outerHTML = obj.outerHTML;
 
                     }
                     console.log(response.data)

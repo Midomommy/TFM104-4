@@ -205,7 +205,7 @@
                 "OutsideIsland": "離島地區"
             },
             sectionProductStatusObject: {
-                "Unapproved": "未上架",
+                "Unapproved": "未審核",
                 "Launched": "已上架",
                 "NotSold": "已下架"
             },
@@ -226,7 +226,7 @@
         mounted: function () {
             var self = this;
 
-            axios.get("/api/products?" + keyword).then(function (res) {
+            axios.get("/api/products?" + keyword + "&orderby=createdate").then(function (res) {
                 for (let i of res.data) {
                     i.region = self.sectionObject[i.region];
                     i.productStatus = self.sectionProductStatusObject[i.productStatus];

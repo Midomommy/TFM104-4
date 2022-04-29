@@ -539,7 +539,7 @@
                         }
                         else if (error.status == 422) {
                             for (var i of Object.keys(error.data.errors)) {
-                                alert(error.data.errors[i][0]);
+                                alertWrong(error.data.errors[i][0]);
                             }
                         }
                     });
