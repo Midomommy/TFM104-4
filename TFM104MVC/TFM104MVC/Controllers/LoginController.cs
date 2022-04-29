@@ -282,8 +282,6 @@ namespace TFM104MVC.Controllers
             [JsonProperty("email")]
             public string UserEmail { get; set; }
         }
-
-
         public IActionResult FindPassword([FromQuery] string reset)
         {
             return View();
