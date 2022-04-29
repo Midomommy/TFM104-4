@@ -145,7 +145,7 @@
             <div class="collapse mb-5" id="datepicker">
                 <div class="card card-body">
                     <input type="date" id="goTravel-time" name="goTravel-time" 
-                        v-on:change="regionClick"  v-model="goTraveltime" value="2022-05-06T19:30" min="2021-06-07T00:00" max="2025-06-14T00:00" />
+                        v-on:change="regionClick"  v-model="goTraveltime" />
                 </div>
             </div>
 
@@ -434,7 +434,7 @@
                 var orderbyClick = self.orderbyClick;
                 var customerRating = self.customerRating;
                 var goTraveltime = self.goTraveltime;
-                   if (goTraveltime != "") { goTraveltime = decodeURI(goTraveltime.replace("T", "+").concat(":00.0000000"));}
+                   //if (goTraveltime != "") { goTraveltime = decodeURI(goTraveltime.replace("T", "+").concat(":00.0000000"));}
  
                 //console.log(goTraveltime);
                 //goTraveltime = encodeURI(goTraveltime);

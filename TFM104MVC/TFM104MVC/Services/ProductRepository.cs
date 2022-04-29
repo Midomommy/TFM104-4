@@ -74,7 +74,10 @@ namespace TFM104MVC.Services
             }
             if (!string.IsNullOrWhiteSpace(goTouristTime))
             {
-                result = result.Where(n => n.GoTouristTime.ToString() == goTouristTime);
+                DateTime? a = Convert.ToDateTime(goTouristTime);
+                string b = a.HasValue ? a.Value.ToString("yyyy-MM-dd") : "";
+                var c = DateTime.Parse(b);
+                result = result.Where(n => n.GoTouristTime == c);
             }
             if (!string.IsNullOrWhiteSpace(productStatus))
             {
