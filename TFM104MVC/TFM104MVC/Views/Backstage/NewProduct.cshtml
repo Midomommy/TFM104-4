@@ -111,7 +111,7 @@
                 <!-- 出發日期 -->
                 <div class="travel-date d-flex align-content-center">
                     <input type="date" id="meeting-time" name="meeting-time"
-                           value="2022-05-06T19:30" min="2018-06-07T00:00" max="2025-06-14T00:00" v-model="add.goTouristTime">
+                           v-model="add.goTouristTime">
                 </div>
             </div>
         </div>
@@ -167,6 +167,7 @@
 
 </div>
 <script>
+    var today = new Date().toLocaleDateString();
     var newProduct = new Vue({
         el: '#newProduct',
         data: {
@@ -184,7 +185,8 @@
                 tripType: "",
                 region: "",
                 description: "",
-                productStatus:"",
+                productStatus: "",
+                createDate: today,
                 productPictures: [],
 
             },
@@ -244,6 +246,7 @@
                 //bodyFormData.append("pic", this.add.productPictures);
                 bodyFormData.append("goTouristTime", this.add.goTouristTime);
                 bodyFormData.append("productStatus", this.add.productStatus);
+                bodyFormData.append("createDate", this.add.createDate);
                 for (let index = 0; index < this.add.productPictures.length; index++) {
                     bodyFormData.append("pic", this.add.productPictures[index]);
                 }

@@ -226,7 +226,7 @@
         mounted: function () {
             var self = this;
 
-            axios.get("/api/products?" + keyword + "&orderby=createdate").then(function (res) {
+            axios.get("/api/products?" + keyword + "&orderbydesc=createdate").then(function (res) {
                 for (let i of res.data) {
                     i.region = self.sectionObject[i.region];
                     i.productStatus = self.sectionProductStatusObject[i.productStatus];

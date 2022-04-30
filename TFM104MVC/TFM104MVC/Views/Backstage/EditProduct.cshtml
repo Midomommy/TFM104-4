@@ -173,9 +173,9 @@
         <p class="fs-5 fw-bold" style="color: #3c5587;">
             商品圖片
         </p>
-        <div class="photo-display-container mb-3">
-            <div class="photo-display">
-                <img :src="add.productPictures[0].url" style="width:100px;">
+        <div class="photo-display-container mb-3 d-flex gap-3">
+            <div class="photo-display" v-for="item in add.productPictures">
+                <img :src="item.url" style="width:100px;">
                 @*<div class="photo-edit-icons">
                         <i class="bi bi-arrows-move"></i>
                         <i class="bi bi-x-lg"></i>
