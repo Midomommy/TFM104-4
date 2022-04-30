@@ -1,7 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using TFM104MVC.Database;
 using TFM104MVC.Dtos;
@@ -15,9 +17,13 @@ namespace TFM104MVC.Services
     public class ProductRepository : IProductRepository
     {
         private AppDbContext _context;
-        public ProductRepository(AppDbContext context)
+        private IAuthenticateRepository _authenticateRepository;
+        private IHttpContextAccessor _httpContextAccessor;
+        public ProductRepository(AppDbContext context , IAuthenticateRepository authenticateRepository, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
+            _authenticateRepository = authenticateRepository;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<Product> GetProductAsync(Guid ProductId)
@@ -27,9 +33,21 @@ namespace TFM104MVC.Services
         }
 
         public async Task<IEnumerable<Product>> GetProductsAsync(string keyword , string operatorType , int ratingValue,string region,string travelDays,string tripType,int pageSize, int pageNumber,string orderBy,string orderByDesc,string goTouristTime,string productStatus)
-
         {
-            IQueryable<Product> result = _context.Products.Include(t => t.ProductPictures).Where(x=>x.ProductStatus == ProductStatus.Launched || x.ProductStatus == ProductStatus.Unapproved);
+            var userIdStr = _httpContextAccessor.HttpContext.User.FindFirstValue("userId");
+            int userId = 1;
+            if (!string.IsNullOrEmpty(userIdStr))
+            {
+                userId = int.Parse(userIdStr);
+            }
+            var user = _authenticateRepository.FindTheOnlyUser(userId);
+
+            IQueryable<Product> result = _context.Products.Include(t => t.ProductPictures);
+
+            if (user == null || user.RoleName == null || user.RoleName == "Member")
+            {
+                result = result.Where(x => x.ProductStatus == ProductStatus.Launched || x.ProductStatus == ProductStatus.Unapproved);
+            }
             if (!string.IsNullOrWhiteSpace(keyword))
             {
                 keyword = keyword.Trim();
@@ -279,6 +297,113 @@ namespace TFM104MVC.Services
             int count = _context.Products.Count();
             var result = _context.Products.Include(x => x.ProductPictures).Skip(count- pencount);
             return result.ToList();
+        }
+
+        public async Task<IEnumerable<Product>> GetProductsForFirmAdminAsync(string keyword, string operatorType, int ratingValue, string region, string travelDays, string tripType, int pageSize, int pageNumber, string orderBy, string orderByDesc, string goTouristTime, string productStatus)
+        {
+            IQueryable<Product> result = _context.Products.Include(t => t.ProductPictures);
+            if (!string.IsNullOrWhiteSpace(keyword))
+            {
+                keyword = keyword.Trim();
+                result = result.Where(n => n.Title.Contains(keyword) || n.Description.Contains(keyword) || n.OriginalPrice.ToString().Contains(keyword));
+            }
+            if (ratingValue > 0)
+            {
+                switch (operatorType)
+                {
+                    case "largerThan":
+                        result = result.Where(t => t.CustomerRating >= ratingValue);
+                        break;
+                    case "lessThan":
+                        result = result.Where(t => t.CustomerRating <= ratingValue);
+                        break;
+                    case "equalTo":
+                        result = result.Where(t => t.CustomerRating == ratingValue);
+                        break;
+                }
+            }
+            //switch (region.)
+            //{
+            //    case 
+            //}
+            if (!string.IsNullOrWhiteSpace(region))
+            {
+                region = region.Trim();
+                var r1 = (Region)Enum.Parse(typeof(Region), region);
+                result = result.Where(n => n.Region == r1);
+            }
+            if (!string.IsNullOrWhiteSpace(travelDays))
+            {
+                travelDays = travelDays.Trim();
+                var r2 = (TravelDays)Enum.Parse(typeof(TravelDays), travelDays);
+                result = result.Where(n => n.TravelDays == r2);
+            }
+            if (!string.IsNullOrWhiteSpace(tripType))
+            {
+                tripType = tripType.Trim();
+                var r3 = (TripType)Enum.Parse(typeof(TripType), tripType);
+                result = result.Where(n => n.TripType == r3);
+            }
+            if (!string.IsNullOrWhiteSpace(goTouristTime))
+            {
+                DateTime? a = Convert.ToDateTime(goTouristTime);
+                string b = a.HasValue ? a.Value.ToString("yyyy-MM-dd") : "";
+                var c = DateTime.Parse(b);
+                result = result.Where(n => n.GoTouristTime == c);
+            }
+            if (!string.IsNullOrWhiteSpace(productStatus))
+            {
+                productStatus = productStatus.Trim();
+                var r4 = (ProductStatus)Enum.Parse(typeof(ProductStatus), productStatus);
+                result = result.Where(n => n.ProductStatus == r4);
+            }
+            ////分頁功能的實現放在最後 因為首先要過濾數據 搜索排序 最後再形成分頁
+            ////分頁思路
+            ////跳過一定量的資料(例如 使用者要到第七頁 代表數據要跳過前六頁的所有內容=> (頁數-1)*大小)
+            //var skip = (pageNumber - 1) * pageSize;
+            //result = result.Skip(skip);
+
+            ////以pageSize為標準顯示一定量的資料
+            //result = result.Take(pageSize);
+
+            if (!string.IsNullOrWhiteSpace(orderBy))
+            {
+                switch (orderBy.ToLowerInvariant())
+                {
+                    case "originalprice":
+                        result = result.OrderBy(x => x.OriginalPrice * (decimal)(x.DiscountPersent ?? 1));
+                        break;
+                    case "createdate":
+                        result = result.OrderBy(x => x.CreateDate);
+                        break;
+                    case "customerrating":
+                        result = result.OrderBy(x => x.CustomerRating);
+                        break;
+                    case "gotouristtime":
+                        result = result.OrderBy(x => x.GoTouristTime);
+                        break;
+                }
+            }
+            if (!string.IsNullOrWhiteSpace(orderByDesc))
+            {
+                switch (orderByDesc.ToLowerInvariant())
+                {
+                    case "originalprice":
+                        result = result.OrderByDescending(x => x.OriginalPrice * (decimal)(x.DiscountPersent ?? 1));
+                        break;
+                    case "createdate":
+                        result = result.OrderByDescending(x => x.CreateDate);
+                        break;
+                    case "customerrating":
+                        result = result.OrderByDescending(x => x.CustomerRating);
+                        break;
+                    case "gotouristtime":
+                        result = result.OrderByDescending(x => x.GoTouristTime);
+                        break;
+                }
+            }
+
+            return await result.ToListAsync();
         }
     }
 }
