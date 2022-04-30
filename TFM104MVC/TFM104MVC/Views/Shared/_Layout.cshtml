@@ -682,6 +682,7 @@
 
 <!--發購物車API-->
 <script>
+    var userExist = "@User.Identity.IsAuthenticated".toLowerCase() == "true";
     var cartListVue = new Vue({
         el: "#offcanvasShopCart",
         data: {
@@ -737,8 +738,8 @@
                     });
             },
             checkUserLogin: function () {
-                var userExist = localStorage.getItem('userExist');
-                if (userExist == null) {
+                
+                if (userExist == false) {
                     console.log("a");
                     var myLogin1 = document.getElementsByName("mylogin");
                     myLogin1[0].click();
@@ -830,4 +831,9 @@
             text: inp,
         })
     }
+</script>
+
+<script>
+    
+
 </script>

@@ -469,42 +469,42 @@
                     </a>
                 </li>
                 <li>
-                    <a class="navbar-brand" asp-area="" asp-controller="Backstage" asp-action="Register">
+                    <a class="navbar-brand needauth" asp-area="" asp-controller="Backstage" asp-action="Register">
                         供應商註冊
                     </a>
                 </li>
                 <li>
-                    <a class="navbar-brand" asp-area="" asp-controller="Backstage" asp-action="Home">
+                    <a class="navbar-brand needauth" asp-area="" asp-controller="Backstage" asp-action="Home">
                         後台總覽儀錶板頁
                     </a>
                 </li>
                 <li>
-                    <a class="navbar-brand" asp-area="" asp-controller="Backstage" asp-action="ProductList">
+                    <a class="navbar-brand needauth" asp-area="" asp-controller="Backstage" asp-action="ProductList">
                         後台商品列表
                     </a>
                 </li>
                 <li>
-                    <a class="navbar-brand" asp-area="" asp-controller="Backstage" asp-action="NewProduct">
+                    <a class="navbar-brand needauth" asp-area="" asp-controller="Backstage" asp-action="NewProduct">
                         新增商品
                     </a>
                 </li>
                 <li>
-                    <a class="navbar-brand" asp-area="" asp-controller="Backstage" asp-action="EditProduct">
+                    <a class="navbar-brand needauth" asp-area="" asp-controller="Backstage" asp-action="EditProduct">
                         修改商品
                     </a>
                 </li>
                 <li>
-                    <a class="navbar-brand" asp-area="" asp-controller="Backstage" asp-action="Admin">
+                    <a class="navbar-brand needauth" asp-area="" asp-controller="Backstage" asp-action="Admin">
                         後台管理中心
                     </a>
                 </li>
                 <li>
-                    <a class="navbar-brand" asp-area="" asp-controller="Backstage" asp-action="OrderList">
+                    <a class="navbar-brand needauth" asp-area="" asp-controller="Backstage" asp-action="OrderList">
                         訂單列表
                     </a>
                 </li>
                 <li>
-                    <a class="navbar-brand" asp-area="" asp-controller="Backstage" asp-action="Order">
+                    <a class="navbar-brand needauth" asp-area="" asp-controller="Backstage" asp-action="Order">
                         單筆訂單檢視
                     </a>
                 </li>
@@ -634,4 +634,19 @@
             }
         },
     });
+</script>
+<script>
+    var authitem = document.getElementsByClassName("needauth");
+    for (let index = 0; index < authitem.length; index++) {
+            var item = authitem[index];
+            item.addEventListener("click",function(e){
+                if(!userExist)
+                {
+                    e.preventDefault();
+                e.stopPropagation();
+                alertWrong("pls login.....")
+                }
+            })
+    
+}
 </script>
