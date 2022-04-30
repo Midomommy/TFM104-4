@@ -29,8 +29,8 @@
                                 <div class="channel-name">
                                     <div>Facebook</div>
                                 </div>-->
-                                <!--缺打勾icon-->
-                            <!--</div>
+                        <!--缺打勾icon-->
+                        <!--</div>
                         </div>-->
                     </div>
 
@@ -93,7 +93,7 @@
                             <div class="card  my-1">
                                 <div class="row" v-for="item1 in item.orderdetails">
                                     <div class="col-3 col-md-4">
-                                        <a v-bind:href=" '/Order/Detail/'+ item.id +'/'+ item1.productId " >
+                                        <a v-bind:href=" '/Order/Detail/'+ item.id +'/'+ item1.productId ">
                                             <img :src="item1.product.productPictures[0].url"
                                                  style="margin-left: 10px; margin-top: 10px; margin-bottom: 10px;" class="img-fluid rounded">
                                         </a>
@@ -105,11 +105,17 @@
                                                 <small class="text-muted">訂單編號 # {{item1.orderId}}</small>
                                             </p>
                                             <p class="card-text">
+                                                <small class="text-muted">訂單狀態 # {{item.orderStatus}}</small>
+                                            </p>
+                                            <p class="card-text">
                                                 訂單價格TWD {{item1.unitPrice * item1.discountPersent * item1.quantity}}
                                             </p>
                                             <!--修改訂單=>跳修改訂單頁面-->
-                                            <a onclick="location.href='@Url.Action("Edit", "Order")'" class="btn" role="button" data-bs-toggle="button">
-                                                <p class="text-light">修改訂單</p>
+                                            @*<a onclick="location.href='@Url.Action("Edit", "Order")'" class="btn" role="button" data-bs-toggle="button">
+            <p class="text-light">修改訂單</p>
+        </a>*@
+                                            <a v-on:click="cancelOrder(item1.orderId)" class="btn" role="button" data-bs-toggle="button">
+                                                <p class="text-light">取消訂單</p>
                                             </a>
                                             <a v-bind:href=" '/Order/Detail/'+ item.id +'/'+ item1.productId " class="btn">
                                                 <p class="text-light">查看明細</p>
@@ -225,6 +231,12 @@
         el: '#orderManageVue',
         data: {
             orders: [],
+            paidStatus: {
+                "NotPaid": "未付款",
+                "Paid": "已付款",
+                "Canceled": "已取消",
+                "Done": "已結案"
+            }
             //goOrderId: "",
             //goProductId:""
         },
@@ -240,6 +252,9 @@
             getOrder: function () {
                 let self = this;
                 axios.get("/api/Orders").then(function (res) {
+                    for (let i of res.data) {
+                        i.orderStatus = self.paidStatus[i.orderStatus];
+                    }
                     self.orders = res.data;
                     console.log(self.orders);
                 })
@@ -249,6 +264,32 @@
                         }
                     })
             },
+            cancelOrder: function (value) {
+                let self = this;
+                axios.post("/api/orders/cancel/" + value).then(
+                    function (res) {
+                        if (res.status == 204) {
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: '已成功取消訂單 並同步通知廠商',
+                                showConfirmButton: false,
+                                timer: 1500,
+                                willClose: (toast) => {
+                                    self.getOrder();
+                                    //window.location.href = "/home/index";
+
+                                }
+                            });
+                        }
+                    }
+                ).catch(function (err) {
+                    if (err.status == 404) {
+                        alertWrong(err.data);
+                    }
+                });
+
+            }
             //goOrderDetail: function () {
             //    var orderDetails = '/Order/Detail/' + this.goOrderId + "/" + this.goProductId;
             //    window.location.href = orderDetails;

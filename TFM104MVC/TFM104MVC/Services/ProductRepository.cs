@@ -29,7 +29,7 @@ namespace TFM104MVC.Services
         public async Task<IEnumerable<Product>> GetProductsAsync(string keyword , string operatorType , int ratingValue,string region,string travelDays,string tripType,int pageSize, int pageNumber,string orderBy,string orderByDesc,string goTouristTime,string productStatus)
 
         {
-            IQueryable<Product> result = _context.Products.Include(t => t.ProductPictures);
+            IQueryable<Product> result = _context.Products.Include(t => t.ProductPictures).Where(x=>x.ProductStatus == ProductStatus.Launched || x.ProductStatus == ProductStatus.Unapproved);
             if (!string.IsNullOrWhiteSpace(keyword))
             {
                 keyword = keyword.Trim();

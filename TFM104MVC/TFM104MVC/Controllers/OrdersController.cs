@@ -160,7 +160,7 @@ namespace TFM104MVC.Controllers
         }
 
         [HttpPost("cancel/{orderId}")]
-        [Authorize(Roles = "Firm,Admin")] //管理者與廠商 軟刪除特定訂單 功能
+        //[Authorize(Roles = "Firm,Admin")] //管理者與廠商 軟刪除特定訂單 功能
         public async Task<IActionResult> SoftDeleteOrder([FromRoute] int orderId)
         {
             var order = await _productRepository.GetOrderById(orderId);
