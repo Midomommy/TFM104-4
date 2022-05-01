@@ -292,10 +292,10 @@ namespace TFM104MVC.Services
             return result;
         }
 
-        public IEnumerable<Product> GetNewestProducts(int pencount)
+        public IEnumerable<Product> GetNewestProducts()
         {
-            int count = _context.Products.Count();
-            var result = _context.Products.Include(x => x.ProductPictures).Skip(count- pencount);
+            //int count = _context.Products.Count();
+            var result = _context.Products.Include(x => x.ProductPictures).Where(x=>x.ProductStatus == ProductStatus.Launched || x.ProductStatus == ProductStatus.Unapproved).OrderByDescending(x=>x.CreateDate);
             return result.ToList();
         }
 

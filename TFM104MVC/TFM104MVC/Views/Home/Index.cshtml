@@ -36,7 +36,7 @@
     </div>
     <div class="row mb-3">
         <!--商品單項 直接在最外層加a標籤-->
-        <div class="col-6 col-md-3" v-for="item in productlist">
+        <div class="col-6 col-md-3" v-for="item in productlist.slice(0,4)">
             <a class="text-secondary" v-bind:href=" '/ProductView/product/'+ item.id " target="_blank" rel="noopener">
                 <div class="mb-1">
                     <div class="card mb-1">

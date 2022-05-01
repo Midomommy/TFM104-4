@@ -40,7 +40,7 @@ namespace TFM104MVC.Services
         Task<List<Orderdetail>> GetOrderdetailTotalPrice(int orderId);
         Task<List<Order>> GetOrderContentById(int orderId);
         public CountAndPrice OrderTotalCountAndPrice(DateTime sinceTime, DateTime finishTime);
-        public IEnumerable<Product> GetNewestProducts(int pencount);
+        public IEnumerable<Product> GetNewestProducts();
         Task<IEnumerable<Product>> GetProductsForFirmAdminAsync(string keyword, string operatorType, int ratingValue, string region, string travelDays, string tripType, int pageSize, int pageNumber, string orderBy, string orderByDesc, string goTouristTime, string productStatus);
     }
 }

@@ -259,7 +259,7 @@ namespace TFM104MVC.Controllers
         [HttpGet("newest")]
         public IActionResult GetNewestProduct()
         {
-            var productsFromRepo = _productRepository.GetNewestProducts(4);
+            var productsFromRepo = _productRepository.GetNewestProducts();
             var productsDto = _mapper.Map<List<ProductDto>>(productsFromRepo);
 
             return Ok(productsDto);
