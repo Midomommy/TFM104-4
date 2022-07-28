@@ -22,10 +22,10 @@ namespace TFM104MVC.Models.Entity
         [MaxLength(1500)]
         public string Description { get; set; }
 
-        [Column(TypeName = "decimal(18,2)")]
+        [Column(TypeName = "decimal(18,2)")] //代表可以輸入到 18位數 至 小數點後兩位
         public decimal OriginalPrice { get; set; }
 
-        [Range(0.0, 1.0)]
+        [Range(0.0, 1.0)] //範圍只能介於0~1
         public double? DiscountPersent { get; set; }
 
         public DateTime CreateDate { get; set; }

@@ -24,7 +24,7 @@ namespace TFM104MVC.Controllers
     public class LoginController : Controller
     {
         private AppDbContext _context;
-        string _redirect_uri = "https://tibame104-16su.azurewebsites.net/Login/UseLineLogin";
+        string _redirect_uri = "https://tibame4mvc.azurewebsites.net/Login/UseLineLogin";
         string _client_id = "1657070363";
         string _state = "123";
         string _client_serect = "37f66dac4363ffef924d522a7a753de4";

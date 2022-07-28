@@ -32,7 +32,7 @@ namespace TFM104MVC.Controllers
         }
 
         [HttpGet]
-        [HttpHead]
+        [HttpHead]  // api/products?Rating=xxx&Region=xxx 
         public async Task<IActionResult> GetProducts(
             [FromQuery] ProductResourceParameters parameters
             //[FromQuery] string keyword,
@@ -52,7 +52,7 @@ namespace TFM104MVC.Controllers
                     ratingValue = int.Parse(match.Groups[2].Value);
                 }
             }
-            var productsFromRepo = await _productRepository.GetProductsAsync(parameters.Keyword, operatorType, ratingValue, parameters.Region, parameters.Traveldays, parameters.Triptype, parameters.PageSize, parameters.PageNumber, parameters.OrderBy, parameters.OrderByDesc, parameters.GoTouristTime,parameters.ProductStatus);
+            var productsFromRepo = await _productRepository.GetProductsAsync(parameters.Keyword, operatorType, ratingValue, parameters.Region, parameters.Traveldays, parameters.Triptype, parameters.PageSize, parameters.PageNumber, parameters.OrderBy, parameters.OrderByDesc, parameters.GoTouristTime,parameters.ProductStatus,parameters.Regions);
 
 
             if (productsFromRepo == null || productsFromRepo.Count() <= 0)

@@ -107,7 +107,7 @@ namespace TFM104MVC
             //µù¥UsessionªA°È
             services.AddSession();
 
-            services.AddDbContext<AppDbContext>(builder => builder.UseSqlServer(Configuration.GetConnectionString("reds")));
+            services.AddDbContext<AppDbContext>(builder => builder.UseSqlServer(Configuration.GetConnectionString("MVC")));
             //±½´yprofileÀÉ®×
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

@@ -159,7 +159,7 @@ namespace TFM104MVC.Controllers
             _authenticateRepository.AddUser(userModel);
             _authenticateRepository.Save();
 
-            string Url = "http://tibame104-16su.azurewebsites.net/auth/open?account=" + userForCreationDto.Account; //之後改成發布後的網址
+            string Url = "http://tibame4mvc.azurewebsites.net/auth/open?account=" + userForCreationDto.Account; //之後改成發布後的網址
             string messageUrl = $"<a href='{Url}'>我是開通帳號小精靈~~</a>";
             string subject = "註冊驗證信";
             string message = "恭喜註冊成功，請點擊以下文字開通您的帳號" + "<br>" + messageUrl;
@@ -367,7 +367,7 @@ namespace TFM104MVC.Controllers
             {
                 return NotFound("沒有此帳號"); 
             }
-            string Url = "http://tibame104-16su.azurewebsites.net/Login/FindPassword?password=" + userExist.Salt + "," + userExist.Account; //之後改成發布後的網址
+            string Url = "http://tibame4mvc.azurewebsites.net/Login/FindPassword?password=" + userExist.Salt + "," + userExist.Account; //之後改成發布後的網址
             string messageUrl = $"<a href='{Url}'>我是找回密碼小精靈~~</a>";
             string subject = "忘記密碼驗證信";
             string message = "請點擊以下文字更新您的密碼，並妥善保管" + "<br>" + messageUrl;

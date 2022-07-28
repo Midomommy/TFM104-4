@@ -36,9 +36,9 @@ namespace TFM104MVC.Controllers
             MerchantID = "MS134167575",
             HashKey = "8LImeXm6c1hyF94X7K4iexXxs0bY8ilj",
             HashIV = "CzZWZTbaRiI33oRP",
-            ReturnURL = "https://tibame104-16su.azurewebsites.net/Order/Manage", /*"http://yourWebsitUrl/Bank/SpgatewayReturn"*/
-            NotifyURL = "https://tibame104-16su.azurewebsites.net/Bank/SpgatewayReturn", //"http://yourWebsitUrl/Bank/SpgatewayNotify"
-            CustomerURL = "https://tibame104-16su.azurewebsites.net/Order/Manage", //http://yourWebsitUrl/Bank/SpgatewayCustomer,
+            ReturnURL = "https://tibame4mvc.azurewebsites.net/Order/Manage", /*"http://yourWebsitUrl/Bank/SpgatewayReturn"*/
+            NotifyURL = "https://tibame4mvc.azurewebsites.net/Bank/SpgatewayReturn", //"http://yourWebsitUrl/Bank/SpgatewayNotify"
+            CustomerURL = "https://tibame4mvc.azurewebsites.net/Order/Manage", //http://yourWebsitUrl/Bank/SpgatewayCustomer,
             AuthUrl = "https://ccore.spgateway.com/MPG/mpg_gateway",
             CloseUrl = "https://core.newebpay.com/API/CreditCard/Close"
         };
@@ -97,7 +97,7 @@ namespace TFM104MVC.Controllers
                 // 商店取號網址
                 CustomerURL = _bankInfoModel.CustomerURL,
                 // 支付取消 返回商店網址
-                ClientBackURL = "https://tibame104-16su.azurewebsites.net/Order/Manage",
+                ClientBackURL = "https://tibame4mvc.azurewebsites.net/Order/Manage",
                 // * 付款人電子信箱
                 Email = string.Empty,
                 // 付款人電子信箱 是否開放修改(1=可修改 0=不可修改)

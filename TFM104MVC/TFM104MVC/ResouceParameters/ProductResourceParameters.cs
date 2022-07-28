@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TFM104MVC.Models;
+using TFM104MVC.Models.Enum;
 
 namespace TFM104MVC.ResouceParameters
 {
@@ -46,5 +47,6 @@ namespace TFM104MVC.ResouceParameters
         private int _pageNumber = 1;
         private int _pageSize = 10;
         const int maxPageSize = 50;
+        public List<string> Regions { get; set; } = new();
     }
 }

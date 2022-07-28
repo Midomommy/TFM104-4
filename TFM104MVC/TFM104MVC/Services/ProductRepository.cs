@@ -32,7 +32,7 @@ namespace TFM104MVC.Services
             //return _context.Products.Where(n => n.Id == ProductId).FirstOrDefault();
         }
 
-        public async Task<IEnumerable<Product>> GetProductsAsync(string keyword , string operatorType , int ratingValue,string region,string travelDays,string tripType,int pageSize, int pageNumber,string orderBy,string orderByDesc,string goTouristTime,string productStatus)
+        public async Task<IEnumerable<Product>> GetProductsAsync(string keyword , string operatorType , int ratingValue,string region,string travelDays,string tripType,int pageSize, int pageNumber,string orderBy,string orderByDesc,string goTouristTime,string productStatus,List<string> Regions)
         {
             var userIdStr = _httpContextAccessor.HttpContext.User.FindFirstValue("userId");
             int userId = 1;
@@ -68,10 +68,6 @@ namespace TFM104MVC.Services
                         break;
                 }
             }
-            //switch (region.)
-            //{
-            //    case 
-            //}
             if (!string.IsNullOrWhiteSpace(region))
             {
                 region = region.Trim();
@@ -148,7 +144,19 @@ namespace TFM104MVC.Services
                         break;
                 }
             }
-
+            List<Region?> r = new List<Region?>();
+            foreach(var i in Regions)
+            {
+                if (i != null)
+                {
+                    var a = (Region)Enum.Parse(typeof(Region), i);
+                    r.Add(a);
+                }
+            }
+            if (r.Any())
+            {
+                result = result.Where(x => r.Contains(x.Region));
+            }
             return await result.ToListAsync();
         }
 
